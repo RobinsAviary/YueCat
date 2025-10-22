@@ -106,6 +106,97 @@ Vector2.Right = Vector2.New(1, 0)
 
 
 
+Vector3 = {
+	meta = {
+		__name = "Vector3",
+		__add = function(a, b)
+			a.x = a.x + b.x
+			a.y = a.y + b.y
+			a.z = a.z + b.z
+			
+			return a
+		end,
+		__sub = function(a, b)
+			a.x = a.x - b.x
+			a.y = a.y - b.y
+			a.z = a.z - b.z
+
+			return a
+		end,
+		__mul = function(a, b)
+			a.x = a.x * b.x
+			a.y = a.y * b.y
+			a.z = a.z * b.z
+
+			return a
+		end,
+		__div = function(a, b)
+			a.x = a.x / b.x
+			a.y = a.y / b.y
+			a.z = a.z / b.z
+
+			return a
+		end,
+		__idiv = function(a, b)
+			a.x = math.floor(a.x / b.x)
+			a.y = math.floor(a.y / b.y)
+			a.z = math.floor(a.z / b.z)
+
+			return a
+		end,
+		__mod = function(a,b)
+			a.x = a.x % b.x
+			a.y = a.y % a.y
+			a.z = a.z % a.z
+
+			return a
+		end,
+		__pow = function(a,b)
+			a.x = a.x ^ b.x
+			a.y = a.y ^ b.y
+			a.z = a.z ^ a.z
+
+			return a
+		end,
+		__unm = function(a)
+			a.x = -a.x
+			a.y = -a.y
+			a.z = -a.z
+			
+			return a
+		end,
+		__eq = function(a, b)
+			return a.x == b.x and a.y == b.y and a.z == b.z
+		end,
+		__tostring = function(a)
+			return "{Vector3: " .. a.x .. ", " .. a.y .. ", " .. a.z .. "}"
+		end,
+		__len = function(a)
+			return math.sqrt(a.x * a.x + a.y * a.y + a.z * a.z)
+		end,
+	}
+}
+
+Vector3.New = function(x, y, z)
+	x = x or 0
+	y = y or x or 0
+	z = z or y or x or 0
+
+	local tbl = {
+		x = x,
+		y = y,
+		z = z,
+	}
+
+	setmetatable(tbl, Vector3.meta)
+
+	return tbl
+end
+
+Vector3.Zero = Vector3.New()
+
+
+
 Color = {}
 
 Color.New = function(r, g, b, a)

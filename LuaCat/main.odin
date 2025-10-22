@@ -10,7 +10,7 @@ TextureUData :: "Texture"
 AudioUData :: "Audio"
 
 NAME :: "LuaCat"
-VERSION :: "Pre-Alpha"
+VERSION :: "Alpha"
 
 open_base :: proc(state: ^lua.State) {
 	handle, error := os.open("base")

@@ -8,7 +8,7 @@ The API largely mirrors [Raylib](https://www.raylib.com/)'s, with some key diffe
 
 ## Version Info
 
-LuaCat Pre-Alpha
+LuaCat Alpha
 
 Lua 5.4
 
@@ -75,59 +75,59 @@ These are global tables of functions.
 
 ### Engine
 
-`GetTime() -> (timeSinceStart: Number)`
+`Engine.GetTime() -> (timeSinceStart: Number)`
 
-`GetDelta() -> (deltaTime: Number)`
+`Engine.GetDelta() -> (deltaTime: Number)`
 
-`GetFPS() -> (currentFps: Integer)`
+`Engine.GetFPS() -> (currentFps: Integer)`
 
-`SetFPSTarget(target: Integer)` 
+`Engine.SetFPSTarget(target: Integer)` 
 
 (Unlimited by default)
 
 ### Draw
 
-`Clear(color: Color)`
+`Draw.Clear(color: Color)`
 
-`Line(startPosition: Vector2, endPosition: Vector2, color: Color)`
+`Draw.Line(startPosition: Vector2, endPosition: Vector2, color: Color)`
 
-`Rectangle(rectangle: Rectangle, color: Color)`
+`Draw.Rectangle(rectangle: Rectangle, color: Color)`
 
-`Circle(circle: Circle, color: Color)`
+`Draw.Circle(circle: Circle, color: Color)`
 
-`Triangle(triangle: Triangle, color: Color)`
+`Draw.Triangle(triangle: Triangle, color: Color)`
 
-`Texture(texture: Texture, postion: Vector2 = Vector2.Zero, tint: Color = Color.White)`
+`Draw.Texture(texture: Texture, postion: Vector2 = Vector2.Zero, tint: Color = Color.White)`
 
 ### Mouse
 
-`GetPosition() -> (mousePosition: Vector2)`
+`Mouse.GetPosition() -> (mousePosition: Vector2)`
 
-`GetX() -> (xPosition: Integer)`
+`Mouse.GetX() -> (xPosition: Integer)`
 
 Get the x position of the cursor.
 
-`GetY() -> (yPosition: Integer)`
+`Mouse.GetY() -> (yPosition: Integer)`
 
 Get the y position of the cursor.
 
-`SetX(xPosition: Integer)`
+`Mouse.SetX(xPosition: Integer)`
 
 Set the x position of the cursor.
 
-`SetY(yPostion: Integer)`
+`Mouse.SetY(yPostion: Integer)`
 
 Set the y position of the cursor.
 
-`SetPosition(position: Vector2)`
+`Mouse.SetPosition(position: Vector2)`
 
-`IsButtonPressed(index: Integer = 0) -> boolean`
+`Mouse.IsButtonPressed(index: Integer = 0) -> boolean`
 
 Checks if the button was just pressed this frame.
 
-`IsButtonHeld(index: Integer = 0) -> boolean`
+`Mouse.IsButtonHeld(index: Integer = 0) -> boolean`
 
-`IsButtonReleased(index: Integer = 0) -> boolean`
+`Mouse.IsButtonReleased(index: Integer = 0) -> boolean`
 
 Checks if the button was just released this frame.
 
@@ -140,14 +140,14 @@ Mouse.Middle = 2
 
 ### Texture
 
-`Load(fileName: string) -> Texture`
+`Texture.Load(fileName: string) -> Texture`
 
-`Unload(texture: Texture)`
+`Texture.Unload(texture: Texture)`
 
 ### Audio
-`Load(fileName: string) -> Audio`
+`Texture.Load(fileName: string) -> Audio`
 
-`Unload(audio: Audio)`
+`Texture.Unload(audio: Audio)`
 
 ## "Structs"
 

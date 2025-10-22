@@ -1,5 +1,5 @@
 @echo off
-yue program/
+yue program\
 if errorlevel 1 goto fuck
 odin run LuaCat/
 exit /b
