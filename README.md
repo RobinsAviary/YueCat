@@ -166,6 +166,17 @@ y: number = x or 0
 
 Supports math operations and length (`#`) operator.
 
+### Vector3
+
+Fields:
+```
+x: number = 0
+y: number = x or 0
+z: number = y or x or 0
+```
+
+Supports math operations and length (`#`) operator.
+
 ### Rectangle
 
 Fields:
