@@ -1,7 +1,6 @@
 package LuaCat
 
 import lua "vendor:lua/5.4"
-import rl "vendor:raylib"
 import "core:fmt"
 import "core:strings"
 import os "core:os/os2"
@@ -11,6 +10,11 @@ AudioUData :: "Audio"
 
 NAME :: "LuaCat"
 VERSION :: "Alpha"
+
+PROGRAM :: "program\\"
+// Includes .
+LUA_EXTENSION :: ".lua"
+MAIN_FILE :: "main" + LUA_EXTENSION
 
 open_base :: proc(state: ^lua.State) {
 	handle, error := os.open("base")
@@ -26,7 +30,7 @@ open_base :: proc(state: ^lua.State) {
 	}
 
 	for file in files {
-		if strings.ends_with(file.name, ".lua") {
+		if strings.ends_with(file.name, LUA_EXTENSION) {
 			do_file(state, file.fullpath)
 		}
 	}
@@ -38,11 +42,15 @@ open_base :: proc(state: ^lua.State) {
 
 new_state :: proc() -> ^lua.State {
 	state := lua.L_newstate()
+	
 	lua.L_openlibs(state)
-	lua.open_math(state)
-	lua.open_string(state)
-	lua.open_table(state)
-	lua.open_coroutine(state)
+
+	// Todo: Open these libraries properly so the user doesn't have direct access to the OS library.
+	//lua.open_math(state)
+	//lua.open_string(state)
+	//lua.open_table(state)
+	//lua.open_coroutine(state)
+
 	open_base(state)
 
 	register_functions(state)
@@ -56,12 +64,16 @@ new_state :: proc() -> ^lua.State {
 	return state
 }
 
+print_stack :: proc(state: ^lua.State) {
+	fmt.printfln("Final stack size: %d", lua.gettop(state))
+}
+
 main :: proc() {
 	state := new_state()
 
 	main_loop(state)
 
-	fmt.printfln("Final stack size: %d", lua.gettop(state))
+	print_stack(state)
 
 	lua.close(state)
 }

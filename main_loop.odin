@@ -4,9 +4,31 @@ import lua "vendor:lua/5.4"
 import rl "vendor:raylib"
 import "core:fmt"
 import "core:strings"
+import os "core:os/os2"
 
 init_loop :: proc(state: ^lua.State) {
-	do_file(state, "program/main.lua")
+	fmt.println("Building YueScripts...")
+
+	processState, stdout, stderr, err := os.process_exec({"vendor/", {"yue.exe", "..\\" + PROGRAM}, nil, nil, nil, nil}, context.allocator)
+
+	fmt.println(string(stdout))
+
+	if err != nil {
+		fmt.println("Something went wrong trying to run the YueScript compiler. Is it in 'vendor\\'?")
+		fmt.println(err)
+		os.exit(1)
+	}
+
+	// Success flag seemingly isn't triggered properly. Added more specific check, but I'm leaving the first one just in case.
+	if !processState.success || processState.exit_code != 0 {
+		fmt.println(string(stderr))
+		os.exit(processState.exit_code)
+	}
+
+	delete(stdout)
+	delete(stderr)
+
+	do_file(state, PROGRAM + "main.lua")
 
 	CallEngineFunc(state, "Init")
 

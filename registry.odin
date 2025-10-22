@@ -22,6 +22,7 @@ register_functions :: proc(state: ^lua.State) {
 	lua.pop(state, 1)
 
 	lua.getglobal(state, EngineRegistry)
+	register(state, OpenURL, "OpenURL")
 	register(state, GetTime, "GetTime")
 	register(state, GetDelta, "GetDelta")
 	register(state, GetFPS, "GetFPS")

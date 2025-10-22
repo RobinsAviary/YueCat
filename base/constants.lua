@@ -199,6 +199,9 @@ Vector3.Zero = Vector3.New()
 
 Color = {}
 
+-- Color.ToHSV()
+-- Color.FromHSV()
+
 Color.New = function(r, g, b, a)
 	r = r or 0
 	g = g or r or 0

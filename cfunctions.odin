@@ -268,3 +268,11 @@ StringEndsWith :: proc "c" (state: ^lua.State) -> i32 {
 
 	return 1
 }
+
+OpenURL :: proc "c" (state: ^lua.State) -> i32 {
+	url := lua.L_checkstring(state, 1)
+
+	rl.OpenURL(url)
+
+	return 0
+}
