@@ -1,0 +1,183 @@
+# LuaCat
+
+## About
+
+LuaCat is a software development framework, largely focused on games. It allows you to create software entirely in text using Lua.
+
+The API largely mirrors [Raylib](https://www.raylib.com/)'s, with some key differences to make typing simpler.
+
+## Version Info
+
+LuaCat Pre-Alpha
+
+Lua 5.4
+
+Raylib 5.5
+
+Odin dev-2025-10-nightly:7237747
+
+## Building
+LuaCat has no external dependencies, as it uses bindings actively maintained by the Odin language, which are built-in with the compiler. As such, compiling and modifying LuaCat is trivial.
+
+Simply open the main directory and execute `odin build .`, which will compile the host program. In order to run your code, place a file named "main.lua" in the base directory. Use the various engine callbacks to implement the functionality you need.
+
+This repo also includes .vscode tasks to build and run the current version, for testing.
+
+## Config
+
+Define this global table during the "Ready" callback to modify how LuaCat launches.
+
+### Fields
+
+`windowSize: Vector2 = Vector2.New(640, 480)`
+
+`windowTitle: string = "LuaCat <version>"`
+
+`audioActive: bool = true`
+
+## Callbacks
+
+### Engine
+
+`Init()`
+
+Called immediately after the program is started, but before the window is created (as such, be sure to load assets in `Ready()` instead).
+
+Used to modify the Config table.
+
+`Ready()`
+
+Called immediately after the window is created.
+
+Load assets here.
+
+`Step()`
+
+Called during the main loop.
+
+Update your program state here, moving objects/otherwise.
+
+`Draw()`
+
+Called during the main loop.
+
+Draw your program state here.
+
+`Cleanup()`
+
+Called after the main loop has finished, but just before the program is closed.
+
+Unload your assets here.
+
+## Functions
+
+These are global tables of functions.
+
+### Engine
+
+`GetTime() -> (timeSinceStart: Number)`
+
+`GetDelta() -> (deltaTime: Number)`
+
+`GetFPS() -> (currentFps: Integer)`
+
+`SetFPSTarget(target: Integer)` 
+
+(Unlimited by default)
+
+### Draw
+
+`Clear(color: Color)`
+
+`Line(startPosition: Vector2, endPosition: Vector2, color: Color)`
+
+`Rectangle(rectangle: Rectangle, color: Color)`
+
+`Circle(circle: Circle, color: Color)`
+
+`Triangle(triangle: Triangle, color: Color)`
+
+`Texture(texture: Texture, postion: Vector2 = Vector2.Zero, tint: Color = Color.White)`
+
+### Mouse
+
+`GetPosition() -> (mousePosition: Vector2)`
+
+`GetX() -> (xPosition: Integer)`
+
+Get the x position of the cursor.
+
+`GetY() -> (yPosition: Integer)`
+
+Get the y position of the cursor.
+
+`SetX(xPosition: Integer)`
+
+Set the x position of the cursor.
+
+`SetY(yPostion: Integer)`
+
+Set the y position of the cursor.
+
+`SetPosition(position: Vector2)`
+
+`IsButtonPressed(index: Integer = 0) -> boolean`
+
+Checks if the button was just pressed this frame.
+
+`IsButtonHeld(index: Integer = 0) -> boolean`
+
+`IsButtonReleased(index: Integer = 0) -> boolean`
+
+Checks if the button was just released this frame.
+
+Index button constants:
+```
+Mouse.Left = 0
+Mouse.Right = 1
+Mouse.Middle = 2
+```
+
+### Texture
+
+`Load(fileName: string) -> Texture`
+
+`Unload(texture: Texture)`
+
+### Audio
+`Load(fileName: string) -> Audio`
+
+`Unload(audio: Audio)`
+
+## "Structs"
+
+Constructor example:
+```
+vec = Vector2.New(5, 4)
+```
+
+### Vector2
+
+Fields:
+```
+x: number = 0
+y: number = x or 0
+```
+
+Supports math operations and length (`#`) operator.
+
+### Rectangle
+
+Fields:
+```
+position = Vector2.Zero
+size = Vector2.Zero
+```
+
+### Circle
+
+Fields:
+```
+position = Vector2.Zero
+diameter = 0
+```
