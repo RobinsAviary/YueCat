@@ -39,31 +39,31 @@ Define this global table during the "Ready" callback to modify how LuaCat launch
 
 ### Engine
 
-`Init()`
+`Engine.Init()`
 
 Called immediately after the program is started, but before the window is created (as such, be sure to load assets in `Ready()` instead).
 
 Used to modify the Config table.
 
-`Ready()`
+`Engine.Ready()`
 
 Called immediately after the window is created.
 
 Load assets here.
 
-`Step()`
+`Engine.Step()`
 
 Called during the main loop.
 
 Update your program state here, moving objects/otherwise.
 
-`Draw()`
+`Engine.Draw()`
 
 Called during the main loop.
 
 Draw your program state here.
 
-`Cleanup()`
+`Engine.Cleanup()`
 
 Called after the main loop has finished, but just before the program is closed.
 
