@@ -1,6 +1,5 @@
 Engine.Init = function()
 	Config.window.size = Vector2.New(800, 450)
-	Config.window.title = "raylib [core] example - basic window"
 end
 Engine.Ready = function()
 	return Engine.SetFPSTarget(60)

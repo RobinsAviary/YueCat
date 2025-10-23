@@ -1,7 +1,7 @@
 Engine.Init = ->
     -- Primarily for config
 	Config.window.size = Vector2.New(800, 450)
-	Config.window.title = "raylib [core] example - basic window"
+	--Config.window.title = "raylib [core] example - basic window"
 
 Engine.Ready = ->
     -- Initialization

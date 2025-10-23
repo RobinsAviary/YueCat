@@ -18,7 +18,7 @@ Odin dev-2025-10-nightly:7237747
 
 ## Table of Contents
 
-1. [A Note on "Typing"](#a-note-on-typing)
+1. [💬 A Note on "Typing"](#a-note-on-typing)
 2. [🔑 License](#license)
 3. [🔴 OOP?](#oop)
 4. [月 YueScript (Scripting)](#月-yuescript-scripting)
@@ -28,21 +28,29 @@ Odin dev-2025-10-nightly:7237747
     1. [🚂 Engine](#engine)
 8. [🔌 Functions](#functions)
     1. [🚂 Engine](#engine-1)
-    2. [🖌️ Draw](#draw)
-    3. [🐭 Mouse](#mouse)
-    4. [🖼️ Texture](#texture)
-    5. [🔊 Audio](#audio)
+    2. [📥 Input]()
+        1. [🐭 Mouse](#mouse)
+    3. [🎞️ Rendering](#rendering)
+        1. [🖌️ Draw](#draw)
+        2. [🖼️ Texture](#texture)
+    1. [🎧 Sound](#sound)
+        1. [🔊 Audio](#audio)
 9. [🏗️ "Structs"](#structs)
-    1. [2️⃣ Vector2](#vector2)
-    2. [3️⃣ Vector3](#vector3)
-    3. [🟥 Rectangle](#rectangle)
-    4. [🔵 Circle](#circle)
-    5. [📐 Triangle](#triangle)
-    6. [🎥 Camera](#camera)
-    7. [🎨 Color](#color)
-    8. [🎨🤖 ColorHSV](#colorhsv)
+    1. [➡️ Vectors](#vectors)
+        1. [2️⃣ Vector2](#vector2)
+        2. [3️⃣ Vector3](#vector3)
+    2. [🌈 Colors](#colors)
+        1. [🎨 Color](#color)
+        2. [🎨🤖 ColorHSV](#colorhsv)
+    3. [🔷 Shapes](#shapes)
+        1. [🟥 Rectangle](#rectangle)
+        2. [🔵 Circle](#circle)
+        3. [📐 Triangle](#triangle)
+    4. [🎥 Cameras](#cameras)
+        1. [🎥🟥 Camera2D](#camera2d)
+        1. [🎥🧱 Camera3D](#camera3d)
 
-## A Note on "Typing"
+## 💬 A Note on "Typing"
 
 When I use the phrase "typing" or "making typing simpler" or something like that, I'm referring to reducing the number of keys the user needs to press in order to program the thing they want. I have hand pain problems, so being able to code as much as possible is important to me. I hope these considerations will be useful to you as well.
 
@@ -140,21 +148,9 @@ These are global tables of functions.
 
 (Unlimited by default)
 
-### 🖌️ Draw
+### 📥 Input
 
-`Draw.Clear(color: Color)`
-
-`Draw.Line(startPosition: Vector2, endPosition: Vector2, color: Color)`
-
-`Draw.Rectangle(rectangle: Rectangle, color: Color)`
-
-`Draw.Circle(circle: Circle, color: Color)`
-
-`Draw.Triangle(triangle: Triangle, color: Color)`
-
-`Draw.Texture(texture: Texture, postion: Vector2 = Vector2.Zero, tint: Color = Color.White)`
-
-### 🐭 Mouse
+#### 🐭 Mouse
 
 `Mouse.GetPosition() -> (mousePosition: Vector2)`
 
@@ -193,13 +189,31 @@ Mouse.Right = 1
 Mouse.Middle = 2
 ```
 
-### 🖼️ Texture
+### 🎞️ Rendering
+
+#### 🖌️ Draw
+
+`Draw.Clear(color: Color)`
+
+`Draw.Line(startPosition: Vector2, endPosition: Vector2, color: Color)`
+
+`Draw.Rectangle(rectangle: Rectangle, color: Color)`
+
+`Draw.Circle(circle: Circle, color: Color)`
+
+`Draw.Triangle(triangle: Triangle, color: Color)`
+
+`Draw.Texture(texture: Texture, postion: Vector2 = Vector2.Zero, tint: Color = Color.White)`
+
+#### 🖼️ Texture
 
 `Texture.Load(fileName: string) -> Texture`
 
 `Texture.Unload(texture: Texture)`
 
-### 🔊 Audio
+### 🎧 Sound
+
+#### 🔊 Audio
 `Texture.Load(fileName: string) -> Audio`
 
 `Texture.Unload(audio: Audio)`
@@ -211,7 +225,9 @@ Constructor example:
 vec = Vector2.New(5, 4)
 ```
 
-### 2️⃣ Vector2
+### ➡️ Vectors
+
+#### 2️⃣ Vector2
 
 Fields:
 ```
@@ -221,7 +237,7 @@ y: number = x or 0
 
 Supports math operations and length (`#`) operator.
 
-### 3️⃣ Vector3
+#### 3️⃣ Vector3
 
 Fields:
 ```
@@ -232,7 +248,31 @@ z: number = y or x or 0
 
 Supports math operations and length (`#`) operator.
 
-### 🟥 Rectangle
+### 🌈 Colors
+
+#### 🎨 Color
+
+Fields: (All `0-1`)
+```
+r: number = 0           -- Red
+g: number = r or 0      -- Green
+b: number = g or r or 0 -- Blue
+a: number = 1           -- Alpha
+```
+
+#### 🎨🤖 ColorHSV
+
+Fields:
+```
+h: number = 0 -- Hue [0-360]
+s: number = 1 -- Saturation [0-1]
+v: number = 1 -- Value [0-1]
+a: number = 1 -- Alpha
+```
+
+### 🔷 Shapes
+
+#### 🟥 Rectangle
 
 Fields:
 ```
@@ -240,7 +280,7 @@ position: Vector2 = Vector2.Zero
 size: Vector2 = Vector2.Zero
 ```
 
-### 🔵 Circle
+#### 🔵 Circle
 
 Fields:
 ```
@@ -248,7 +288,7 @@ position: Vector2 = Vector2.Zero
 diameter: number = 0
 ```
 
-### 📐 Triangle
+#### 📐 Triangle
 
 Fields:
 ```
@@ -257,7 +297,11 @@ secondPoint: Vector2 = Vector2.Zero
 thirdPoint: Vector2 = Vector2.Zero
 ```
 
-### 🎥 Camera
+### 🎥 Cameras
+
+#### 🎥🟥 Camera2D
+
+#### 🎥🧱 Camera3D
 
 Fields:
 ```
@@ -268,22 +312,6 @@ fov: number = 45
 projection: Camera.Projection = Camera.Projection.Perspective
 ```
 
-### 🎨 Color
+Thank you for reading the docs!
 
-Fields: (All `0-1`)
-```
-r: number = 0           -- Red
-g: number = r or 0      -- Green
-b: number = g or r or 0 -- Blue
-a: number = 1           -- Alpha
-```
-
-### 🎨🤖 ColorHSV
-
-Fields:
-```
-h: number = 0 -- Hue [0-360]
-s: number = 1 -- Saturation [0-1]
-v: number = 1 -- Value [0-1]
-a: number = 1 -- Alpha
-```
+Created with 💗 in New England <(˶ᵔᵕᵔ˶)>
