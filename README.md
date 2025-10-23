@@ -1,14 +1,14 @@
-# LuaCat
+# YueCat
 
 ## About
 
-LuaCat is a software development framework, largely focused on games. It allows you to create software entirely without an editor using Lua.
+YueCat is a software development framework, largely focused on games. It allows you to create software entirely without an editor using Lua.
 
 The API largely mirrors [Raylib](https://www.raylib.com/)'s, with some key differences to make typing simpler.
 
 ## Version Info
 
-LuaCat Alpha
+YueCat Alpha
 
 Lua 5.4
 
@@ -48,23 +48,23 @@ When I use the phrase "typing" or "making typing simpler" or something like that
 
 ## 🔑 License
 
-LuaCat is free and open source. It can be used for commerical and non-commerical purposes. It is licensed under the [zlib license](https://codeberg.org/RobinsAviary/LuaCat/src/branch/main/LICENSE.md).
+YueCat is free and open source. It can be used for commerical and non-commerical purposes. It is licensed under the [zlib license](https://codeberg.org/RobinsAviary/YueCat/src/branch/main/LICENSE.md).
 
 ## 🔴 OOP?
 
-LuaCat does not use any built-in OOP (though YueScript does provide basic classes), as it instead opts to largely mirror Odin's style of separating procedures and data. Basically, this is a mix of functional and procedural programming, to keep the implementation (and typing) relatively simple.
+YueCat does not use any built-in OOP (though YueScript does provide basic classes), as it instead opts to largely mirror Odin's style of separating procedures and data. Basically, this is a mix of functional and procedural programming, to keep the implementation (and typing) relatively simple.
 
 For those still curious, here is an example of how converting a color would work in OOP:
 
 `hsv = Color.White.ToHSV()`
 
-Again, though, LuaCat is designed with procedural programming in mind, so this would end up looking like:
+Again, though, YueCat is designed with procedural programming in mind, so this would end up looking like:
 
 `hsv = Color.ToHSV(Color.White)`
 
 ## 月 YueScript (Scripting)
 
-LuaCat uses YueScript for compiling scripts before running. It is a flavor of MoonScript that compiles down to [Lua](https://www.lua.org/).
+YueCat uses YueScript for compiling scripts before running. It is a flavor of MoonScript that compiles down to [Lua](https://www.lua.org/).
 
 Here is the [documentation](https://yuescript.org/doc/). **Fair warning:** the overview on the site makes it look a lot more complicated than it actually is. The gist is that it makes all variables local (generally considered best practice nowadays) and provides a much cleaner syntax for... well, everything.
 
@@ -72,7 +72,7 @@ Assuming there are no major breaking changes, upgrading to a newer version of Yu
 
 ## 🔨 Building
 
-LuaCat has no external dependencies, as it uses bindings actively maintained by the Odin language, which are built-in with the compiler. As such, compiling and modifying LuaCat is trivial.
+YueCat has no external dependencies, as it uses bindings actively maintained by the Odin language, which are built-in with the compiler. As such, compiling and modifying YueCat is trivial.
 
 Simply open the main directory and execute `odin build .`, which will compile the host program. In order to run your code, place a file named "main.lua" in the base directory. Use the various engine callbacks to implement the functionality you need.
 
@@ -80,13 +80,13 @@ This repo also includes .vscode tasks to build and run the current version, for 
 
 ## ⚙️ Config
 
-Define this global table during the "Ready" callback to modify how LuaCat launches.
+Define this global table during the "Ready" callback to modify how YueCat launches.
 
 ### Fields
 
 `windowSize: Vector2 = Vector2.New(640, 480)`
 
-`windowTitle: string = "LuaCat <version>"`
+`windowTitle: string = "YueCat <version>"`
 
 `audioActive: bool = true`
 

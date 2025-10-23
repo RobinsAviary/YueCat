@@ -1,4 +1,4 @@
-package LuaCat
+package YueCat
 
 clamp_255 :: proc(val: $T) -> T {
 	return clamp(val, 0, 255)

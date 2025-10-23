@@ -1,4 +1,4 @@
-package LuaCat
+package YueCat
 
 import lua "vendor:lua/5.4"
 import rl "vendor:raylib"

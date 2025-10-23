@@ -1,4 +1,4 @@
-package LuaCat
+package YueCat
 
 import lua "vendor:lua/5.4"
 import "core:fmt"
@@ -8,7 +8,7 @@ import os "core:os/os2"
 TextureUData :: "Texture"
 AudioUData :: "Audio"
 
-NAME :: "LuaCat"
+NAME :: "YueCat"
 VERSION :: "Alpha"
 
 PROGRAM :: "program\\"
@@ -42,7 +42,7 @@ open_base :: proc(state: ^lua.State) {
 
 new_state :: proc() -> ^lua.State {
 	state := lua.L_newstate()
-	
+
 	lua.L_openlibs(state)
 
 	// Todo: Open these libraries properly so the user doesn't have direct access to the OS library.

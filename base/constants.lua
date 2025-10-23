@@ -461,7 +461,7 @@ Audio = {}
 Config = {
 	window = {
 		size = Vector2.New(640, 480),
-		title = "LuaCat",
+		title = "YueCat",
 	},
 	
 	audio = {
