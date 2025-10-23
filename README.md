@@ -18,22 +18,27 @@ Odin dev-2025-10-nightly:7237747
 
 ## Table of Contents
 
-1. [🔴 OOP?](#oop)
-2. [🔨 Building](#building)
-3. [⚙️ Config](#config)
-4. [🤙 Callbacks](#callbacks)
-    1. [🚂 Engine](#engine)
-5. [🔌 Functions](#functions)
-    1. [🚂 Engine](#engine-1)
-    2. [🎨 Draw](#draw)
-    3. [🐭 Mouse](#mouse)
-    4. [🖼️ Texture](#texture)
-    5. [🔊 Audio](#audio)
-6. [🏗️ "Structs"](#structs)
-    1. [2️⃣ Vector2](#vector2)
-    2. [3️⃣ Vector3](#vector3)
-    3. [🟥 Rectangle](#rectangle)
-    4. [🔵 Circle](#circle)
+1. [🔑 License](#🔑-license)
+1. [🔴 OOP?](#🔴-oop)
+2. [🔨 Building](#🔨-building)
+3. [⚙️ Config](#⚙️-config)
+4. [🤙 Callbacks](#🤙-callbacks)
+    1. [🚂 Engine](#🚂-engine)
+5. [🔌 Functions](#🔌-functions)
+    1. [🚂 Engine](#f09f9a82-engine-1)
+    2. [🎨 Draw](#🎨-draw)
+    3. [🐭 Mouse](#🐭-mouse)
+    4. [🖼️ Texture](#🖼️-texture)
+    5. [🔊 Audio](#🔊-audio)
+6. [🏗️ "Structs"](#🏗️-structs)
+    1. [2️⃣ Vector2](#2️⃣-vector2)
+    2. [3️⃣ Vector3](#3️⃣-vector3)
+    3. [🟥 Rectangle](#🟥-rectangle)
+    4. [🔵 Circle](#🔵-circle)
+
+## 🔑 License
+
+LuaCat is free and open source. It can be used for commerical and non-commerical purposes. It is licensed under the [zlib license](https://codeberg.org/RobinsAviary/LuaCat/src/branch/main/LICENSE.md).
 
 ## 🔴 OOP?
 
