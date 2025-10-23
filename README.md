@@ -16,6 +16,25 @@ Raylib 5.5
 
 Odin dev-2025-10-nightly:7237747
 
+## Table of Contents
+
+1. [🔴 OOP?](#oop)
+2. [🔨 Building](#building)
+3. [⚙️ Config](#config)
+4. [🤙 Callbacks](#callbacks)
+    1. [🚂 Engine](#engine)
+5. [🔌 Functions](#functions)
+    1. [🚂 Engine](#engine-1)
+    2. [🎨 Draw](#draw)
+    3. [🐭 Mouse](#mouse)
+    4. [🖼️ Texture](#texture)
+    5. [🔊 Audio](#audio)
+6. [🏗️ "Structs"](#structs)
+    1. [2️⃣ Vector2](#vector2)
+    2. [3️⃣ Vector3](#vector3)
+    3. [🟥 Rectangle](#rectangle)
+    4. [🔵 Circle](#circle)
+
 ## OOP?
 
 LuaCat does not use any built-in OOP (though YueScript does provide basic classes), as it instead opts to largely mirror Odin's style of separating procedures and data. Basically, this is a mix of functional and procedural programming, to keep the implementation (and typing) relatively simple.
