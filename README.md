@@ -35,7 +35,7 @@ Odin dev-2025-10-nightly:7237747
     3. [🟥 Rectangle](#rectangle)
     4. [🔵 Circle](#circle)
 
-## OOP?
+## 🔴 OOP?
 
 LuaCat does not use any built-in OOP (though YueScript does provide basic classes), as it instead opts to largely mirror Odin's style of separating procedures and data. Basically, this is a mix of functional and procedural programming, to keep the implementation (and typing) relatively simple.
 
@@ -47,14 +47,14 @@ Again, though, LuaCat is designed with procedural programming in mind, so this w
 
 `hsv = Color.ToHSV(Color.White)`
 
-## Building
+## 🔨 Building
 LuaCat has no external dependencies, as it uses bindings actively maintained by the Odin language, which are built-in with the compiler. As such, compiling and modifying LuaCat is trivial.
 
 Simply open the main directory and execute `odin build .`, which will compile the host program. In order to run your code, place a file named "main.lua" in the base directory. Use the various engine callbacks to implement the functionality you need.
 
 This repo also includes .vscode tasks to build and run the current version, for testing.
 
-## Config
+## ⚙️ Config
 
 Define this global table during the "Ready" callback to modify how LuaCat launches.
 
@@ -66,9 +66,9 @@ Define this global table during the "Ready" callback to modify how LuaCat launch
 
 `audioActive: bool = true`
 
-## Callbacks
+## 🤙 Callbacks
 
-### Engine
+### 🚂 Engine
 
 `Engine.Init()`
 
@@ -100,11 +100,11 @@ Called after the main loop has finished, but just before the program is closed.
 
 Unload your assets here.
 
-## Functions
+## 🔌 Functions
 
 These are global tables of functions.
 
-### Engine
+### 🚂 Engine
 
 `Engine.GetTime() -> (timeSinceStart: Number)`
 
@@ -116,7 +116,7 @@ These are global tables of functions.
 
 (Unlimited by default)
 
-### Draw
+### 🎨 Draw
 
 `Draw.Clear(color: Color)`
 
@@ -130,7 +130,7 @@ These are global tables of functions.
 
 `Draw.Texture(texture: Texture, postion: Vector2 = Vector2.Zero, tint: Color = Color.White)`
 
-### Mouse
+### 🐭 Mouse
 
 `Mouse.GetPosition() -> (mousePosition: Vector2)`
 
@@ -169,25 +169,25 @@ Mouse.Right = 1
 Mouse.Middle = 2
 ```
 
-### Texture
+### 🖼️ Texture
 
 `Texture.Load(fileName: string) -> Texture`
 
 `Texture.Unload(texture: Texture)`
 
-### Audio
+### 🔊 Audio
 `Texture.Load(fileName: string) -> Audio`
 
 `Texture.Unload(audio: Audio)`
 
-## "Structs"
+## 🏗️ "Structs"
 
 Constructor example:
 ```
 vec = Vector2.New(5, 4)
 ```
 
-### Vector2
+### 2️⃣ Vector2
 
 Fields:
 ```
@@ -197,7 +197,7 @@ y: number = x or 0
 
 Supports math operations and length (`#`) operator.
 
-### Vector3
+### 3️⃣ Vector3
 
 Fields:
 ```
@@ -208,7 +208,7 @@ z: number = y or x or 0
 
 Supports math operations and length (`#`) operator.
 
-### Rectangle
+### 🟥 Rectangle
 
 Fields:
 ```
@@ -216,7 +216,7 @@ position = Vector2.Zero
 size = Vector2.Zero
 ```
 
-### Circle
+### 🔵 Circle
 
 Fields:
 ```
