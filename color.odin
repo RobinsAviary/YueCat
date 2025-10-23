@@ -47,20 +47,18 @@ push_color :: proc "c" (state: ^lua.State, color: rl.Color) {
 
 	lua.createtable(state, 0, 1)
 
-	lua.pushnumber(state, lua.Number(color.r) * 255)
+	lua.pushnumber(state, lua.Number(color.r) / 255)
 	lua.setfield(state, -2, "r")
-	lua.pushnumber(state, lua.Number(color.g) * 255)
+	lua.pushnumber(state, lua.Number(color.g) / 255)
 	lua.setfield(state, -2, "g")
-	lua.pushnumber(state, lua.Number(color.b) * 255)
+	lua.pushnumber(state, lua.Number(color.b) / 255)
 	lua.setfield(state, -2, "b")
-	lua.pushnumber(state, lua.Number(color.a) * 255)
+	lua.pushnumber(state, lua.Number(color.a) / 255)
 	lua.setfield(state, -2, "a")
 
 	lua.getglobal(state, "Color")
 	lua.getfield(state, -1, "meta")
-
 	lua.remove(state, -2)
-
 	lua.setmetatable(state, -2)
 }
 
@@ -80,6 +78,11 @@ to_color_hsv :: proc "c" (state: ^lua.State, idx: i32) -> ColorHSV {
 	a := lua.tonumber(state, -1)
 
 	lua.pop(state, 4)
+
+	lua.getglobal(state, "ColorHSV")
+	lua.getfield(state, -1, "meta")
+	lua.remove(state, -2)
+	lua.setmetatable(state, -2)
 
 	return {f32(h), f32(s), f32(v), scalar_to_u8(f32(a))}
 }

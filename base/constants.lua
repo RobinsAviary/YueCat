@@ -197,7 +197,11 @@ Vector3.Zero = Vector3.New()
 
 
 
-Color = {}
+Color = {
+	meta = {
+		__name = "Color"
+	}
+}
 
 -- Color.ToHSV()
 -- Color.FromHSV()
@@ -215,11 +219,7 @@ Color.New = function(r, g, b, a)
 		a = a,
 	}
 
-	local meta = {
-		__name = "Color"
-	}
-
-	setmetatable(tbl, meta)
+	setmetatable(tbl, Color.meta)
 
 	return tbl
 end
@@ -253,7 +253,11 @@ Color.RayWhite = Color.New(.961)
 
 
 
-ColorHSV = {}
+ColorHSV = {
+	meta = {
+		__name = "ColorHSV"
+	}
+}
 
 ColorHSV.New = function(h, s, v, a)
 	h = h or 0
@@ -268,11 +272,7 @@ ColorHSV.New = function(h, s, v, a)
 		a = a,
 	}
 
-	local meta = {
-		__name = "Color"
-	}
-
-	setmetatable(tbl, meta)
+	setmetatable(tbl, ColorHSV.meta)
 
 	return tbl
 end
@@ -468,3 +468,30 @@ Config = {
 		active = true,
 	}
 }
+
+
+
+Camera = {
+	meta = {
+		__name = "Camera",
+	},
+
+	Projection = {
+		Perspective = 0,
+		Orthographic = 1,
+	}
+}
+
+Camera.New = function(position, target, up, fov, projection)
+	tbl = {}
+
+	position = position or Vector2.New(0)
+	target = target or Vector2.New(0)
+	up = up or Vector2.New(0)
+	fov = fov or 45
+	projection = projection or Camera.Projection.Orthographic
+
+	setmetatable(tbl, Camera.meta)
+
+	return tbl
+end

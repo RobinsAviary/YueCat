@@ -19,22 +19,27 @@ Odin dev-2025-10-nightly:7237747
 ## Table of Contents
 
 1. [🔑 License](#license)
-1. [🔴 OOP?](#oop)
-2. [🔨 Building](#building)
-3. [⚙️ Config](#config)
-4. [🤙 Callbacks](#callbacks)
+2. [🔴 OOP?](#oop)
+3. [月 YueScript (Scripting)](#月-yuescript-scripting)
+4. [🔨 Building](#building)
+5. [⚙️ Config](#config)
+6. [🤙 Callbacks](#callbacks)
     1. [🚂 Engine](#engine)
-5. [🔌 Functions](#functions)
+7. [🔌 Functions](#functions)
     1. [🚂 Engine](#engine-1)
-    2. [🎨 Draw](#draw)
+    2. [🖌️ Draw](#draw)
     3. [🐭 Mouse](#mouse)
     4. [🖼️ Texture](#texture)
     5. [🔊 Audio](#audio)
-6. [🏗️ "Structs"](#structs)
+8. [🏗️ "Structs"](#structs)
     1. [2️⃣ Vector2](#vector2)
     2. [3️⃣ Vector3](#vector3)
     3. [🟥 Rectangle](#rectangle)
     4. [🔵 Circle](#circle)
+    5. [📐 Triangle](#triangle)
+    6. [🎥 Camera](#camera)
+    7. [🎨 Color](#color)
+    8. [🎨🤖 ColorHSV](#colorhsv)
 
 ## A Note on "Typing"
 
@@ -56,7 +61,16 @@ Again, though, LuaCat is designed with procedural programming in mind, so this w
 
 `hsv = Color.ToHSV(Color.White)`
 
+## 月 YueScript (Scripting)
+
+LuaCat uses YueScript for compiling scripts before running. It is a flavor of MoonScript that compiles down to [Lua](https://www.lua.org/).
+
+Here is the [documentation](https://yuescript.org/doc/). **Fair warning:** the overview on the site makes it look a lot more complicated than it actually is. The gist is that it makes all variables local (generally considered best practice nowadays) and provides a much cleaner syntax for... well, everything.
+
+Assuming there are no major breaking changes, upgrading to a newer version of YueScript should be as simple as replacing the one in `vendor/`.
+
 ## 🔨 Building
+
 LuaCat has no external dependencies, as it uses bindings actively maintained by the Odin language, which are built-in with the compiler. As such, compiling and modifying LuaCat is trivial.
 
 Simply open the main directory and execute `odin build .`, which will compile the host program. In order to run your code, place a file named "main.lua" in the base directory. Use the various engine callbacks to implement the functionality you need.
@@ -125,7 +139,7 @@ These are global tables of functions.
 
 (Unlimited by default)
 
-### 🎨 Draw
+### 🖌️ Draw
 
 `Draw.Clear(color: Color)`
 
@@ -221,14 +235,54 @@ Supports math operations and length (`#`) operator.
 
 Fields:
 ```
-position = Vector2.Zero
-size = Vector2.Zero
+position: Vector2 = Vector2.Zero
+size: Vector2 = Vector2.Zero
 ```
 
 ### 🔵 Circle
 
 Fields:
 ```
-position = Vector2.Zero
-diameter = 0
+position: Vector2 = Vector2.Zero
+diameter: number = 0
+```
+
+### 📐 Triangle
+
+Fields:
+```
+firstPoint: Vector2 = Vector2.Zero
+secondPoint: Vector2 = Vector2.Zero
+thirdPoint: Vector2 = Vector2.Zero
+```
+
+### 🎥 Camera
+
+Fields:
+```
+position: Vector3 = Vector3.Zero
+target: Vector3 = Vector3.Zero
+up: Vector3 = Vector3.Zero
+fov: number = 45
+projection: Camera.Projection = Camera.Projection.Perspective
+```
+
+### 🎨 Color
+
+Fields: (All `0-1`)
+```
+r: number = 0           -- Red
+g: number = r or 0      -- Green
+b: number = g or r or 0 -- Blue
+a: number = 1           -- Alpha
+```
+
+### 🎨🤖 ColorHSV
+
+Fields:
+```
+h: number = 0 -- Hue [0-360]
+s: number = 1 -- Saturation [0-1]
+v: number = 1 -- Value [0-1]
+a: number = 1 -- Alpha
 ```
