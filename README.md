@@ -2,7 +2,7 @@
 
 ## About
 
-LuaCat is a software development framework, largely focused on games. It allows you to create software entirely in text using Lua.
+LuaCat is a software development framework, largely focused on games. It allows you to create software entirely without an editor using Lua.
 
 The API largely mirrors [Raylib](https://www.raylib.com/)'s, with some key differences to make typing simpler.
 
@@ -35,6 +35,10 @@ Odin dev-2025-10-nightly:7237747
     2. [3️⃣ Vector3](#vector3)
     3. [🟥 Rectangle](#rectangle)
     4. [🔵 Circle](#circle)
+
+## A Note on "Typing"
+
+When I use the phrase "typing" or "making typing simpler" or something like that, I'm referring to reducing the number of keys the user needs to press in order to program the thing they want. I have hand pain problems, so being able to code as much as possible is important to me. I hope these considerations will be useful to you as well.
 
 ## 🔑 License
 
