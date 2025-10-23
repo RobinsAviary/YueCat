@@ -72,7 +72,7 @@ Again, though, YueCat is designed with procedural programming in mind, so this w
 
 ## 月 YueScript (Scripting)
 
-YueCat uses YueScript for compiling scripts before running. It is a flavor of MoonScript that compiles down to [Lua](https://www.lua.org/).
+YueCat uses [YueScript](https://yuescript.org/) for compiling scripts before running. It is a flavor of MoonScript that compiles down to [Lua](https://www.lua.org/).
 
 Here is the [documentation](https://yuescript.org/doc/). **Fair warning:** the overview on the site makes it look a lot more complicated than it actually is. The gist is that it makes all variables local (generally considered best practice nowadays) and provides a much cleaner syntax for... well, everything.
 
