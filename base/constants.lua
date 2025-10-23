@@ -253,6 +253,30 @@ Color.RayWhite = Color.New(.961)
 
 
 
+ColorHSV = {}
+
+ColorHSV.New = function(h, s, v, a)
+	h = h or 0
+	s = s or 1
+	v = v or s or 1
+	a = a or 1
+
+	local tbl = {
+		h = h,
+		s = s,
+		v = v,
+		a = a,
+	}
+
+	local meta = {
+		__name = "Color"
+	}
+
+	setmetatable(tbl, meta)
+
+	return tbl
+end
+
 Rectangle = {
 	meta = {
 		__name = "Rectangle"

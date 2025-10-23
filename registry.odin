@@ -59,4 +59,9 @@ register_functions :: proc(state: ^lua.State) {
 	register(state, UnloadAudio, "Unload")
 	register(state, PlayAudio, "Play")
 	lua.pop(state, 1)
+
+	lua.getglobal(state, "Color")
+	register(state, ColorToHSV, "ToHSV")
+	register(state, ColorFromHSV, "FromHSV")
+	lua.pop(state, 1)
 }

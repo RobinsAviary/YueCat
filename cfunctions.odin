@@ -276,3 +276,24 @@ OpenURL :: proc "c" (state: ^lua.State) -> i32 {
 
 	return 0
 }
+
+ColorFromHSV :: proc "c" (state: ^lua.State) -> i32 {
+	hsv := check_color_hsv(state, 1)
+
+	color := rl.ColorFromHSV(hsv.h, hsv.s, hsv.v)
+	color.a = hsv.a
+
+	push_color(state, color)
+
+	return 1
+}
+
+ColorToHSV :: proc "c" (state: ^lua.State) -> i32 {
+	color := check_color(state, 1)
+
+	RLhsv := rl.ColorToHSV(color)
+
+	push_color_hsv(state, {RLhsv[0], RLhsv[1], RLhsv[2], 1})
+
+	return 1
+}

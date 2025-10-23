@@ -16,6 +16,18 @@ Raylib 5.5
 
 Odin dev-2025-10-nightly:7237747
 
+## OOP?
+
+LuaCat does not use any built-in OOP (though YueScript does provide basic classes), as it instead opts to largely mirror Odin's style of separating procedures and data. Basically, this is a mix of functional and procedural programming, to keep the implementation (and typing) relatively simple.
+
+For those still curious, here is an example of how converting a color would work in OOP:
+
+`hsv = Color.White.ToHSV()`
+
+Again, though, LuaCat is designed with procedural programming in mind, so this would end up looking like:
+
+`hsv = Color.ToHSV(Color.White)`
+
 ## Building
 LuaCat has no external dependencies, as it uses bindings actively maintained by the Odin language, which are built-in with the compiler. As such, compiling and modifying LuaCat is trivial.
 
