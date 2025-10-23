@@ -18,6 +18,8 @@ Odin dev-2025-10-nightly:7237747
 
 ## Table of Contents
 
+[Documentation](#documentation)
+
 1. [💬 A Note on "Typing"](#a-note-on-typing)
 2. [🔑 License](#license)
 3. [🔴 OOP?](#oop)
@@ -49,6 +51,8 @@ Odin dev-2025-10-nightly:7237747
     4. [🎥 Cameras](#cameras)
         1. [🎥🟥 Camera2D](#camera2d)
         1. [🎥🧱 Camera3D](#camera3d)
+
+## Documentation
 
 ## 💬 A Note on "Typing"
 
@@ -99,6 +103,8 @@ Define this global table during the "Ready" callback to modify how YueCat launch
 `audioActive: bool = true`
 
 ## 🤙 Callbacks
+
+Callbacks are functions that you redefine in order to run your own custom behavior. They are listed in order, from initialization, to main loop, to cleanup.
 
 ### 🚂 Engine
 
@@ -154,6 +160,8 @@ These are global tables of functions.
 
 `Mouse.GetPosition() -> (mousePosition: Vector2)`
 
+Get the position of the cursor.
+
 `Mouse.GetX() -> (xPosition: Integer)`
 
 Get the x position of the cursor.
@@ -172,11 +180,15 @@ Set the y position of the cursor.
 
 `Mouse.SetPosition(position: Vector2)`
 
+Set the position of the cursor.
+
 `Mouse.IsButtonPressed(index: Integer = 0) -> boolean`
 
 Checks if the button was just pressed this frame.
 
 `Mouse.IsButtonHeld(index: Integer = 0) -> boolean`
+
+Checks if the button is held down.
 
 `Mouse.IsButtonReleased(index: Integer = 0) -> boolean`
 
@@ -194,6 +206,10 @@ Mouse.Middle = 2
 #### 🖌️ Draw
 
 `Draw.Clear(color: Color)`
+
+Clear the entire screen to a single color.
+
+It is reccomended to call this first in most programs, before you draw anything else. Otherwise, graphics from previous frames will stick around (think out-of-bounds in Source games). You can also recreate this behavior by using a full-screen rectangle.
 
 `Draw.Line(startPosition: Vector2, endPosition: Vector2, color: Color)`
 
