@@ -471,9 +471,9 @@ Config = {
 
 
 
-Camera = {
+Camera3D = {
 	meta = {
-		__name = "Camera",
+		__name = "Camera3D",
 	},
 
 	Projection = {
@@ -482,16 +482,22 @@ Camera = {
 	}
 }
 
-Camera.New = function(position, target, up, fov, projection)
-	tbl = {}
-
+Camera3D.New = function(position, target, up, fov, projection)
 	position = position or Vector2.New(0)
 	target = target or Vector2.New(0)
 	up = up or Vector2.New(0)
 	fov = fov or 45
-	projection = projection or Camera.Projection.Orthographic
+	projection = projection or Camera3D.Projection.Perspective
 
-	setmetatable(tbl, Camera.meta)
+	tbl = {
+		position = position,
+		target = target,
+		up = up,
+		fov = fov,
+		projection = projection,
+	}
+
+	setmetatable(tbl, Camera3D.meta)
 
 	return tbl
 end

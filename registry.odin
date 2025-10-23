@@ -19,6 +19,7 @@ register_functions :: proc(state: ^lua.State) {
     register(state, DrawTriangleLined, "TriangleLined")
 	register(state, DrawTexture, "Texture")
 	register(state, DrawText, "Text")
+	register(state, DrawGrid, "Grid")
 	lua.pop(state, 1)
 
 	lua.getglobal(state, EngineRegistry)
@@ -29,6 +30,8 @@ register_functions :: proc(state: ^lua.State) {
 	register(state, SetFPSTarget, "SetFPSTarget")
 	register(state, LoadTexture, "LoadTexture")
 	register(state, UnloadTexture, "UnloadTexture")
+	register(state, Begin3D, "Begin3D")
+	register(state, End3D, "End3D")
 	lua.pop(state, 1)
 
 	lua.getglobal(state, MouseRegistry)

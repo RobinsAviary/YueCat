@@ -18,7 +18,7 @@ to_vector2 :: proc "c" (state: ^lua.State, idx: i32) -> rl.Vector2 {
 	return {f32(x), f32(y)}
 }
 
-check_vector2 :: proc "c" (state: ^lua.State, arg: i32) -> rl.Vector2{
+check_vector2 :: proc "c" (state: ^lua.State, arg: i32) -> rl.Vector2 {
 	check_type(state, arg, "Vector2")
 	return to_vector2(state, arg)
 }

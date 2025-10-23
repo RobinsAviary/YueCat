@@ -297,3 +297,26 @@ ColorToHSV :: proc "c" (state: ^lua.State) -> i32 {
 
 	return 1
 }
+
+Begin3D :: proc "c" (state: ^lua.State) -> i32 {
+	camera := check_camera(state, 1)
+
+	rl.BeginMode3D(camera)
+
+	return 0
+}
+
+End3D :: proc "c" (state: ^lua.State) -> i32 {
+	rl.EndMode3D()
+
+	return 0
+}
+
+DrawGrid :: proc "c" (state: ^lua.State) -> i32 {
+	slices := lua.L_checkinteger(state, 1)
+	spacing := lua.L_checknumber(state, 2)
+
+	rl.DrawGrid(i32(slices), f32(spacing))
+
+	return 0
+}

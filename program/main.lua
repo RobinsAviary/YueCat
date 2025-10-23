@@ -1,3 +1,4 @@
+camera = Camera3D.New(Vector3.New(100, 100, 100), Vector3.Zero, Vector3.New(0, 1, 0))
 Engine.Init = function()
 	Config.window.size = Vector2.New(800, 450)
 end
@@ -7,6 +8,8 @@ end
 Engine.Step = function() end
 Engine.Draw = function()
 	Draw.Clear(Color.FromHSV(ColorHSV.New(180, 1, 1)))
-	return Draw.Text("Congrats! You created your first window!", Vector2.New(190, 200), Color.LightGray)
+	Engine.Begin3D(camera)
+	Draw.Grid(100, 1)
+	return Engine.End3D()
 end
 Engine.Cleanup = function() end
