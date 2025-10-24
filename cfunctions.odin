@@ -90,24 +90,28 @@ DrawText :: proc "c" (state: ^lua.State) -> i32 {
 }
 
 GetMouseWheelMove :: proc "c" (state: ^lua.State) -> i32 {
+	lua.checkstack(state, 1)
     lua.pushnumber(state, lua.Number(rl.GetMouseWheelMoveV().y))
     
     return 1
 }
 
 GetTime :: proc "c" (state: ^lua.State) -> i32 {
+	lua.checkstack(state, 1)
 	lua.pushnumber(state, lua.Number(rl.GetTime()))
 
 	return 1
 }
 
 GetDelta :: proc "c" (state: ^lua.State) -> i32 {
+	lua.checkstack(state, 1)
 	lua.pushnumber(state, lua.Number(rl.GetFrameTime()))
 
 	return 1
 }
 
 GetFPS :: proc "c" (state: ^lua.State) -> i32 {
+	lua.checkstack(state, 1)
 	lua.pushinteger(state, lua.Integer(rl.GetFPS()))
 
 	return 1
@@ -132,6 +136,7 @@ GetMousePosition :: proc "c" (state: ^lua.State) -> i32 {
 GetMouseX :: proc "c" (state: ^lua.State) -> i32 {
 	x := rl.GetMouseX()
 
+	lua.checkstack(state, 1)
 	lua.pushinteger(state, lua.Integer(x))
 
 	return 1
@@ -140,6 +145,7 @@ GetMouseX :: proc "c" (state: ^lua.State) -> i32 {
 GetMouseY :: proc "c" (state: ^lua.State) -> i32 {
 	y := rl.GetMouseY()
 
+	lua.checkstack(state, 1)
 	lua.pushinteger(state, lua.Integer(y))
 
 	return 1
@@ -176,6 +182,7 @@ IsKeyboardKeyReleased :: proc "c" (state: ^lua.State) -> i32 {
 
 	b := rl.IsKeyReleased(rl.KeyboardKey(idx))
 
+	lua.checkstack(state, 1)
 	lua.pushboolean(state, b32(b))
 
 	return 1
@@ -186,6 +193,7 @@ IsKeyboardKeyPressed :: proc "c" (state: ^lua.State) -> i32 {
 
 	b := rl.IsKeyPressed(rl.KeyboardKey(idx))
 
+	lua.checkstack(state, 1)
 	lua.pushboolean(state, b32(b))
 
 	return 1
@@ -196,6 +204,7 @@ IsKeyboardKeyHeld :: proc "c" (state: ^lua.State) -> i32 {
 
 	b:= rl.IsKeyDown(rl.KeyboardKey(idx))
 
+	lua.checkstack(state, 1)
 	lua.pushboolean(state, b32(b))
 
 	return 1
@@ -204,6 +213,7 @@ IsKeyboardKeyHeld :: proc "c" (state: ^lua.State) -> i32 {
 IsMouseButtonPressed :: proc "c" (state: ^lua.State) -> i32 {
 	index := lua.L_checkinteger(state, 1)
 
+	lua.checkstack(state, 1)
 	lua.pushboolean(state, b32(rl.IsMouseButtonPressed(rl.MouseButton(i32(index)))))
 
 	return 1
@@ -212,6 +222,7 @@ IsMouseButtonPressed :: proc "c" (state: ^lua.State) -> i32 {
 IsMouseButtonHeld :: proc "c" (state: ^lua.State) -> i32 {
 	index := lua.L_checkinteger(state, 1)
 
+	lua.checkstack(state, 1)
 	lua.pushboolean(state, b32(rl.IsMouseButtonDown(rl.MouseButton(i32(index)))))
 
 	return 1
@@ -220,6 +231,7 @@ IsMouseButtonHeld :: proc "c" (state: ^lua.State) -> i32 {
 IsMouseButtonReleased :: proc "c" (state: ^lua.State) -> i32 {
 	index := lua.L_checkinteger(state, 1)
 
+	lua.checkstack(state, 1)
 	lua.pushboolean(state, b32(rl.IsMouseButtonReleased(rl.MouseButton(i32(index)))))
 
 	return 1
@@ -253,6 +265,7 @@ StringStartsWith :: proc "c" (state: ^lua.State) -> i32 {
 	str := lua.L_checkstring(state, 1)
 	sub := lua.L_checkstring(state, 2)
 
+	lua.checkstack(state, 1)
 	lua.pushboolean(state, b32(strings.starts_with(string(str), string(sub))))
 
 	return 1
@@ -264,6 +277,7 @@ StringEndsWith :: proc "c" (state: ^lua.State) -> i32 {
 	str := lua.L_checkstring(state, 1)
 	sub := lua.L_checkstring(state, 2)
 
+	lua.checkstack(state, 1)
 	lua.pushboolean(state, b32(strings.ends_with(string(str), string(sub))))
 
 	return 1
@@ -317,6 +331,26 @@ DrawGrid :: proc "c" (state: ^lua.State) -> i32 {
 	spacing := lua.L_checknumber(state, 2)
 
 	rl.DrawGrid(i32(slices), f32(spacing))
+
+	return 0
+}
+
+DrawCube :: proc "c" (state: ^lua.State) -> i32 {
+	position := check_vector3(state, 1)
+	size := lua.L_checknumber(state, 2)
+	color := check_color(state, 3)
+
+	rl.DrawCube(position, f32(size), f32(size), f32(size), color)
+
+	return 0
+}
+
+DrawBox :: proc "c" (state: ^lua.State) -> i32 {
+	position := check_vector3(state, 1)
+	size := check_vector3(state, 2)
+	color := check_color(state, 3)
+
+	rl.DrawCubeV(position, size, color)
 
 	return 0
 }

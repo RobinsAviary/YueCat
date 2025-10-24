@@ -14,6 +14,9 @@ audio_warning :: proc "c" () {
 
 LoadAudio :: proc "c" (state: ^lua.State) -> i32 {
     audio_warning()
+
+    lua.checkstack(state, 1)
+
     if !config.audio_active {
         lua.pushnil(state)
         return 1

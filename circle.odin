@@ -11,6 +11,7 @@ Circle :: struct {
 to_circle :: proc "c" (state: ^lua.State, idx: i32) -> Circle {
 	i := abs_idx(state, idx)
 
+	lua.checkstack(state, 2)
 	lua.getfield(state, i, "position")
 	lua.getfield(state, i, "radius")
 

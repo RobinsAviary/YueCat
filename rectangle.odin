@@ -6,6 +6,8 @@ import rl "vendor:raylib"
 to_rectangle :: proc "c" (state: ^lua.State, idx: i32) -> rl.Rectangle {
 	i := abs_idx(state, idx)
 
+	lua.checkstack(state, 2)
+
 	lua.getfield(state, i, "position")
 	lua.getfield(state, i, "size")
 

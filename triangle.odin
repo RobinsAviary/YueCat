@@ -12,6 +12,8 @@ Triangle :: struct {
 to_triangle :: proc "c" (state: ^lua.State, idx: i32) -> Triangle {
     i := abs_idx(state, idx)
 
+    lua.checkstack(state, 3)
+
     lua.getfield(state, i, "firstPoint")
     lua.getfield(state, i, "secondPoint")
     lua.getfield(state, i, "thirdPoint")

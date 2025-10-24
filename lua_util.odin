@@ -40,12 +40,15 @@ do_string :: proc(state: ^lua.State, code: string) -> (succeeded: bool = false) 
 }
 
 register :: proc(state: ^lua.State, c_function: lua.CFunction, name: string, obj: c.int = -2) {
+	//lua.checkstack(state, 1)
+
 	lua.pushcfunction(state, c_function)
 
 	lua.setfield(state, obj, strings.clone_to_cstring(name, context.temp_allocator))
 }
 
 CallEngineFunc :: proc(state: ^lua.State, functionName: string) {
+	lua.checkstack(state, 2)
 	lua.getglobal(state, "Engine")
 	lua.getfield(state, -1, strings.clone_to_cstring(functionName, context.temp_allocator))
 

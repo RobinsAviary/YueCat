@@ -5,6 +5,8 @@ import rl "vendor:raylib"
 
 to_vector3 :: proc "c" (state: ^lua.State, idx: i32) -> rl.Vector3 {
 	i := abs_idx(state, idx)
+
+    lua.checkstack(state, 3)
 	
 	lua.getfield(state, i, "x")
 	lua.getfield(state, i, "y")

@@ -2,7 +2,7 @@
 
 ## About
 
-YueCat is a software development framework, largely focused on games. It allows you to create software entirely without an editor using Lua.
+YueCat is a software development framework, largely focused on games. It allows you to create software entirely without an editor using a flavor of Lua called [YueScript](https://yuescript.org/).
 
 The API largely mirrors [Raylib](https://www.raylib.com/)'s, with some key differences to make typing simpler.
 
@@ -325,9 +325,35 @@ position: Vector3 = Vector3.Zero
 target: Vector3 = Vector3.Zero
 up: Vector3 = Vector3.Zero
 fov: number = 45
-projection: Camera.Projection = Camera.Projection.Perspective
+projection: Camera3D.Projection = Camera3D.Projection.Perspective
 ```
 
-Thank you for reading the docs!
+## Engine? Objects?
 
-Created with 💗 in New England <(˶ᵔᵕᵔ˶)>
+YueCat is intentionally designed to be very loose. If you want a list of objects every frame, create a table and `table.insert` "objects" into it, with `step` and `draw` fields, then in the respective callbacks just do a loop like:
+
+```
+for obj in *objs
+    obj.FUNCTIONNAME()
+```
+
+# Special Thanks
+
+Thank you for reading the docs and your interst in YueCat!
+
+Made with 💗 in New England <(˶ᵔᵕᵔ˶)>
+
+Various inspirations for this project:
+
+* [LÖVE2D](https://love2d.org/)
+* [Balatro](https://www.playbalatro.com/)
+* [stabyourself.net](https://stabyourself.net/)
+* [GameMaker](https://gamemaker.io/)
+* [UNDERTALE](https://undertale.com/)
+* [DELTARUNE](https://deltarune.com/)
+* [Cave Story](https://www.cavestory.org/)
+* [Raylib](https://www.raylib.com/)
+* [Godot](https://godotengine.org/)
+* [RPG Maker](https://www.rpgmakerweb.com/)
+* [Ib](https://www.vgperson.com/games/ib.htm)
+* [The Witch's House](https://vgperson.com/games/witchhouse.htm)

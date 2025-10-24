@@ -329,6 +329,112 @@ end
 
 
 
+Cube = {
+	meta = {
+		__name = "Cube"
+	}
+}
+
+Cube.New = function(position, size)
+	position = position or Vector3.Zero
+	size = size or 0
+
+	local tbl = {
+		position = position,
+		size = size,
+	}
+
+	setmetatable(tbl, Cube.meta)
+
+	return tbl
+end
+
+Box = {
+	meta = {
+		__name = "Box"
+	}
+}
+
+Box.New = function(position, size)
+	position = position or Vector3.Zero
+	size = Vector3.Zero
+
+	local tbl = {
+		position = position,
+		size = size,
+	}
+
+	setmetatable(tbl, Box.meta)
+
+	return tbl
+end
+
+Sphere = {
+	meta = {
+		__name = "Sphere"
+	}
+}
+
+Sphere.New = function(position, diameter)
+	position = position or Vector3.Zero
+	diameter = diameter or 0
+
+	local tbl = {
+		position = position,
+		diameter = diameter,
+	}
+
+	setmetatable(tbl, Sphere.meta)
+
+	return tbl
+end
+
+Cylinder = {
+	meta = {
+		__name = "Cylinder"
+	}
+}
+
+Cylinder.New = function(position, diameter, height)
+	position = position or Vector3.Zero
+	diameter = diameter or 0
+	height = height or 0
+
+	local tbl = {
+		position = position,
+		diameter = diameter,
+		height = height,
+	}
+
+	setmetatable(tbl, Cylinder.meta)
+
+	return tbl
+end
+
+Triangle3D = {
+	meta = {
+		__name = "Triangle3D"
+	}
+}
+
+Triangle3D.New = function(firstPoint, secondPoint, thirdPoint)
+	firstPoint = firstPoint or Vector3.Zero
+	secondPoint = secondPoint or Vector3.Zero
+	thirdPoint = thirdPoint or Vector3.Zero
+
+	local tbl = {
+		firstPoint = firstPoint or Vector3.Zero,
+		secondPoint = secondPoint or Vector3.Zero,
+		thirdPoint = thirdPoint or Vector3.Zero,
+	}
+
+	setmetatable(tbl, Triangle3D.meta)
+
+	return tbl
+end
+
+
+
 Draw = {}
 
 Mouse = {}
@@ -483,9 +589,9 @@ Camera3D = {
 }
 
 Camera3D.New = function(position, target, up, fov, projection)
-	position = position or Vector2.New(0)
-	target = target or Vector2.New(0)
-	up = up or Vector2.New(0)
+	position = position or Vector2.Zero
+	target = target or Vector2.Zero
+	up = up or Vector2.Zero
 	fov = fov or 45
 	projection = projection or Camera3D.Projection.Perspective
 

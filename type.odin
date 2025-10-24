@@ -32,6 +32,7 @@ get_type :: proc "c" (state: ^lua.State, idx: i32) -> (typeName: string) {
 	metaTypeFound: bool = false
 
 	if lua.istable(state, idx) {
+		lua.checkstack(state, 1)
 		if lua.L_getmetafield(state, idx, "__name") != c.int(lua.Type.NIL) {
 			if lua.isstring(state, -1) {
 				typeName = string(lua.tostring(state, -1))

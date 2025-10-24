@@ -20,6 +20,8 @@ register_functions :: proc(state: ^lua.State) {
 	register(state, DrawTexture, "Texture")
 	register(state, DrawText, "Text")
 	register(state, DrawGrid, "Grid")
+	register(state, DrawCube, "Cube")
+	register(state, DrawBox, "Box")
 	lua.pop(state, 1)
 
 	lua.getglobal(state, EngineRegistry)

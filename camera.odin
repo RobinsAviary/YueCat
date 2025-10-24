@@ -9,6 +9,8 @@ to_camera :: proc "c" (state: ^lua.State, idx: i32) -> (camera: rl.Camera3D) {
 
 	i := abs_idx(state, idx)
 
+	lua.checkstack(state, 5)
+
     lua.getfield(state, i, "position")
 	lua.getfield(state, i, "target")
 	lua.getfield(state, i, "up")
