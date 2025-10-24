@@ -404,7 +404,7 @@ for obj in *objs
 
 # Special Thanks
 
-Thank you for reading the docs and your interst in YueCat!
+Thank you for reading the docs and your interest in YueCat!
 
 Made with 💗 in New England <(˶ᵔᵕᵔ˶)>
 
