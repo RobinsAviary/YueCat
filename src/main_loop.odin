@@ -4,35 +4,19 @@ import lua "vendor:lua/5.4"
 import rl "vendor:raylib"
 import "core:fmt"
 import "core:strings"
-import os "core:os/os2"
+import sdl "vendor:sdl2"
 
 init_loop :: proc(state: ^lua.State) {
-	fmt.println("Building YueScripts...")
-
-	processState, stdout, stderr, err := os.process_exec({"vendor/", {"yue.exe", "..\\" + PROGRAM}, nil, nil, nil, nil}, context.allocator)
-
-	fmt.println(string(stdout))
-
-	if err != nil {
-		fmt.println("Something went wrong trying to run the YueScript compiler. Is it in 'vendor\\'?")
-		fmt.println(err)
-		os.exit(1)
-	}
-
-	// Success flag seemingly isn't triggered properly. Added more specific check, but I'm leaving the first one just in case.
-	if !processState.success || processState.exit_code != 0 {
-		fmt.println(string(stderr))
-		os.exit(processState.exit_code)
-	}
-
-	delete(stdout)
-	delete(stderr)
+	build_yuescript()
 
 	do_file(state, PROGRAM + "main.lua")
 
 	CallEngineFunc(state, "Init")
 
 	config = read_config(state)
+
+	// TODO: Add config to disable controllers
+	init_sdl()
 
 	title := strings.clone_to_cstring(config.window_title)
 
@@ -49,12 +33,13 @@ main_loop :: proc(state: ^lua.State) {
 	init_loop(state)
 
 	for !rl.WindowShouldClose() {
-		rl.BeginDrawing()
+		poll_events(state)
+		sdl.GameControllerUpdate()
 
 		CallEngineFunc(state, "Step")
 
+		rl.BeginDrawing()
 		CallEngineFunc(state, "Draw")
-
 		rl.EndDrawing()
 
 		free_all(context.temp_allocator)
@@ -70,4 +55,8 @@ cleanup_loop :: proc(state: ^lua.State) {
 	if config.audio_active do rl.CloseAudioDevice()
 
 	rl.CloseWindow()
+
+	cleanup_sdl()
+
+	delete(controllers)
 }

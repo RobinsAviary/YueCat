@@ -607,3 +607,62 @@ Camera3D.New = function(position, target, up, fov, projection)
 
 	return tbl
 end
+
+Controller = {
+	Button = {
+		Invalid = -1,
+		A = 0,
+		B = 1,
+		X = 2,
+		Y = 3,
+		Back = 4,
+		Guide = 5,
+		Start = 6,
+		LeftStick = 7,
+		RightStick = 8,
+		LeftShoulder = 9,
+		RightShoulder = 10,
+		DPad = {
+			Up = 11,
+			Down = 12,
+			Left = 13,
+			Right = 14,
+		},
+		Misc1 = 15,
+		Paddle1 = 16,
+		Paddle2 = 17,
+		Paddle3 = 18,
+		Paddle4 = 19,
+		Touchpad = 20,
+	},
+
+	Axis = {
+		Invalid = -1,
+		Left = {
+			x = 0,
+			y = 1,
+		},
+		Right = {
+			x = 2,
+			y = 3,
+		},
+		Trigger = {
+			Left = 4,
+			Right = 5,
+		}
+	},
+
+	Vector = {
+		DPad = 0,
+		Left = 1,
+		Right = 2,
+	},
+
+	Connected = function(controller)
+			
+	end,
+
+	Disconnected = function(index)
+
+	end,
+}

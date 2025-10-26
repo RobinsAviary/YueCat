@@ -4,6 +4,8 @@ import lua "vendor:lua/5.4"
 import "base:runtime"
 import rl "vendor:raylib"
 import "core:strings"
+import "core:fmt"
+import sdl "vendor:sdl2"
 
 DrawClear :: proc "c" (state: ^lua.State) -> i32 {
 	context = runtime.default_context()
@@ -353,4 +355,196 @@ DrawBox :: proc "c" (state: ^lua.State) -> i32 {
 	rl.DrawCubeV(position, size, color)
 
 	return 0
+}
+
+IsGamepadConnected :: proc "c" (state: ^lua.State) -> i32 {
+	gamepad := lua.L_checkinteger(state, 1)
+
+	lua.checkstack(state, 1)
+	lua.pushboolean(state, b32(rl.IsGamepadAvailable(i32(gamepad))))
+
+	return 1
+}
+
+GetGamepadName :: proc "c" (state: ^lua.State) -> i32 {
+	gamepad := lua.L_checkinteger(state, 1)
+
+	lua.checkstack(state, 1)
+	lua.pushstring(state, rl.GetGamepadName(i32(gamepad)))
+
+	return 1
+}
+
+GetGamepadAxisCount :: proc "c" (state: ^lua.State) -> i32 {
+	gamepad := lua.L_checkinteger(state, 1)
+
+	lua.checkstack(state, 1)
+	lua.pushinteger(state, lua.Integer(rl.GetGamepadAxisCount(i32(gamepad))))
+
+	return 1
+}
+
+GetGamepadAxis :: proc "c" (state: ^lua.State) -> i32 {
+	context = runtime.default_context()
+
+	gamepad := i32(lua.L_checkinteger(state, 1))
+	axis := i32(lua.L_checkinteger(state, 2))
+
+	movement := rl.GetGamepadAxisMovement(0, .LEFT_X)
+
+	lua.checkstack(state, 1)
+	lua.pushnumber(state, lua.Number(movement))
+
+	return 1
+}
+
+GetGamepadVector :: proc "c" (state: ^lua.State) -> i32 {
+	gamepad := i32(lua.L_checkinteger(state, 1))
+	axis_offset := i32(lua.L_checkinteger(state, 2))
+
+	movement_x := rl.GetGamepadAxisMovement(gamepad, rl.GamepadAxis(axis_offset))
+	movement_y := rl.GetGamepadAxisMovement(gamepad, rl.GamepadAxis(axis_offset + 1))
+
+	lua.checkstack(state, 1)
+	push_vector2(state, {movement_x, movement_y})
+
+	return 1
+}
+
+IsGamepadButtonHeld :: proc "c" (state: ^lua.State) -> i32 {
+	gamepad := i32(lua.L_checkinteger(state, 1))
+	button := i32(lua.L_checkinteger(state, 2))
+
+	lua.checkstack(state, 1)
+	lua.pushboolean(state, b32(rl.IsGamepadButtonDown(gamepad, rl.GamepadButton(button))))
+
+	return 1
+}
+
+IsGamepadButtonPressed :: proc "c" (state: ^lua.State) -> i32 {
+	gamepad := i32(lua.L_checkinteger(state, 1))
+	button := i32(lua.L_checkinteger(state, 2))
+
+	lua.checkstack(state, 1)
+	lua.pushboolean(state, b32(rl.IsGamepadButtonPressed(gamepad, rl.GamepadButton(button))))
+
+	return 1
+}
+
+IsGamepadButtonReleased :: proc "c" (state: ^lua.State) -> i32 {
+	gamepad := i32(lua.L_checkinteger(state, 1))
+	button := i32(lua.L_checkinteger(state, 2))
+
+	lua.checkstack(state, 1)
+	lua.pushboolean(state, b32(rl.IsGamepadButtonReleased(gamepad, rl.GamepadButton(button))))
+
+	return 1
+}
+
+SetGamepadVibration :: proc "c" (state: ^lua.State) -> i32 {
+	gamepad := i32(lua.L_checkinteger(state, 1))
+	left_motor := f32(lua.L_checknumber(state, 2))
+	right_motor := f32(lua.L_checknumber(state, 3))
+	duration := f32(lua.L_checknumber(state, 4))
+
+	rl.SetGamepadVibration(gamepad, left_motor, right_motor, duration)
+
+	return 0
+}
+
+check_controller :: proc "c" (state: ^lua.State, arg: i32) -> ^sdl.GameController {
+    check_type(state, arg, "Controller")
+    
+	lua.checkstack(state, 1)
+	lua.getfield(state, arg, "index")
+	
+	index := uint(lua.tointeger(state, -1))
+
+	if index in controllers {
+		return controllers[index]
+	}
+
+	lua.pop(state, 1)
+
+	return nil
+}
+
+IsCursorOnScreen :: proc "c" (state: ^lua.State) -> i32 {
+	lua.checkstack(state, 1)
+	lua.pushboolean(state, b32(rl.IsCursorOnScreen()))
+
+	return 1
+}
+
+IsControllerButtonHeld :: proc "c" (state: ^lua.State) -> i32 {
+	controller := check_controller(state, 1)
+	button := lua.L_checkinteger(state, 2)
+	
+	lua.checkstack(state, 1)
+	lua.pushboolean(state, b32(sdl.GameControllerGetButton(controller, sdl.GameControllerButton(button))))
+
+	return 1
+}
+
+GetAxis :: proc "c" (controller: ^sdl.GameController, axis: sdl.GameControllerAxis) -> f32 {
+	axis_value := sdl.GameControllerGetAxis(controller, sdl.GameControllerAxis(axis))
+	return f32(axis_value) / f32(max(i16))
+}
+
+GetControllerAxis :: proc "c" (state: ^lua.State) -> i32 {
+	controller := check_controller(state, 1)
+	axis := lua.L_checkinteger(state, 2)
+
+	lua.checkstack(state, 1)
+	lua.pushnumber(state, lua.Number(GetAxis(controller, sdl.GameControllerAxis(axis))))
+
+	return 1
+}
+
+GetControllerVector :: proc "c" (state: ^lua.State) -> i32 {
+	controller := check_controller(state, 1)
+	vector_index := lua.L_checkinteger(state, 2)
+
+	lua.checkstack(state, 1)
+	vector: rl.Vector2
+
+	switch vector_index {
+		case 0:
+			if bool(sdl.GameControllerGetButton(controller, .DPAD_LEFT)) {
+				vector.x -= 1
+			}
+
+			if bool(sdl.GameControllerGetButton(controller, .DPAD_RIGHT)) {
+				vector.x += 1
+			}
+
+			if bool(sdl.GameControllerGetButton(controller, .DPAD_UP)) {
+				vector.y -= 1
+			}
+
+			if bool(sdl.GameControllerGetButton(controller, .DPAD_DOWN)) {
+				vector.y += 1
+			}
+
+			vector = rl.Vector2Normalize(vector) // Ta-Da!
+		case 1:
+			vector.x = GetAxis(controller, .LEFTX)
+			vector.y = GetAxis(controller, .LEFTY)
+		case 2:
+			vector.x = GetAxis(controller, .RIGHTX)
+			vector.y = GetAxis(controller, .RIGHTY)
+	}
+
+	push_vector2(state, vector)
+
+	return 1
+}
+
+GetControllerName :: proc "c" (state: ^lua.State) -> i32 {
+	controller := check_controller(state, 1)
+
+	lua.checkstack(state, 1)
+	lua.pushstring(state, sdl.GameControllerName(controller))
+
+	return 1
 }

@@ -7,6 +7,7 @@ import os "core:os/os2"
 
 TextureUData :: "Texture"
 AudioUData :: "Audio"
+ControllerUData :: "Controller"
 
 NAME :: "YueCat"
 VERSION :: "Alpha"
@@ -16,8 +17,10 @@ PROGRAM :: "program\\"
 LUA_EXTENSION :: ".lua"
 MAIN_FILE :: "main" + LUA_EXTENSION
 
+VERBOSE :: true
+
 open_base :: proc(state: ^lua.State) {
-	handle, error := os.open("base")
+	handle, error := os.open("resources\\base")
 
 	if error != os.ERROR_NONE {
 		fmt.println(error)
@@ -40,6 +43,22 @@ open_base :: proc(state: ^lua.State) {
 	os.close(handle)
 }
 
+metatables: []string = {TextureUData, AudioUData, ControllerUData}
+
+register_metatables :: proc(state: ^lua.State) {
+	if VERBOSE do fmt.println("Registering metatables...")
+
+	metatables_len := i32(len(metatables))
+
+	lua.checkstack(state, metatables_len)
+	for metatable in metatables {
+		lua.L_newmetatable(state, strings.clone_to_cstring(metatable, context.temp_allocator))
+	}
+	lua.pop(state, metatables_len)
+
+	free_all(context.temp_allocator)
+}
+
 new_state :: proc() -> ^lua.State {
 	state := lua.L_newstate()
 
@@ -52,14 +71,10 @@ new_state :: proc() -> ^lua.State {
 	//lua.open_coroutine(state)
 
 	open_base(state)
-
+	
 	register_functions(state)
 
-	lua.L_newmetatable(state, TextureUData)
-	lua.pop(state, 1)
-
-	lua.L_newmetatable(state, AudioUData)
-	lua.pop(state, 1)
+	register_metatables(state)
 
 	return state
 }

@@ -19,12 +19,13 @@ The API largely mirrors [Raylib](https://www.raylib.com/)'s, with some key diffe
 7. [⚙️ Config](#config)
 8. [🤙 Callbacks](#callbacks)
     1. [🚂 Engine](#engine)
+    2. [🎮 Controller](#controller)
 9. [🔌 Functions](#functions)
     1. [🚂 Engine](#engine-1)
     2. [📥 Input]()
         1. [🐭 Mouse](#mouse)
         2. [⌨️ Keyboard](#keyboard)
-        3. [🎮 Gamepad](#gamepad)
+        3. [🎮 Controller](#controller-1)
     3. [🎞️ Rendering](#rendering)
         1. [🖌️ Draw](#draw)
         2. [🖼️ Texture](#texture)
@@ -65,6 +66,8 @@ YueScript v0.29.4
 Lua 5.4
 
 Raylib 5.5
+
+SDL2 (Controllers only)
 
 Odin dev-2025-10-nightly:7237747
 
@@ -152,19 +155,29 @@ Called after the main loop has finished, but just before the program is closed.
 
 Unload your assets here.
 
+## 🎮 Controller
+
+`Controller.Connected(controller: Controller)`
+
+Called when a controller connects. Store the value passed in order to read the controller.
+
+`Controller.Disconnected(index)`
+
+Called when a controller disconnects. Compare the index to any controllers you're tracking with `controller.index == index`.
+
 # 🔌 Functions
 
 These are global tables of functions.
 
 ## 🚂 Engine
 
-`Engine.GetTime() -> (timeSinceStart: Number)`
+`Engine.GetTime() -> (timeSinceStart: number)`
 
-`Engine.GetDelta() -> (deltaTime: Number)`
+`Engine.GetDelta() -> (deltaTime: number)`
 
-`Engine.GetFPS() -> (currentFps: Integer)`
+`Engine.GetFPS() -> (currentFps: integer)`
 
-`Engine.SetFPSTarget(target: Integer)` 
+`Engine.SetFPSTarget(target: integer)` 
 
 (Unlimited by default)
 
@@ -176,19 +189,19 @@ These are global tables of functions.
 
 Get the position of the cursor.
 
-`Mouse.GetX() -> (xPosition: Integer)`
+`Mouse.GetX() -> (xPosition: integer)`
 
 Get the x position of the cursor.
 
-`Mouse.GetY() -> (yPosition: Integer)`
+`Mouse.GetY() -> (yPosition: integer)`
 
 Get the y position of the cursor.
 
-`Mouse.SetX(xPosition: Integer)`
+`Mouse.SetX(xPosition: integer)`
 
 Set the x position of the cursor.
 
-`Mouse.SetY(yPostion: Integer)`
+`Mouse.SetY(yPostion: integer)`
 
 Set the y position of the cursor.
 
@@ -208,6 +221,8 @@ Checks if the button is held down.
 
 Checks if the button was just released this frame.
 
+`Mouse.IsOnScreen() -> boolean`
+
 Index button constants:
 ```
 Mouse.Left = 0
@@ -217,7 +232,37 @@ Mouse.Middle = 2
 
 ### ⌨️ Keyboard
 
-### 🎮 Gamepad
+### 🎮 Controller
+
+[SDL2](https://www.libsdl.org/) is used as an underlying base for the controller system. As such, all programs support rebinding with Steam and other various community-made tools, and almost every controller ([over two-thousand](https://github.com/mdqinc/SDL_GameControllerDB/blob/master/gamecontrollerdb.txt)) will accurate map button names/bindings properly to the simple API.
+
+In order to access information about a controller, you'll need to catch it's "connected" callback and store the passed `Controller`. Then pass that into any functions that you need, and when a controller is disconnected, you can check if it's the same controller by doing `controller.index = index` in the "disconnected" callback.
+
+Attempting to read from an index with no connected gamepad will simply return zero-values (`false`, `0`, etc).
+
+`Controller.IsButtonHeld(controller: Controller, button: Controller.Button) -> (isHeld: boolean)`
+
+Checks if a button is held down on a controller.
+
+`Controller.IsButtonPressed(controller: Controller, button: Controller.Button) -> (isPressed: boolean)`
+
+Checks if a button was just pressed this frame.
+
+`Controller.IsButtonReleased(controller: Controller, button: Controller.Button) -> (isReleased: boolean)`
+
+Checks if a button was just released this frame.
+
+`Controller.GetAxis(controller: Controller, axis: Controller.Axis) -> (axis: number)`
+
+Get the current value of a particular axis on a controller.
+
+`Controller.GetVector(controller: Controller, axis: Controller.Vector) -> (vector: Vector2)`
+
+Get the current value of a vector on a controller.
+
+`Controller.GetName(controller: Controller) -> (name: string)`
+
+Get the internal name of a controller. Marginally useful for identifying specific controllers.
 
 ## 🎞️ Rendering
 
@@ -227,7 +272,7 @@ Mouse.Middle = 2
 
 Clear the entire screen to a single color.
 
-It is reccomended to call this first in most programs, before you draw anything else. Otherwise, graphics from previous frames will stick around (think out-of-bounds in Source games). You can also recreate this behavior by using a full-screen rectangle.
+It is suggested to call this first in most programs, before you draw anything else. Otherwise, graphics from previous frames will stick around (think out-of-bounds in Source games). You can also recreate this behavior by using a full-screen rectangle.
 
 `Draw.Line(startPosition: Vector2, endPosition: Vector2, color: Color)`
 
@@ -238,6 +283,18 @@ It is reccomended to call this first in most programs, before you draw anything 
 `Draw.Triangle(triangle: Triangle, color: Color)`
 
 `Draw.Texture(texture: Texture, postion: Vector2 = Vector2.Zero, tint: Color = Color.White)`
+
+`Draw.Begin3D(camera: Camera3D)`
+
+`Draw.End3D()`
+
+`Draw.Cube(cube: Cube, color: Color)`
+
+`Draw.Box(box: Box, color: Color)`
+
+`Draw.Sphere(sphere: Sphere, color: Color)`
+
+`Draw.Cylinder(cylinder: Cylinder, color: Color)`
 
 ### 🖼️ Texture
 
@@ -372,6 +429,9 @@ height: number = 0
 
 Fields:
 ```
+firstPoint: Vector3 = Vector3.Zero
+secondPoint: Vector3 = Vector3.Zero
+thirdPoint: Vector3 = Vector3.Zero
 ```
 
 ## 🎥 Cameras
@@ -393,9 +453,15 @@ fov: number = 45
 projection: Camera3D.Projection = Camera3D.Projection.Perspective
 ```
 
-# Engine? Objects?
+Camera3D.Projection:
+```
+Perspective,
+Orthographic
+```
 
-YueCat is intentionally designed to be very loose. If you want a list of objects every frame, create a table and `table.insert` "objects" into it, with `step` and `draw` fields, then in the respective callbacks just do a loop like:
+# Engine? Objects? Who's she?
+
+YueCat is intentionally designed very loosely. If you want a list of objects every frame, create a table and `table.insert` "object" tables into it, with `step` and `draw` fields, then in the respective callbacks just do a loop like:
 
 ```
 for obj in *objs

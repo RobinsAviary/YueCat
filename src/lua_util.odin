@@ -47,14 +47,22 @@ register :: proc(state: ^lua.State, c_function: lua.CFunction, name: string, obj
 	lua.setfield(state, obj, strings.clone_to_cstring(name, context.temp_allocator))
 }
 
+pcall :: proc(state: ^lua.State, args: c.int = 0, results: c.int = 0, errfunc: c.int = 0) -> (suceeded: bool) {
+	if (lua.pcall(state, args, results, errfunc) != 0) {
+		pop_error(state)
+	} else {
+		suceeded = true
+	}
+
+	return
+}
+
 CallEngineFunc :: proc(state: ^lua.State, functionName: string) {
 	lua.checkstack(state, 2)
 	lua.getglobal(state, "Engine")
 	lua.getfield(state, -1, strings.clone_to_cstring(functionName, context.temp_allocator))
 
-	if (lua.pcall(state, 0, 0, 0) != 0) {
-		pop_error(state)
-	}
+	pcall(state)
 
 	lua.pop(state, 1)
 }
