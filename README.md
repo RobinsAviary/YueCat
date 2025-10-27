@@ -121,11 +121,26 @@ Define this global table during the "Ready" callback to modify how YueCat launch
 
 ## Fields
 
-`windowSize: Vector2 = Vector2.New(640, 480)`
+```
+Config = {
+    Window = {
+        size: Vector2 = Vector2.New(640, 480),
+        title: string = "YueCat <version>",
 
-`windowTitle: string = "YueCat <version>"`
+        Flags = {
+            msaa = false, -- Antialiasing
+            borderless = false, -- Undecorated window
+            topmost = false, -- Window always stays on top
+            resizable = false, -- Window is resizable
+            vsync = false, -- Vsync
+        }
+    }
 
-`audioActive: bool = true`
+    Audio = {
+        active: bool = true,
+    }
+}
+```
 
 # 🤙 Callbacks
 

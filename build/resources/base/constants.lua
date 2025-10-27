@@ -565,12 +565,20 @@ Keyboard = {
 Audio = {}
 
 Config = {
-	window = {
+	Window = {
 		size = Vector2.New(640, 480),
 		title = "YueCat",
+
+		Flags = {
+			msaa = false, -- Antialiasing
+            borderless = false, -- Undecorated window
+            topmost = false, -- Window always stays on top
+            resizable = false, -- Window is resizable
+            vsync = false, -- Vsync
+		},
 	},
 	
-	audio = {
+	Audio = {
 		active = true,
 	}
 }

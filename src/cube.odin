@@ -4,8 +4,8 @@ import lua "vendor:lua/5.4"
 import rl "vendor:raylib"
 
 Cube :: struct {
-    position: rl.Vector3,
-    size: f32,
+	position: rl.Vector3,
+	size: f32,
 }
 
 to_cube :: proc "c" (state: ^lua.State, idx: i32) -> Cube {
@@ -24,6 +24,6 @@ to_cube :: proc "c" (state: ^lua.State, idx: i32) -> Cube {
 }
 
 check_cube :: proc "c" (state: ^lua.State, arg: i32) -> Cube {
-    check_type(state, arg, "Cube")
-    return to_cube(state, arg)
+	check_type(state, arg, "Cube")
+	return to_cube(state, arg)
 }

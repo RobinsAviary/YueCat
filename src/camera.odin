@@ -5,17 +5,17 @@ import rl "vendor:raylib"
 import "base:runtime"
 
 to_camera :: proc "c" (state: ^lua.State, idx: i32) -> (camera: rl.Camera3D) {
-    context = runtime.default_context()
+	context = runtime.default_context()
 
 	i := abs_idx(state, idx)
 
 	lua.checkstack(state, 5)
 
-    lua.getfield(state, i, "position")
+	lua.getfield(state, i, "position")
 	lua.getfield(state, i, "target")
 	lua.getfield(state, i, "up")
 	lua.getfield(state, i, "fov")
-    lua.getfield(state, i, "projection")
+	lua.getfield(state, i, "projection")
 
 	position := to_vector3(state, -5)
 	target := to_vector3(state, -4)
@@ -30,8 +30,8 @@ to_camera :: proc "c" (state: ^lua.State, idx: i32) -> (camera: rl.Camera3D) {
 	camera.up = up
 	camera.fovy = f32(fov)
 	camera.projection = rl.CameraProjection(projection)
-    
-    return
+	
+	return
 }
 
 check_camera :: proc "c" (state: ^lua.State, arg: i32) -> rl.Camera3D {

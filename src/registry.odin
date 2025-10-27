@@ -27,13 +27,14 @@ draw_registry: Registry = {
 	{DrawCube, "Cube"},
 	{DrawBox, "Box"},
 	{Begin3D, "Begin3D"},
-	{End3D, "End3D"}
+	{End3D, "End3D"},
+	{DrawFPS, "FPS"},
 }
 
 keyboard_registry: Registry = {
 	{IsKeyboardKeyReleased, "IsKeyReleased"},
 	{IsKeyboardKeyPressed, "IsKeyPressed"},
-	{IsKeyboardKeyHeld, "IsKeyHeld"}
+	{IsKeyboardKeyHeld, "IsKeyHeld"},
 }
 
 engine_registry: Registry = {
@@ -54,30 +55,30 @@ mouse_registry: Registry = {
 	{IsMouseButtonPressed, "IsButtonPressed"},
 	{IsMouseButtonHeld, "IsButtonHeld"},
 	{IsMouseButtonReleased, "IsButtonReleased"},
-	{IsCursorOnScreen, "IsOnScreen"}
+	{IsCursorOnScreen, "IsOnScreen"},
 }
 
 texture_registry: Registry = {
 	{LoadTexture, "Load"},
-	{UnloadTexture, "Unload"}
+	{UnloadTexture, "Unload"},
 }
 
 audio_registry: Registry = {
 	{LoadAudio, "Load"},
 	{UnloadAudio, "Unload"},
-	{PlayAudio, "Play"}
+	{PlayAudio, "Play"},
 }
 
 color_registry: Registry = {
 	{ColorToHSV, "ToHSV"},
-	{ColorFromHSV, "FromHSV"}
+	{ColorFromHSV, "FromHSV"},
 }
 
 controller_registry: Registry = {
 	{IsControllerButtonHeld, "IsButtonHeld"},
 	{GetControllerAxis, "GetAxis"},
 	{GetControllerVector, "GetVector"},
-	{GetControllerName, "GetName"}
+	{GetControllerName, "GetName"},
 }
 
 registry_value :: struct {

@@ -6,6 +6,7 @@ import rl "vendor:raylib"
 import "core:strings"
 import "core:fmt"
 import sdl "vendor:sdl2"
+import "core:c"
 
 DrawClear :: proc "c" (state: ^lua.State) -> i32 {
 	context = runtime.default_context()
@@ -55,30 +56,30 @@ DrawRectangleLined :: proc "c" (state: ^lua.State) -> i32 {
 }
 
 DrawCircleLined :: proc "c" (state: ^lua.State) -> i32 {
-    circle := check_circle(state, 1)
-    color := check_color(state, 2)
+	circle := check_circle(state, 1)
+	color := check_color(state, 2)
 
-    rl.DrawCircleLinesV(circle.position, circle.diameter / 2, color)
+	rl.DrawCircleLinesV(circle.position, circle.diameter / 2, color)
 
 	return 0
 }
 
 DrawTriangle :: proc "c" (state: ^lua.State) -> i32 {
-    triangle := check_triangle(state, 1)
-    color := check_color(state, 2)
+	triangle := check_triangle(state, 1)
+	color := check_color(state, 2)
 
-    rl.DrawTriangle(triangle.first_point, triangle.second_point, triangle.third_point, color)
+	rl.DrawTriangle(triangle.first_point, triangle.second_point, triangle.third_point, color)
 
-    return 0
+	return 0
 }
 
 DrawTriangleLined :: proc "c" (state: ^lua.State) -> i32 {
-    triangle := check_triangle(state, 1)
-    color := check_color(state, 2)
+	triangle := check_triangle(state, 1)
+	color := check_color(state, 2)
 
-    rl.DrawTriangleLines(triangle.first_point, triangle.second_point, triangle.third_point, color)
+	rl.DrawTriangleLines(triangle.first_point, triangle.second_point, triangle.third_point, color)
 
-    return 0
+	return 0
 }
 
 DrawText :: proc "c" (state: ^lua.State) -> i32 {
@@ -93,9 +94,9 @@ DrawText :: proc "c" (state: ^lua.State) -> i32 {
 
 GetMouseWheelMove :: proc "c" (state: ^lua.State) -> i32 {
 	lua.checkstack(state, 1)
-    lua.pushnumber(state, lua.Number(rl.GetMouseWheelMoveV().y))
-    
-    return 1
+	lua.pushnumber(state, lua.Number(rl.GetMouseWheelMoveV().y))
+	
+	return 1
 }
 
 GetTime :: proc "c" (state: ^lua.State) -> i32 {
@@ -240,7 +241,7 @@ IsMouseButtonReleased :: proc "c" (state: ^lua.State) -> i32 {
 }
 
 DrawTexture :: proc "c" (state: ^lua.State) -> i32 {
-    texture := check_texture(state, 1)
+	texture := check_texture(state, 1)
 	position := check_vector2_default(state, 2, {})
 	tint := check_color_default(state, 3, rl.WHITE)
 
@@ -357,104 +358,9 @@ DrawBox :: proc "c" (state: ^lua.State) -> i32 {
 	return 0
 }
 
-IsGamepadConnected :: proc "c" (state: ^lua.State) -> i32 {
-	gamepad := lua.L_checkinteger(state, 1)
-
-	lua.checkstack(state, 1)
-	lua.pushboolean(state, b32(rl.IsGamepadAvailable(i32(gamepad))))
-
-	return 1
-}
-
-GetGamepadName :: proc "c" (state: ^lua.State) -> i32 {
-	gamepad := lua.L_checkinteger(state, 1)
-
-	lua.checkstack(state, 1)
-	lua.pushstring(state, rl.GetGamepadName(i32(gamepad)))
-
-	return 1
-}
-
-GetGamepadAxisCount :: proc "c" (state: ^lua.State) -> i32 {
-	gamepad := lua.L_checkinteger(state, 1)
-
-	lua.checkstack(state, 1)
-	lua.pushinteger(state, lua.Integer(rl.GetGamepadAxisCount(i32(gamepad))))
-
-	return 1
-}
-
-GetGamepadAxis :: proc "c" (state: ^lua.State) -> i32 {
-	context = runtime.default_context()
-
-	gamepad := i32(lua.L_checkinteger(state, 1))
-	axis := i32(lua.L_checkinteger(state, 2))
-
-	movement := rl.GetGamepadAxisMovement(0, .LEFT_X)
-
-	lua.checkstack(state, 1)
-	lua.pushnumber(state, lua.Number(movement))
-
-	return 1
-}
-
-GetGamepadVector :: proc "c" (state: ^lua.State) -> i32 {
-	gamepad := i32(lua.L_checkinteger(state, 1))
-	axis_offset := i32(lua.L_checkinteger(state, 2))
-
-	movement_x := rl.GetGamepadAxisMovement(gamepad, rl.GamepadAxis(axis_offset))
-	movement_y := rl.GetGamepadAxisMovement(gamepad, rl.GamepadAxis(axis_offset + 1))
-
-	lua.checkstack(state, 1)
-	push_vector2(state, {movement_x, movement_y})
-
-	return 1
-}
-
-IsGamepadButtonHeld :: proc "c" (state: ^lua.State) -> i32 {
-	gamepad := i32(lua.L_checkinteger(state, 1))
-	button := i32(lua.L_checkinteger(state, 2))
-
-	lua.checkstack(state, 1)
-	lua.pushboolean(state, b32(rl.IsGamepadButtonDown(gamepad, rl.GamepadButton(button))))
-
-	return 1
-}
-
-IsGamepadButtonPressed :: proc "c" (state: ^lua.State) -> i32 {
-	gamepad := i32(lua.L_checkinteger(state, 1))
-	button := i32(lua.L_checkinteger(state, 2))
-
-	lua.checkstack(state, 1)
-	lua.pushboolean(state, b32(rl.IsGamepadButtonPressed(gamepad, rl.GamepadButton(button))))
-
-	return 1
-}
-
-IsGamepadButtonReleased :: proc "c" (state: ^lua.State) -> i32 {
-	gamepad := i32(lua.L_checkinteger(state, 1))
-	button := i32(lua.L_checkinteger(state, 2))
-
-	lua.checkstack(state, 1)
-	lua.pushboolean(state, b32(rl.IsGamepadButtonReleased(gamepad, rl.GamepadButton(button))))
-
-	return 1
-}
-
-SetGamepadVibration :: proc "c" (state: ^lua.State) -> i32 {
-	gamepad := i32(lua.L_checkinteger(state, 1))
-	left_motor := f32(lua.L_checknumber(state, 2))
-	right_motor := f32(lua.L_checknumber(state, 3))
-	duration := f32(lua.L_checknumber(state, 4))
-
-	rl.SetGamepadVibration(gamepad, left_motor, right_motor, duration)
-
-	return 0
-}
-
 check_controller :: proc "c" (state: ^lua.State, arg: i32) -> ^sdl.GameController {
-    check_type(state, arg, "Controller")
-    
+	check_type(state, arg, "Controller")
+	
 	lua.checkstack(state, 1)
 	lua.getfield(state, arg, "index")
 	
@@ -547,4 +453,12 @@ GetControllerName :: proc "c" (state: ^lua.State) -> i32 {
 	lua.pushstring(state, sdl.GameControllerName(controller))
 
 	return 1
+}
+
+DrawFPS :: proc "c" (state: ^lua.State) -> i32 {
+	position := check_vector2_default(state, 1, {5, 5})
+
+	rl.DrawFPS(c.int(position.x), c.int(position.y))
+
+	return 0
 }

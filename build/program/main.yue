@@ -2,45 +2,47 @@ global circle = Circle.New(Vector2.New(400, 120), 32)
 cunt = nil
 
 Controller.Connected = (controller) ->
-    cunt = controller
+	cunt = controller
 
 Controller.Disconnected = (index) ->
-    if cunt != nil
-        if cunt.index == index
-            cunt = nil
+	if cunt != nil
+		if cunt.index == index
+			cunt = nil
 
 Engine.Init = ->
-    -- Primarily for config
-	Config.window.size = Vector2.New(800, 450)
+	-- Primarily for config
+	Config.Window.size = Vector2.New(800, 450)
 	--Config.window.title = "raylib [core] example - basic window"
 
 Engine.Ready = ->
-    -- Initialization
-	Engine.SetFPSTarget(60)
+	-- Initialization
+	--Engine.SetFPSTarget(60)
 
 Engine.Step = ->
-    -- Update
-    if cunt != nil
-        vec = Controller.GetVector(cunt, Controller.Vector.Left)
-        circle.position += vec
+	-- Update
+	if cunt != nil
+		vec = Controller.GetVector(cunt, Controller.Vector.Left)
+		circle.position += vec
 
-    if Keyboard.IsKeyPressed(Keyboard.Key.Space)
-        print("Boing!")
+	if Keyboard.IsKeyPressed(Keyboard.Key.Space)
+		print("Boing!")
 
-    --print(vec)
+	--print(vec)
 
 Engine.Draw = ->
-    -- Draw
+	-- Draw
 	Draw.Clear(Color.White)
 
-    Draw.Text("Congrats! You created your first window!", Vector2.New(190, 200), Color.LightGray)
+	Draw.Text("Congrats! You created your first window!", Vector2.New(190, 200), Color.LightGray)
 
-    Draw.Circle(circle, Color.Red)
+	Draw.Circle(circle, Color.Red)
 
-    if cunt != nil
-        --print(Controller.IsButtonHeld(cunt, Controller.Button.A))
+	if cunt != nil
+		--print(Controller.IsButtonHeld(cunt, Controller.Button.A))
 
-    --print(Gamepad.GetAxis(0, 0))
+	--print(Gamepad.GetAxis(0, 0))
+
+	--Draw.FPS()
 
 Engine.Cleanup = ->
-    -- De-initialization
+	-- De-initialization

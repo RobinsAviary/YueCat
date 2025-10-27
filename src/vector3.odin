@@ -6,15 +6,15 @@ import rl "vendor:raylib"
 to_vector3 :: proc "c" (state: ^lua.State, idx: i32) -> rl.Vector3 {
 	i := abs_idx(state, idx)
 
-    lua.checkstack(state, 3)
+	lua.checkstack(state, 3)
 	
 	lua.getfield(state, i, "x")
 	lua.getfield(state, i, "y")
-    lua.getfield(state, i, "z")
+	lua.getfield(state, i, "z")
 
 	x := lua.tonumber(state, -3)
 	y := lua.tonumber(state, -2)
-    z := lua.tonumber(state, -1)
+	z := lua.tonumber(state, -1)
 
 	lua.pop(state, 3)
 

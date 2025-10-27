@@ -11,11 +11,9 @@ Controller.Disconnected = function(index)
 	end
 end
 Engine.Init = function()
-	Config.window.size = Vector2.New(800, 450)
+	Config.Window.size = Vector2.New(800, 450)
 end
-Engine.Ready = function()
-	return Engine.SetFPSTarget(60)
-end
+Engine.Ready = function() end
 Engine.Step = function()
 	if cunt ~= nil then
 		local vec = Controller.GetVector(cunt, Controller.Vector.Left)

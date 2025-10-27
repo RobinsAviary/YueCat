@@ -8,7 +8,7 @@ LoadTexture :: proc "c" (state: ^lua.State) -> i32 {
 	
 	texture := rl.LoadTexture(fileName)
 
-	data := transmute(^rl.Texture)lua.newuserdatauv(state, size_of(texture), 0)
+	data := cast(^rl.Texture)lua.newuserdatauv(state, size_of(texture), 0)
 	lua.L_setmetatable(state, TextureUData)
 
 	data.format = texture.format
@@ -22,10 +22,10 @@ LoadTexture :: proc "c" (state: ^lua.State) -> i32 {
 }
 
 check_texture :: proc "c" (state: ^lua.State, arg: i32) -> ^rl.Texture {
-    user := lua.L_checkudata(state, arg, TextureUData)
-    texture := transmute(^rl.Texture)user
+	user := lua.L_checkudata(state, arg, TextureUData)
+	texture := cast(^rl.Texture)user
 
-    return texture
+	return texture
 }
 
 UnloadTexture :: proc "c" (state: ^lua.State) -> i32 {

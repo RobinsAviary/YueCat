@@ -3,13 +3,18 @@ package YueCat
 import lua "vendor:lua/5.4"
 import sdl "vendor:sdl2"
 import "core:fmt"
+import os "core:os/os2"
 
 init_sdl :: proc() {
 	if sdl.Init({.GAMECONTROLLER}) < 0 {
+		fmt.println("Something went wrong while trying to initialize SDL!")
 		fmt.println(sdl.GetError())
-	} else {
-		if VERBOSE do fmt.println("SDL initialized!\n")
+		os.exit(1)
 	}
+	
+	if VERBOSE do fmt.println("SDL initialized!\n")
+
+	sdl.GameControllerAddMappingsFromFile("gamecontrollerdb.txt")
 
 	//populate_controllers()
 }
