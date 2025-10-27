@@ -4,7 +4,7 @@
 
 YueCat is a software development framework, largely focused on games. It allows you to create software entirely without an editor using a flavor of Lua called [YueScript](https://yuescript.org/).
 
-The API largely mirrors [Raylib](https://www.raylib.com/)'s, with some key differences to make typing simpler.
+The API largely mirrors [raylib](https://www.raylib.com/)'s, with some key differences to make typing simpler.
 
 # Table of Contents
 
@@ -73,7 +73,7 @@ YueScript v0.29.4
 
 Lua 5.4
 
-Raylib 5.5
+raylib 5.5
 
 SDL2 (Controllers only)
 
@@ -672,8 +672,14 @@ Various inspirations for this project:
 * [UNDERTALE](https://undertale.com/)
 * [DELTARUNE](https://deltarune.com/)
 * [Cave Story](https://www.cavestory.org/)
-* [Raylib](https://www.raylib.com/)
+* [raylib](https://www.raylib.com/)
 * [Godot](https://godotengine.org/)
 * [RPG Maker](https://www.rpgmakerweb.com/)
 * [Ib](https://www.vgperson.com/games/ib.htm)
 * [The Witch's House](https://vgperson.com/games/witchhouse.htm)
+* [Basic](https://en.wikipedia.org/wiki/BASIC)
+* [Blitz BASIC](https://en.wikipedia.org/wiki/Blitz_BASIC)
+* [SCP: Containment Breach](https://www.scpcbgame.com/)
+* [Clickteam Fusion](https://www.clickteam.com/clickteam-fusion-2-5)
+* [Direct3D](https://learn.microsoft.com/en-us/windows/win32/direct3d)
+* [DirectDraw](https://learn.microsoft.com/en-us/windows/win32/directdraw/directdraw)
