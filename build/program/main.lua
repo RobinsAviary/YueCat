@@ -17,9 +17,14 @@ Engine.Ready = function()
 	return Engine.SetFPSTarget(60)
 end
 Engine.Step = function()
-	local vec = Controller.GetVector(cunt, Controller.Vector.Left)
-	local _obj_0 = circle
-	_obj_0.position = _obj_0.position + vec
+	if cunt ~= nil then
+		local vec = Controller.GetVector(cunt, Controller.Vector.Left)
+		local _obj_0 = circle
+		_obj_0.position = _obj_0.position + vec
+	end
+	if Keyboard.IsKeyPressed(Keyboard.Key.Space) then
+		return print("Boing!")
+	end
 end
 Engine.Draw = function()
 	Draw.Clear(Color.White)

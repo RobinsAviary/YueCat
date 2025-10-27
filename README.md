@@ -232,6 +232,80 @@ Mouse.Middle = 2
 
 ### ⌨️ Keyboard
 
+`Keyboard.IsKeyHeld(key: Keyboard.Key) -> boolean`
+
+`Keyboard.IsKeyPressed(key: Keyboard.Key) -> boolean`
+
+`Keyboard.IsKeyReleased(key: Keyboard.Key) -> boolean`
+
+#### Keyboard.Key
+```
+Null (No key / invalid)
+Apostrophe,
+Comma,
+Minus,
+Period,
+Slash,
+Zero,
+One,
+Two,
+Three,
+Four,
+Five,
+Six,
+Seven,
+Eight,
+Nine,
+Semicolon,
+Equal,
+A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z,
+LeftBracket,
+BackSlash,
+RightBracket,
+Grave,
+Space,
+Escape,
+Enter,
+Tab,
+Backspace,
+Insert,
+Delete,
+Right,
+Left,
+Down,
+Up,
+PageUp,
+PageDown,
+Home,
+End,
+CapsLock,
+ScrollLock,
+NumLock,
+PrintScreen,
+Pause,
+F1, F2, F3, F4, F5, F6, F7, F8, F9, F10, F11, F12,
+LeftShift,
+LeftControl,
+LeftAlt,
+LeftSuper,
+RightShift,
+RightControl,
+RightAlt,
+RightSuper,
+KBMenu,
+Keypad = {
+    Zero, One, Two, Three, Four, Five, Six, Seven, Eight, Nine,
+    Decimal,
+    Divide, Multiply, Subtract, Add,
+    Enter,
+    Equal
+},
+Button = {
+    Back,
+    Menu
+}
+```
+
 ### 🎮 Controller
 
 [SDL2](https://www.libsdl.org/) is used as an underlying base for the controller system. As such, all programs support rebinding with Steam and other various community-made tools, and almost every controller ([over two-thousand](https://github.com/mdqinc/SDL_GameControllerDB/blob/master/gamecontrollerdb.txt)) will accurate map button names/bindings properly to the simple API.
@@ -263,6 +337,49 @@ Get the current value of a vector on a controller.
 `Controller.GetName(controller: Controller) -> (name: string)`
 
 Get the internal name of a controller. Marginally useful for identifying specific controllers.
+
+#### Controller.Button
+
+```
+A, B, X, Y,
+Back,
+Guide,
+Start,
+LeftStick, RightStick,
+LeftShoulder,
+RightShoulder,
+DPad = {
+    Up,
+    Down,
+    Left,
+    Right
+}
+Misc1,
+Paddle1,
+Paddle2,
+Paddle3,
+Paddle4,
+Touchpad
+```
+
+#### Controller.Axis
+
+```
+Left,
+Right,
+Trigger = {
+    Left,
+    Right
+}
+```
+
+#### Controller.Vector
+
+```
+DPad,
+Left,
+Right
+```
 
 ## 🎞️ Rendering
 

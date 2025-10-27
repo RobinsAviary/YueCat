@@ -20,8 +20,12 @@ Engine.Ready = ->
 
 Engine.Step = ->
     -- Update
-    vec = Controller.GetVector(cunt, Controller.Vector.Left)
-    circle.position += vec
+    if cunt != nil
+        vec = Controller.GetVector(cunt, Controller.Vector.Left)
+        circle.position += vec
+
+    if Keyboard.IsKeyPressed(Keyboard.Key.Space)
+        print("Boing!")
 
     --print(vec)
 
