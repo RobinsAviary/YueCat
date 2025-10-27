@@ -14,6 +14,8 @@ Engine.Init = ->
 	Config.Window.size = Vector2.New(800, 450)
 	--Config.window.title = "raylib [core] example - basic window"
 
+	Config.Window.Flags.msaa = true
+
 Engine.Ready = ->
 	-- Initialization
 	--Engine.SetFPSTarget(60)
@@ -22,7 +24,7 @@ Engine.Step = ->
 	-- Update
 	if cunt != nil
 		vec = Controller.GetVector(cunt, Controller.Vector.Left)
-		circle.position += vec
+		circle.position += vec * Vector2.New(Engine.GetDelta() * 100)
 
 	if Keyboard.IsKeyPressed(Keyboard.Key.Space)
 		print("Boing!")

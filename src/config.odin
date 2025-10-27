@@ -71,7 +71,7 @@ read_config :: proc (state: ^lua.State) -> (readConfig: Config) {
 
 	lua.pop(state, 1) // Pop Flags
 
-	config.flags = flags
+	readConfig.flags = flags
 	
 	lua.pop(state, 1) // Pop Window
 

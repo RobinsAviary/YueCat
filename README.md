@@ -683,3 +683,6 @@ Various inspirations for this project:
 * [Clickteam Fusion](https://www.clickteam.com/clickteam-fusion-2-5)
 * [Direct3D](https://learn.microsoft.com/en-us/windows/win32/direct3d)
 * [DirectDraw](https://learn.microsoft.com/en-us/windows/win32/directdraw/directdraw)
+* [Csound](https://csound.com/)
+* [SFML](https://www.sfml-dev.org/)
+* [GLFW](https://www.glfw.org/)

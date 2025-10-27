@@ -12,13 +12,14 @@ Controller.Disconnected = function(index)
 end
 Engine.Init = function()
 	Config.Window.size = Vector2.New(800, 450)
+	Config.Window.Flags.msaa = true
 end
 Engine.Ready = function() end
 Engine.Step = function()
 	if cunt ~= nil then
 		local vec = Controller.GetVector(cunt, Controller.Vector.Left)
 		local _obj_0 = circle
-		_obj_0.position = _obj_0.position + vec
+		_obj_0.position = _obj_0.position + (vec * Vector2.New(Engine.GetDelta() * 100))
 	end
 	if Keyboard.IsKeyPressed(Keyboard.Key.Space) then
 		return print("Boing!")

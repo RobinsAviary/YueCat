@@ -18,6 +18,22 @@ init_loop :: proc(state: ^lua.State) {
 	// TODO: Add config to disable controllers
 	init_sdl()
 
+	flags: rl.ConfigFlags
+
+	fmt.println(config.flags)
+
+	if config.flags.msaa do flags |= {.MSAA_4X_HINT}
+
+	if config.flags.borderless do flags |= {.BORDERLESS_WINDOWED_MODE}
+
+	if config.flags.resizable do flags |= {.WINDOW_RESIZABLE}
+
+	if config.flags.topmost do flags |= {.WINDOW_TOPMOST}
+
+	if config.flags.vsync do flags |= {.VSYNC_HINT}
+
+	rl.SetConfigFlags(flags)
+
 	title := strings.clone_to_cstring(config.window_title)
 
 	rl.InitWindow(i32(config.window_size.x), i32(config.window_size.y), title)
