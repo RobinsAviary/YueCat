@@ -24,8 +24,13 @@ The API largely mirrors [Raylib](https://www.raylib.com/)'s, with some key diffe
     1. [🚂 Engine](#engine-1)
     2. [📥 Input]()
         1. [🐭 Mouse](#mouse)
+            1. [Mouse.Button](#mousebutton)
         2. [⌨️ Keyboard](#keyboard)
+            1. [Keyboard.Key](#keyboardkey)
         3. [🎮 Controller](#controller-1)
+            1. [Controller.Button](#controllerbutton)
+            2. [Controller.Axis](#controlleraxis)
+            3. [Controller.Vector](#controllervector)
     3. [🎞️ Rendering](#rendering)
         1. [🖌️ Draw](#draw)
         2. [🖼️ Texture](#texture)
@@ -34,9 +39,12 @@ The API largely mirrors [Raylib](https://www.raylib.com/)'s, with some key diffe
 10. [🏗️ "Structs"](#structs)
     1. [➡️ Vectors](#vectors)
         1. [2️⃣ Vector2](#vector2)
+            1. [Constants](#constants)
         2. [3️⃣ Vector3](#vector3)
+            1. [Constants](#constants-1)
     2. [🌈 Colors](#colors)
         1. [🎨 Color](#color)
+            1. [Constants](#constants-2)
         2. [🎨🤖 ColorHSV](#colorhsv)
     3. [🔷 Shapes](#shapes)
         1. [🟥🔵 2D](#2d)
@@ -223,7 +231,8 @@ Checks if the button was just released this frame.
 
 `Mouse.IsOnScreen() -> boolean`
 
-Index button constants:
+#### Mouse.Button
+
 ```
 Mouse.Left = 0
 Mouse.Right = 1
@@ -445,6 +454,17 @@ y: number = x or 0
 
 Supports math operations and length (`#`) operator.
 
+#### Constants
+
+```
+Vector2.Zero = Vector2.New()
+
+Vector2.Up = Vector2.New(0, 1)
+Vector2.Down = Vector2.New(0, -1)
+Vector2.Left = Vector2.New(-1, 0)
+Vector2.Right = Vector2.New(1, 0)
+```
+
 ### 3️⃣ Vector3
 
 Fields:
@@ -456,6 +476,12 @@ z: number = y or x or 0
 
 Supports math operations and length (`#`) operator.
 
+#### Constants
+
+```
+Vector3.Zero = Vector3.New()
+```
+
 ## 🌈 Colors
 
 ### 🎨 Color
@@ -466,6 +492,37 @@ r: number = 0           -- Red
 g: number = r or 0      -- Green
 b: number = g or r or 0 -- Blue
 a: number = 1           -- Alpha
+```
+
+#### Constants
+
+```
+Color.White = Color.New(1)
+Color.Black = Color.New()
+Color.Gray = Color.New(.510)
+Color.LightGray = Color.New(.784)
+Color.DarkGray = Color.New(.314)
+Color.Yellow = Color.New(.992, .976, 0)
+Color.Gold = Color.New(1, .796, 0)
+Color.Orange = Color.New(1, .631, 0)
+Color.Pink = Color.New(1, .427, .761)
+Color.Red = Color.New(.902, .161, .216)
+Color.Maroon = Color.New(.745, .129, .216)
+Color.Green = Color.New(0, .894, .188)
+Color.Lime = Color.New(0, .620, .184)
+Color.DarkGreen = Color.New(0, .459, .173)
+Color.SkyBlue = Color.New(.4, .749, 1)
+Color.Blue = Color.New(0, .475, .945)
+Color.DarkBlue = Color.New(0, .322, .675)
+Color.Purple = Color.New(.784, .478, 1)
+Color.Violet = Color.New(.529, .235, .745)
+Color.DarkPurple = Color.New(.439, .122, .494)
+Color.Beige = Color.New(.827, .690, .514)
+Color.Brown = Color.New(.498, .415, .310)
+Color.DarkBrown = Color.New(.298, .247, .184)
+Color.Transparent = Color.New(0, 0, 0, 0)
+Color.Magenta = Color.New(1, 0, 1)
+Color.RayWhite = Color.New(.961)
 ```
 
 ### 🎨🤖 ColorHSV
