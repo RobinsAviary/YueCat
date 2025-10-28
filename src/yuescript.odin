@@ -4,7 +4,7 @@ import "core:fmt"
 import os "core:os/os2"
 
 build_yuescript :: proc() {
-	if VERBOSE do fmt.println("Building YueScripts...")
+	if config.verbose do fmt.println("Building YueScripts...")
 
 	processState, stdout, stderr, err := os.process_exec({"resources\\vendor\\YueScript\\", {"yue.exe", "..\\..\\..\\" + PROGRAM}, nil, nil, nil, nil}, context.allocator)
 

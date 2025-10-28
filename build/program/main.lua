@@ -13,6 +13,7 @@ end
 Engine.Init = function()
 	Config.Window.size = Vector2.New(800, 450)
 	Config.Window.Flags.msaa = true
+	return Controller.SetDefaultDeadzone(.2)
 end
 Engine.Ready = function()
 	return Engine.SetFPSTarget(60)

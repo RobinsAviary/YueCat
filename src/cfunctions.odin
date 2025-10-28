@@ -358,7 +358,7 @@ DrawBox :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	return
 }
 
-check_controller :: proc "c" (state: ^lua.State, arg: i32) -> Controller {
+check_controller :: proc "c" (state: ^lua.State, arg: i32) -> ^Controller {
 	check_type(state, arg, "Controller")
 	
 	lua.checkstack(state, 1)
@@ -367,7 +367,7 @@ check_controller :: proc "c" (state: ^lua.State, arg: i32) -> Controller {
 	index := uint(lua.tointeger(state, -1))
 
 	if index in controllers {
-		return controllers[index]
+		return &controllers[index]
 	}
 
 	lua.pop(state, 1)
@@ -399,11 +399,16 @@ IsControllerButtonHeld :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	return 1
 }
 
-GetAxis :: proc "c" (controller: Controller, axis: sdl.GameControllerAxis) -> (axis_value: f32) {
+GetAxis :: proc "c" (controller: ^Controller, axis: sdl.GameControllerAxis) -> (axis_value: f32) {
 	if controller.valid {
 		axis_value_raw := sdl.GameControllerGetAxis(controller.sdl_pointer, sdl.GameControllerAxis(axis))
 
 		axis_value = f32(axis_value_raw) / f32(max(i16))
+		axis_value = clamp(axis_value, -1, 1)
+
+		if abs(axis_value) <= controller.deadzone {
+			axis_value = 0
+		}
 	}
 
 	return
@@ -484,4 +489,34 @@ DrawFPS :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	rl.DrawFPS(c.int(position.x), c.int(position.y))
 
 	return
+}
+
+ControllerSetDeadzone :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	controller := check_controller(state, 1)
+
+	controller.deadzone = f32(lua.L_checknumber(state, 2))
+
+	return
+}
+
+ControllerGetDeadzone :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	controller := check_controller(state, 1)
+
+	lua.checkstack(state, 1)
+	lua.pushnumber(state, lua.Number(controller.deadzone))
+
+	return 1
+}
+
+ControllerSetDefaultDeadzone :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	config.default_deadzone = f32(lua.L_checknumber(state, 1))
+
+	return
+}
+
+ControllerGetDefaultDeadzone :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	lua.checkstack(state, 1)
+	lua.pushnumber(state, lua.Number(config.default_deadzone))
+
+	return 0
 }

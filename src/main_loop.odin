@@ -11,6 +11,9 @@ init_loop :: proc(state: ^lua.State) {
 
 	do_file(state, PROGRAM + "main.lua")
 
+	config.default_deadzone = 0.15
+	config.verbose = true
+
 	CallEngineFunc(state, "Init")
 
 	config = read_config(state)

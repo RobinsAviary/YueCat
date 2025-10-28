@@ -17,8 +17,6 @@ PROGRAM :: "program\\"
 LUA_EXTENSION :: ".lua"
 MAIN_FILE :: "main" + LUA_EXTENSION
 
-VERBOSE :: true
-
 open_base :: proc(state: ^lua.State) {
 	handle, error := os.open("resources\\base")
 
@@ -46,7 +44,7 @@ open_base :: proc(state: ^lua.State) {
 metatables: []string = {TextureUData, AudioUData, ControllerUData}
 
 register_metatables :: proc(state: ^lua.State) {
-	if VERBOSE do fmt.println("Registering metatables...")
+	if config.verbose do fmt.println("Registering metatables...")
 
 	metatables_len := i32(len(metatables))
 
@@ -80,7 +78,7 @@ new_state :: proc() -> ^lua.State {
 }
 
 print_stack :: proc(state: ^lua.State) {
-	fmt.printfln("Final stack size: %d", lua.gettop(state))
+	fmt.printfln("Stack size: %d", lua.gettop(state))
 }
 
 main :: proc() {

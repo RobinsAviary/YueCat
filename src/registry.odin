@@ -79,6 +79,10 @@ controller_registry: Registry = {
 	{GetControllerAxis, "GetAxis"},
 	{GetControllerVector, "GetVector"},
 	{GetControllerName, "GetName"},
+	{ControllerSetDeadzone, "SetDeadzone"},
+	{ControllerGetDeadzone, "GetDeadzone"},
+	{ControllerSetDefaultDeadzone, "SetDefaultDeadzone"},
+	{ControllerGetDefaultDeadzone, "GetDefaultDeadzone"},
 }
 
 registry_value :: struct {
@@ -98,7 +102,7 @@ register_registry :: proc(state: ^lua.State, registry: Registry) {
 }
 
 register_functions :: proc(state: ^lua.State) {
-	if VERBOSE do fmt.println("Registering functions...")
+	if config.verbose do fmt.println("Registering functions...")
 
 	lua.checkstack(state, 1)
 	lua.getglobal(state, DRAW_REGISTRY)

@@ -16,6 +16,8 @@ Engine.Init = ->
 
 	Config.Window.Flags.msaa = true
 
+	Controller.SetDefaultDeadzone(.2)
+
 Engine.Ready = ->
 	-- Initialization
 	Engine.SetFPSTarget(60)

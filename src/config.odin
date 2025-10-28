@@ -10,6 +10,8 @@ Config :: struct {
 	audio_active: bool,
 	window_title: string,
 	flags: ConfigFlags,
+	default_deadzone: f32,
+	verbose: bool,
 }
 
 ConfigFlags :: struct {
@@ -23,13 +25,13 @@ ConfigFlags :: struct {
 config: Config
 
 read_config :: proc (state: ^lua.State) -> (readConfig: Config) {
-	if VERBOSE do fmt.println("Reading config settings...")
+	if config.verbose do fmt.println("Reading config settings...")
 
 	lua.checkstack(state, 1)
 	lua.getglobal(state, "Config")
 	
 	// Window
-	if VERBOSE do fmt.println("Reading window settings...")
+	if config.verbose do fmt.println("Reading window settings...")
 	lua.checkstack(state, 3)
 	lua.getfield(state, -1, "Window")
 
@@ -42,7 +44,7 @@ read_config :: proc (state: ^lua.State) -> (readConfig: Config) {
 	lua.pop(state, 1)
 
 	// Flags
-	if VERBOSE do fmt.println("Reading window flags...")
+	if config.verbose do fmt.println("Reading window flags...")
 	flags: ConfigFlags
 	
 	lua.checkstack(state, 6)
@@ -76,7 +78,7 @@ read_config :: proc (state: ^lua.State) -> (readConfig: Config) {
 	lua.pop(state, 1) // Pop Window
 
 	// Audio
-	if VERBOSE do fmt.println("Reading audio settings...")
+	if config.verbose do fmt.println("Reading audio settings...")
 	lua.checkstack(state, 2)
 	lua.getfield(state, -1, "Audio")
 
