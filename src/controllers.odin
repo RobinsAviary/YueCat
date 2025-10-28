@@ -15,39 +15,28 @@ init_sdl :: proc() {
 	if VERBOSE do fmt.println("SDL initialized!\n")
 
 	sdl.GameControllerAddMappingsFromFile("gamecontrollerdb.txt")
-
-	//populate_controllers()
 }
 
-controllers: map[uint]^sdl.GameController
+Controller :: struct {
+	valid: bool,
+	sdl_pointer: ^sdl.GameController,
+	deadzone: f32,
+}
 
-// Populate the controllers list when the program is first started
-/*populate_controllers :: proc() {
-	fmt.print("Populating controllers...\n")
-
-	for i: i32; i < sdl.NumJoysticks(); i += 1 {
-		if sdl.IsGameController(i) {
-			if VERBOSE do fmt.printf("Controller found at: %d\n", i)
-
-			controllers[i] = sdl.GameControllerOpen(i)
-		}
-	}
-	
-	fmt.println("")
-}*/
+controllers: map[uint]Controller
 
 close_controllers :: proc() {
 	if VERBOSE do fmt.println("Closing leftover controllers...\n")
 
 	for _, controller in controllers {
-		sdl.GameControllerClose(controller)
+		sdl.GameControllerClose(controller.sdl_pointer)
 	}
 }
 
 controller_device_added :: proc(state: ^lua.State, event: sdl.Event) {
 	which := event.cdevice.which
 
-	controller := sdl.GameControllerOpen(which)
+	controller_pointer := sdl.GameControllerOpen(which)
 
 	new_index: uint
 
@@ -55,6 +44,10 @@ controller_device_added :: proc(state: ^lua.State, event: sdl.Event) {
 	for i: uint; true; i += 1 {
 		if i not_in controllers {
 			if VERBOSE do fmt.printfln("Controller connected: index %d", i)
+
+			controller: Controller
+			controller.sdl_pointer = controller_pointer
+			controller.valid = true
 
 			controllers[i] = controller
 			new_index = i
@@ -82,10 +75,10 @@ controller_device_disconnected :: proc(state: ^lua.State, event: sdl.Event) {
 	which := event.cdevice.which
 
 	for i, controller in controllers {
-		other_which := sdl.JoystickInstanceID(sdl.GameControllerGetJoystick(controller))
+		other_which := sdl.JoystickInstanceID(sdl.GameControllerGetJoystick(controller.sdl_pointer))
 		if which == i32(other_which) {
 			if VERBOSE do fmt.printfln("Controller disconnected: index %d", i)
-			sdl.GameControllerClose(controllers[i])
+			sdl.GameControllerClose(controllers[i].sdl_pointer)
 			delete_key(&controllers, i)
 
 			lua.checkstack(state, 3)

@@ -14,7 +14,9 @@ Engine.Init = function()
 	Config.Window.size = Vector2.New(800, 450)
 	Config.Window.Flags.msaa = true
 end
-Engine.Ready = function() end
+Engine.Ready = function()
+	return Engine.SetFPSTarget(60)
+end
 Engine.Step = function()
 	if cunt ~= nil then
 		local vec = Controller.GetVector(cunt, Controller.Vector.Left)

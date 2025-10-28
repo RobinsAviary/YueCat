@@ -18,7 +18,7 @@ Engine.Init = ->
 
 Engine.Ready = ->
 	-- Initialization
-	--Engine.SetFPSTarget(60)
+	Engine.SetFPSTarget(60)
 
 Engine.Step = ->
 	-- Update

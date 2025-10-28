@@ -487,9 +487,11 @@ Keyboard = {
 		X = 88,
 		Y = 89,
 		Z = 90,
-		LeftBracket = 91,
+		Bracket = {
+			Left = 91,
+			Right = 93,
+		},
 		BackSlash = 92,
-		RightBracket = 93,
 		Grave = 96,
 		Space = 32,
 		Escape = 256,
@@ -523,14 +525,22 @@ Keyboard = {
 		F10 = 299,
 		F11 = 300,
 		F12 = 301,
-		LeftShift = 340,
-		LeftControl = 341,
-		LeftAlt = 342,
-		LeftSuper = 343,
-		RightShift = 344,
-		RightControl = 345,
-		RightAlt = 346,
-		RightSuper = 347,
+		Shift = {
+			Left = 340,
+			Right = 344,
+		},
+		Control = {
+			Left = 341,
+			Right = 345,
+		},
+		Alt = {
+			Left = 342,
+			Right = 346,
+		},
+		Super = {
+			Left = 343,
+			Right = 347,
+		},
 		KBMenu = 348,
 		-- Keypad
 		Keypad = {

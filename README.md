@@ -10,17 +10,18 @@ The API largely mirrors [raylib](https://www.raylib.com/)'s, with some key diffe
 
 [📜 Documentation](#documentation)
 
-1. [🔢 Version Info](#version-info)
-2. [💬 A Note on "Typing"](#a-note-on-typing)
-3. [🔑 License](#license)
-4. [🔴 OOP?](#oop)
-5. [月 YueScript (Scripting)](#月-yuescript-scripting)
-6. [🔨 Building](#building)
-7. [⚙️ Config](#config)
-8. [🤙 Callbacks](#callbacks)
+1. [FAQ](#faq)
+2. [🔢 Version Info](#version-info)
+3. [💬 A Note on "Typing"](#a-note-on-typing)
+4. [🔑 License](#license)
+5. [🔴 OOP?](#oop)
+6. [月 YueScript (Scripting)](#月-yuescript-scripting)
+7. [🔨 Building](#building)
+8. [⚙️ Config](#config)
+9. [🤙 Callbacks](#callbacks)
     1. [🚂 Engine](#engine)
     2. [🎮 Controller](#controller)
-9. [🔌 Functions](#functions)
+10. [🔌 Functions](#functions)
     1. [🚂 Engine](#engine-1)
     2. [📥 Input]()
         1. [🐭 Mouse](#mouse)
@@ -36,7 +37,7 @@ The API largely mirrors [raylib](https://www.raylib.com/)'s, with some key diffe
         2. [🖼️ Texture](#texture)
     4. [🎧 Sound](#sound)
         1. [🔊 Audio](#audio)
-10. [🏗️ "Structs"](#structs)
+11. [🏗️ "Structs"](#structs)
     1. [➡️ Vectors](#vectors)
         1. [2️⃣ Vector2](#vector2)
             1. [Constants](#constants)
@@ -64,6 +65,32 @@ The API largely mirrors [raylib](https://www.raylib.com/)'s, with some key diffe
             1. [🎥🧱 Camera3D](#camera3d)
 
 # 📜 Documentation
+
+# FAQ
+
+## Q: What does Yue mean?
+
+A: Yue (月) is the word for "moon" in Chinese, and it's pronunciation is [jyɛ].
+
+## Q: Is this ready for me to use yet?
+
+A: Probably not.
+
+## Q: So is this like LÖVE2D?
+
+A: Yeah kinda. Except YueCat implicitly uses YueScript. Also, LÖVE2D uses SDL under the hood for rendering, whereas YueCat uses raylib.
+
+Oh, also, we have 3D.
+
+## Q: What is YueScript?
+
+A: Derived from the [YueScript repo](https://github.com/IppClub/YueScript):
+
+YueScript is a MoonScript dialect. It is derived from [MoonScript](https://github.com/leafo/moonscript) 0.5.0 and continuously adopting new features to be more up to date.
+
+MoonScript is a language that compiles to Lua. Since original MoonScript has been used to write web framework [lapis](https://github.com/leafo/lapis) and run a few business web sites like [itch.io](https://itch.io/) and [streak.club](https://streak.club/) with some large code bases. The original language is getting too hard to adopt new features for those may break the stablility for existing applications.
+
+So YueScript is a new code base for pushing the language to go forward and being a playground to try introducing new language syntax or programing paradigms to make MoonScript language more expressive and productive.
 
 # 🔢 Version Info
 
@@ -264,69 +291,131 @@ Mouse.Middle = 2
 
 #### Keyboard.Key
 ```
-Null (No key / invalid)
-Apostrophe,
-Comma,
-Minus,
-Period,
-Slash,
-Zero,
-One,
-Two,
-Three,
-Four,
-Five,
-Six,
-Seven,
-Eight,
-Nine,
-Semicolon,
-Equal,
-A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z,
-LeftBracket,
-BackSlash,
-RightBracket,
-Grave,
-Space,
-Escape,
-Enter,
-Tab,
-Backspace,
-Insert,
-Delete,
-Right,
-Left,
-Down,
-Up,
-PageUp,
-PageDown,
-Home,
-End,
-CapsLock,
-ScrollLock,
-NumLock,
-PrintScreen,
-Pause,
-F1, F2, F3, F4, F5, F6, F7, F8, F9, F10, F11, F12,
-LeftShift,
-LeftControl,
-LeftAlt,
-LeftSuper,
-RightShift,
-RightControl,
-RightAlt,
-RightSuper,
-KBMenu,
-Keypad = {
-    Zero, One, Two, Three, Four, Five, Six, Seven, Eight, Nine,
-    Decimal,
-    Divide, Multiply, Subtract, Add,
-    Enter,
-    Equal
+Null (No key / invalid) = 0,
+Apostrophe = 39,
+Comma = 44,
+Minus = 45,
+Period = 46,
+Slash = 47,
+Zero = 48,
+One = 49,
+Two = 50,
+Three = 51,
+Four = 52,
+Five = 53,
+Six = 54,
+Seven = 55,
+Eight = 56,
+Nine = 57,
+Semicolon = 59,
+Equal = 61,
+A = 65,
+B = 66,
+C = 67,
+D = 68,
+E = 69,
+F = 70,
+G = 71,
+H = 72,
+I = 73,
+J = 74,
+K = 75,
+L = 76,
+M = 77,
+N = 78,
+O = 79,
+P = 80,
+Q = 81,
+R = 82,
+S = 83,
+T = 84,
+U = 85,
+V = 86,
+W = 87,
+X = 88,
+Y = 89,
+Z = 90,
+Bracket = {
+	Left = 91,
+	Right = 93,
 },
+BackSlash = 92,
+Grave = 96,
+Space = 32,
+Escape = 256,
+Enter = 257,
+Tab = 258,
+Backspace = 259,
+Insert = 260,
+Delete = 261,
+Right = 262,
+Left = 263,
+Down = 264,
+Up = 265,
+PageUp = 266,
+PageDown = 267,
+Home = 268,
+End = 269,
+CapsLock = 280,
+ScrollLock = 281,
+NumLock = 282,
+PrintScreen = 283,
+Pause = 284,
+F1 = 290,
+F2 = 291,
+F3 = 292,
+F4 = 293,
+F5 = 294,
+F6 = 295,
+F7 = 296,
+F8 = 297,
+F9 = 298,
+F10 = 299,
+F11 = 300,
+F12 = 301,
+Shift = {
+	Left = 340,
+	Right = 344,
+},
+Control = {
+	Left = 341,
+	Right = 345,
+},
+Alt = {
+	Left = 342,
+	Right = 346,
+},
+Super = {
+	Left = 343,
+	Right = 347,
+},
+KBMenu = 348,
+-- Keypad
+Keypad = {
+	Zero = 320,
+	One = 321,
+	Two = 322,
+	Three = 323,
+	Four = 324,
+	Five = 325,
+	Six = 326,
+	Seven = 327,
+	Eight = 328,
+	Nine = 329,
+	Decimal = 330,
+	Divide = 331,
+	Multiply = 332,
+	Subtract = 333,
+	Add = 334,
+	Enter = 335,
+	Equal = 336,
+},
+-- Android buttons
 Button = {
-    Back,
-    Menu
+	Back = 4,
+	Menu = 5,
+	VolumeUp = 24,
+	VolumeDown = 25,
 }
 ```
 
@@ -361,6 +450,8 @@ Get the current value of a vector on a controller.
 `Controller.GetName(controller: Controller) -> (name: string)`
 
 Get the internal name of a controller. Marginally useful for identifying specific controllers.
+
+`Controller.SetDeadzone(controller: Controller, deadzone: number)`
 
 #### Controller.Button
 
