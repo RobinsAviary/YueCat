@@ -8,127 +8,127 @@ import "core:fmt"
 import sdl "vendor:sdl2"
 import "core:c"
 
-DrawClear :: proc "c" (state: ^lua.State) -> i32 {
+DrawClear :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	context = runtime.default_context()
 
 	color := check_color(state, 1)
 
 	rl.ClearBackground(color)
 
-	return 0
+	return
 }
 
-DrawLine :: proc "c" (state: ^lua.State) -> i32 {
+DrawLine :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	start := check_vector2(state, 1)
 	end := check_vector2(state, 2)
 	color := check_color(state, 3)
 
 	rl.DrawLineV(start, end, color)
 
-	return 0
+	return
 }
 
-DrawRectangle :: proc "c" (state: ^lua.State) -> i32 {
+DrawRectangle :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	rectangle := check_rectangle(state, 1)
 	color := check_color(state, 2)
 
 	rl.DrawRectangleRec(rectangle, color)
 
-	return 0
+	return
 }
 
-DrawCircle :: proc "c" (state: ^lua.State) -> i32 {
+DrawCircle :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	circle := check_circle(state, 1)
 	color := check_color(state, 2)
 
 	rl.DrawCircleV(circle.position, circle.diameter / 2, color)
 
-	return 0
+	return
 }
 
-DrawRectangleLined :: proc "c" (state: ^lua.State) -> i32 {
+DrawRectangleLined :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	rectangle := check_rectangle(state, 1)
 	color := check_color(state, 2)
 
 	rl.DrawRectangleLinesEx(rectangle, 1, color)
 
-	return 0
+	return
 }
 
-DrawCircleLined :: proc "c" (state: ^lua.State) -> i32 {
+DrawCircleLined :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	circle := check_circle(state, 1)
 	color := check_color(state, 2)
 
 	rl.DrawCircleLinesV(circle.position, circle.diameter / 2, color)
 
-	return 0
+	return
 }
 
-DrawTriangle :: proc "c" (state: ^lua.State) -> i32 {
+DrawTriangle :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	triangle := check_triangle(state, 1)
 	color := check_color(state, 2)
 
 	rl.DrawTriangle(triangle.first_point, triangle.second_point, triangle.third_point, color)
 
-	return 0
+	return
 }
 
-DrawTriangleLined :: proc "c" (state: ^lua.State) -> i32 {
+DrawTriangleLined :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	triangle := check_triangle(state, 1)
 	color := check_color(state, 2)
 
 	rl.DrawTriangleLines(triangle.first_point, triangle.second_point, triangle.third_point, color)
 
-	return 0
+	return
 }
 
-DrawText :: proc "c" (state: ^lua.State) -> i32 {
+DrawText :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	text := lua.L_checkstring(state, 1)
 	position := check_vector2(state, 2)
 	color := check_color(state, 3)
 
 	rl.DrawText(text, i32(position.x), i32(position.y), 20, color)
 
-	return 0
+	return
 }
 
-GetMouseWheelMove :: proc "c" (state: ^lua.State) -> i32 {
+GetMouseWheelMove :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	lua.checkstack(state, 1)
 	lua.pushnumber(state, lua.Number(rl.GetMouseWheelMoveV().y))
 	
 	return 1
 }
 
-GetTime :: proc "c" (state: ^lua.State) -> i32 {
+GetTime :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	lua.checkstack(state, 1)
 	lua.pushnumber(state, lua.Number(rl.GetTime()))
 
 	return 1
 }
 
-GetDelta :: proc "c" (state: ^lua.State) -> i32 {
+GetDelta :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	lua.checkstack(state, 1)
 	lua.pushnumber(state, lua.Number(rl.GetFrameTime()))
 
 	return 1
 }
 
-GetFPS :: proc "c" (state: ^lua.State) -> i32 {
+GetFPS :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	lua.checkstack(state, 1)
 	lua.pushinteger(state, lua.Integer(rl.GetFPS()))
 
 	return 1
 }
 
-SetFPSTarget :: proc "c" (state: ^lua.State) -> i32 {
+SetFPSTarget :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	target := lua.L_checkinteger(state, 1)
 
 	rl.SetTargetFPS(i32(target))
 
-	return 0
+	return
 }
 
-GetMousePosition :: proc "c" (state: ^lua.State) -> i32 {
+GetMousePosition :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	pos := rl.GetMousePosition()
 
 	push_vector2(state, pos)
@@ -136,7 +136,7 @@ GetMousePosition :: proc "c" (state: ^lua.State) -> i32 {
 	return 1
 }
 
-GetMouseX :: proc "c" (state: ^lua.State) -> i32 {
+GetMouseX :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	x := rl.GetMouseX()
 
 	lua.checkstack(state, 1)
@@ -145,7 +145,7 @@ GetMouseX :: proc "c" (state: ^lua.State) -> i32 {
 	return 1
 }
 
-GetMouseY :: proc "c" (state: ^lua.State) -> i32 {
+GetMouseY :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	y := rl.GetMouseY()
 
 	lua.checkstack(state, 1)
@@ -154,33 +154,33 @@ GetMouseY :: proc "c" (state: ^lua.State) -> i32 {
 	return 1
 }
 
-SetMouseX :: proc "c" (state: ^lua.State) -> i32 {
+SetMouseX :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	x := lua.L_checkinteger(state, 1)
 	y := rl.GetMouseY()
 
 	rl.SetMousePosition(i32(x), i32(y))
 
-	return 0
+	return
 }
 
-SetMouseY :: proc "c" (state: ^lua.State) -> i32 {
+SetMouseY :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	y := lua.L_checkinteger(state, 1)
 	x := rl.GetMouseX()
 
 	rl.SetMousePosition(i32(x), i32(y))
 
-	return 0
+	return
 }
 
-SetMousePosition :: proc "c" (state: ^lua.State) -> i32 {
+SetMousePosition :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	pos := check_vector2(state, 1)
 	
 	rl.SetMousePosition(i32(pos.x), i32(pos.y))
 
-	return 0
+	return
 }
 
-IsKeyboardKeyReleased :: proc "c" (state: ^lua.State) -> i32 {
+IsKeyboardKeyReleased :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	idx := lua.L_checkinteger(state, 1)
 
 	b := rl.IsKeyReleased(rl.KeyboardKey(idx))
@@ -191,7 +191,7 @@ IsKeyboardKeyReleased :: proc "c" (state: ^lua.State) -> i32 {
 	return 1
 }
 
-IsKeyboardKeyPressed :: proc "c" (state: ^lua.State) -> i32 {
+IsKeyboardKeyPressed :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	idx := lua.L_checkinteger(state, 1)
 
 	b := rl.IsKeyPressed(rl.KeyboardKey(idx))
@@ -202,7 +202,7 @@ IsKeyboardKeyPressed :: proc "c" (state: ^lua.State) -> i32 {
 	return 1
 }
 
-IsKeyboardKeyHeld :: proc "c" (state: ^lua.State) -> i32 {
+IsKeyboardKeyHeld :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	idx := lua.L_checkinteger(state, 1)
 
 	b:= rl.IsKeyDown(rl.KeyboardKey(idx))
@@ -213,7 +213,7 @@ IsKeyboardKeyHeld :: proc "c" (state: ^lua.State) -> i32 {
 	return 1
 }
 
-IsMouseButtonPressed :: proc "c" (state: ^lua.State) -> i32 {
+IsMouseButtonPressed :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	index := lua.L_checkinteger(state, 1)
 
 	lua.checkstack(state, 1)
@@ -222,7 +222,7 @@ IsMouseButtonPressed :: proc "c" (state: ^lua.State) -> i32 {
 	return 1
 }
 
-IsMouseButtonHeld :: proc "c" (state: ^lua.State) -> i32 {
+IsMouseButtonHeld :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	index := lua.L_checkinteger(state, 1)
 
 	lua.checkstack(state, 1)
@@ -231,7 +231,7 @@ IsMouseButtonHeld :: proc "c" (state: ^lua.State) -> i32 {
 	return 1
 }
 
-IsMouseButtonReleased :: proc "c" (state: ^lua.State) -> i32 {
+IsMouseButtonReleased :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	index := lua.L_checkinteger(state, 1)
 
 	lua.checkstack(state, 1)
@@ -240,17 +240,17 @@ IsMouseButtonReleased :: proc "c" (state: ^lua.State) -> i32 {
 	return 1
 }
 
-DrawTexture :: proc "c" (state: ^lua.State) -> i32 {
+DrawTexture :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	texture := check_texture(state, 1)
 	position := check_vector2_default(state, 2, {})
 	tint := check_color_default(state, 3, rl.WHITE)
 
 	rl.DrawTextureV(texture^, position, tint)
 
-	return 0
+	return
 }
 
-PlayAudio :: proc "c" (state: ^lua.State) -> i32 {
+PlayAudio :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	audio_warning()
 
 	if config.audio_active {
@@ -259,10 +259,10 @@ PlayAudio :: proc "c" (state: ^lua.State) -> i32 {
 		rl.PlaySound(audio^)
 	}
 
-	return 0
+	return
 }
 
-StringStartsWith :: proc "c" (state: ^lua.State) -> i32 {
+StringStartsWith :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	context = runtime.default_context()
 
 	str := lua.L_checkstring(state, 1)
@@ -274,7 +274,7 @@ StringStartsWith :: proc "c" (state: ^lua.State) -> i32 {
 	return 1
 }
 
-StringEndsWith :: proc "c" (state: ^lua.State) -> i32 {
+StringEndsWith :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	context = runtime.default_context()
 
 	str := lua.L_checkstring(state, 1)
@@ -286,15 +286,15 @@ StringEndsWith :: proc "c" (state: ^lua.State) -> i32 {
 	return 1
 }
 
-OpenURL :: proc "c" (state: ^lua.State) -> i32 {
+OpenURL :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	url := lua.L_checkstring(state, 1)
 
 	rl.OpenURL(url)
 
-	return 0
+	return
 }
 
-ColorFromHSV :: proc "c" (state: ^lua.State) -> i32 {
+ColorFromHSV :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	hsv := check_color_hsv(state, 1)
 
 	color := rl.ColorFromHSV(hsv.h, hsv.s, hsv.v)
@@ -305,7 +305,7 @@ ColorFromHSV :: proc "c" (state: ^lua.State) -> i32 {
 	return 1
 }
 
-ColorToHSV :: proc "c" (state: ^lua.State) -> i32 {
+ColorToHSV :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	color := check_color(state, 1)
 
 	RLhsv := rl.ColorToHSV(color)
@@ -315,47 +315,47 @@ ColorToHSV :: proc "c" (state: ^lua.State) -> i32 {
 	return 1
 }
 
-Begin3D :: proc "c" (state: ^lua.State) -> i32 {
+Begin3D :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	camera := check_camera(state, 1)
 
 	rl.BeginMode3D(camera)
 
-	return 0
+	return
 }
 
-End3D :: proc "c" (state: ^lua.State) -> i32 {
+End3D :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	rl.EndMode3D()
 
-	return 0
+	return
 }
 
-DrawGrid :: proc "c" (state: ^lua.State) -> i32 {
+DrawGrid :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	slices := lua.L_checkinteger(state, 1)
 	spacing := lua.L_checknumber(state, 2)
 
 	rl.DrawGrid(i32(slices), f32(spacing))
 
-	return 0
+	return
 }
 
-DrawCube :: proc "c" (state: ^lua.State) -> i32 {
+DrawCube :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	position := check_vector3(state, 1)
 	size := lua.L_checknumber(state, 2)
 	color := check_color(state, 3)
 
 	rl.DrawCube(position, f32(size), f32(size), f32(size), color)
 
-	return 0
+	return
 }
 
-DrawBox :: proc "c" (state: ^lua.State) -> i32 {
+DrawBox :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	position := check_vector3(state, 1)
 	size := check_vector3(state, 2)
 	color := check_color(state, 3)
 
 	rl.DrawCubeV(position, size, color)
 
-	return 0
+	return
 }
 
 check_controller :: proc "c" (state: ^lua.State, arg: i32) -> Controller {
@@ -375,14 +375,14 @@ check_controller :: proc "c" (state: ^lua.State, arg: i32) -> Controller {
 	return {}
 }
 
-IsCursorOnScreen :: proc "c" (state: ^lua.State) -> i32 {
+IsCursorOnScreen :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	lua.checkstack(state, 1)
 	lua.pushboolean(state, b32(rl.IsCursorOnScreen()))
 
 	return 1
 }
 
-IsControllerButtonHeld :: proc "c" (state: ^lua.State) -> i32 {
+IsControllerButtonHeld :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	controller := check_controller(state, 1)
 	button := lua.L_checkinteger(state, 2)
 	
@@ -409,7 +409,7 @@ GetAxis :: proc "c" (controller: Controller, axis: sdl.GameControllerAxis) -> (a
 	return
 }
 
-GetControllerAxis :: proc "c" (state: ^lua.State) -> i32 {
+GetControllerAxis :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	controller := check_controller(state, 1)
 	axis := lua.L_checkinteger(state, 2)
 
@@ -419,7 +419,7 @@ GetControllerAxis :: proc "c" (state: ^lua.State) -> i32 {
 	return 1
 }
 
-GetControllerVector :: proc "c" (state: ^lua.State) -> i32 {
+GetControllerVector :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	controller := check_controller(state, 1)
 	vector_index := lua.L_checkinteger(state, 2)
 
@@ -462,7 +462,7 @@ GetControllerVector :: proc "c" (state: ^lua.State) -> i32 {
 	return 1
 }
 
-GetControllerName :: proc "c" (state: ^lua.State) -> i32 {
+GetControllerName :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	controller := check_controller(state, 1)
 
 	lua.checkstack(state, 1)
@@ -478,10 +478,10 @@ GetControllerName :: proc "c" (state: ^lua.State) -> i32 {
 	return 1
 }
 
-DrawFPS :: proc "c" (state: ^lua.State) -> i32 {
+DrawFPS :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	position := check_vector2_default(state, 1, {5, 5})
 
 	rl.DrawFPS(c.int(position.x), c.int(position.y))
 
-	return 0
+	return
 }
