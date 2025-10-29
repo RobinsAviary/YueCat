@@ -11,12 +11,7 @@ LoadTexture :: proc "c" (state: ^lua.State) -> i32 {
 	data := cast(^rl.Texture)lua.newuserdatauv(state, size_of(texture), 0)
 	lua.L_setmetatable(state, TextureUData)
 
-	data.format = texture.format
-	data.height = texture.height
-	data.width = texture.width
-	data.id = texture.id
-	data.mipmaps = texture.mipmaps	
-	//data = &texture
+	data^ = texture
 	
 	return 1
 }

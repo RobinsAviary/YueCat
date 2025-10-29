@@ -18,9 +18,12 @@ Engine.Init = ->
 
 	Controller.SetDefaultDeadzone(.2)
 
+tex = nil
+
 Engine.Ready = ->
 	-- Initialization
 	Engine.SetFPSTarget(60)
+	tex = Texture.Load("olddemo/resources/marcillesmall.png")
 
 Engine.Step = ->
 	-- Update
@@ -48,5 +51,8 @@ Engine.Draw = ->
 
 	--Draw.FPS()
 
+	Draw.Texture(tex)
+
 Engine.Cleanup = ->
 	-- De-initialization
+	Texture.Unload(tex)

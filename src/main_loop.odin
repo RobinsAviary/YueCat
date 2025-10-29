@@ -23,8 +23,6 @@ init_loop :: proc(state: ^lua.State) {
 
 	flags: rl.ConfigFlags
 
-	fmt.println(config.flags)
-
 	if config.flags.msaa do flags |= {.MSAA_4X_HINT}
 
 	if config.flags.borderless do flags |= {.BORDERLESS_WINDOWED_MODE}

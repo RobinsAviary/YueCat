@@ -15,8 +15,10 @@ Engine.Init = function()
 	Config.Window.Flags.msaa = true
 	return Controller.SetDefaultDeadzone(.2)
 end
+local tex = nil
 Engine.Ready = function()
-	return Engine.SetFPSTarget(60)
+	Engine.SetFPSTarget(60)
+	tex = Texture.Load("olddemo/resources/marcillesmall.png")
 end
 Engine.Step = function()
 	if cunt ~= nil then
@@ -34,5 +36,8 @@ Engine.Draw = function()
 	Draw.Circle(circle, Color.Red)
 	if cunt ~= nil then
 	end
+	return Draw.Texture(tex)
 end
-Engine.Cleanup = function() end
+Engine.Cleanup = function()
+	return Texture.Unload(tex)
+end
