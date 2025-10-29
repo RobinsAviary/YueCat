@@ -4,7 +4,7 @@ import lua "vendor:lua/5.4"
 import rl "vendor:raylib"
 import "base:runtime"
 
-to_color :: proc "c" (state: ^lua.State, idx: i32) -> rl.Color {
+to_color :: proc "c" (state: ^lua.State, idx: i32) -> (color: rl.Color) {
 	context = runtime.default_context()
 
 	i := abs_idx(state, idx)
@@ -22,18 +22,25 @@ to_color :: proc "c" (state: ^lua.State, idx: i32) -> rl.Color {
 
 	lua.pop(state, 4)
 
-	return {scalar_to_u8(f32(r)), scalar_to_u8(f32(g)), scalar_to_u8(f32(b)), scalar_to_u8(f32(a))}
+	color = {scalar_to_u8(f32(r)), scalar_to_u8(f32(g)), scalar_to_u8(f32(b)), scalar_to_u8(f32(a))}
+
+	return
 }
 
-check_color :: proc "c" (state: ^lua.State, arg: i32) -> rl.Color {
+check_color :: proc "c" (state: ^lua.State, arg: i32) -> (color: rl.Color) {
 	check_type(state, arg, "Color")
-	return to_color(state, arg)
+	
+	color = to_color(state, arg)
+
+	return
 }
 
-check_color_default :: proc "c" (state: ^lua.State, arg: i32, default: rl.Color) -> rl.Color {
+check_color_default :: proc "c" (state: ^lua.State, arg: i32, default: rl.Color) -> (color: rl.Color) {
 	if lua.isnoneornil(state, arg) do return default
 
-	return check_color(state, arg)
+	color = check_color(state, arg)
+
+	return
 }
 
 push_color :: proc "c" (state: ^lua.State, color: rl.Color) {

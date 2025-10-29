@@ -4,6 +4,7 @@ import lua "vendor:lua/5.4"
 import rl "vendor:raylib"
 import "core:fmt"
 import "base:runtime"
+import "core:c"
 
 audio_warning :: proc "c" () {
 	context = runtime.default_context()
@@ -12,14 +13,15 @@ audio_warning :: proc "c" () {
 	}
 }
 
-LoadAudio :: proc "c" (state: ^lua.State) -> i32 {
+LoadAudio :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	audio_warning()
 
 	lua.checkstack(state, 1)
 
 	if !config.audio_active {
 		lua.pushnil(state)
-		return 1
+		results = 1
+		return
 	}
 	fileName := lua.L_checkstring(state, 1)
 
@@ -30,17 +32,18 @@ LoadAudio :: proc "c" (state: ^lua.State) -> i32 {
 
 	data^ = audio
 
-	return 1
+	results = 1
+	return
 }
 
-check_audio :: proc "c" (state: ^lua.State, arg: i32) -> ^rl.Sound {
+check_audio :: proc "c" (state: ^lua.State, arg: i32) -> (sound: ^rl.Sound) {
 	user := lua.L_checkudata(state, arg, AudioUData)
-	sound := cast(^rl.Sound)user
+	sound = cast(^rl.Sound)user
 
-	return sound
+	return
 }
 
-UnloadAudio :: proc "c" (state: ^lua.State) -> i32 {
+UnloadAudio :: proc "c" (state: ^lua.State) -> (results: i32) {
 	audio_warning()
 
 	if config.audio_active {
@@ -49,5 +52,5 @@ UnloadAudio :: proc "c" (state: ^lua.State) -> i32 {
 		rl.UnloadSound(audio^)
 	}
 
-	return 0
+	return
 }

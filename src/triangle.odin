@@ -9,7 +9,7 @@ Triangle :: struct {
 	third_point: rl.Vector2,
 }
 
-to_triangle :: proc "c" (state: ^lua.State, idx: i32) -> Triangle {
+to_triangle :: proc "c" (state: ^lua.State, idx: i32) -> (triangle: Triangle) {
 	i := abs_idx(state, idx)
 
 	lua.checkstack(state, 3)
@@ -24,10 +24,15 @@ to_triangle :: proc "c" (state: ^lua.State, idx: i32) -> Triangle {
 
 	lua.pop(state, 3)
 
-	return {firstPoint, secondPoint, thirdPoint}
+	triangle = {firstPoint, secondPoint, thirdPoint}
+
+	return
 }
 
-check_triangle :: proc "c" (state: ^lua.State, arg: i32) -> Triangle {
+check_triangle :: proc "c" (state: ^lua.State, arg: i32) -> (triangle: Triangle) {
 	check_type(state, arg, "Triangle")
-	return to_triangle(state, arg)
+	
+	triangle = to_triangle(state, arg)
+	
+	return
 }

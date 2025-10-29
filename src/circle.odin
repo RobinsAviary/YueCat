@@ -8,7 +8,7 @@ Circle :: struct {
 	diameter: f32,
 }
 
-to_circle :: proc "c" (state: ^lua.State, idx: i32) -> Circle {
+to_circle :: proc "c" (state: ^lua.State, idx: i32) -> (circle: Circle) {
 	i := abs_idx(state, idx)
 
 	lua.checkstack(state, 2)
@@ -20,10 +20,13 @@ to_circle :: proc "c" (state: ^lua.State, idx: i32) -> Circle {
 
 	lua.pop(state, 2)
 
-	return {position, f32(radius)}
+	circle = {position, f32(radius)}
+
+	return
 }
 
-check_circle :: proc "c" (state: ^lua.State, arg: i32) -> Circle {
+check_circle :: proc "c" (state: ^lua.State, arg: i32) -> (circle: Circle) {
 	check_type(state, arg, "Circle")
-	return to_circle(state, arg)
+	circle = to_circle(state, arg)
+	return
 }

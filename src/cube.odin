@@ -8,7 +8,7 @@ Cube :: struct {
 	size: f32,
 }
 
-to_cube :: proc "c" (state: ^lua.State, idx: i32) -> Cube {
+to_cube :: proc "c" (state: ^lua.State, idx: i32) -> (cube: Cube) {
 	i := abs_idx(state, idx)
 
 	lua.checkstack(state, 2)
@@ -20,10 +20,15 @@ to_cube :: proc "c" (state: ^lua.State, idx: i32) -> Cube {
 
 	lua.pop(state, 2)
 
-	return {position, f32(size)}
+	cube = {position, f32(size)}
+
+	return
 }
 
-check_cube :: proc "c" (state: ^lua.State, arg: i32) -> Cube {
+check_cube :: proc "c" (state: ^lua.State, arg: i32) -> (cube: Cube) {
 	check_type(state, arg, "Cube")
-	return to_cube(state, arg)
+	
+	cube = to_cube(state, arg)
+	
+	return
 }

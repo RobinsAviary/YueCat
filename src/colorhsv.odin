@@ -10,7 +10,7 @@ ColorHSV :: struct {
 	a: u8,
 }
 
-to_color_hsv :: proc "c" (state: ^lua.State, idx: i32) -> ColorHSV {
+to_color_hsv :: proc "c" (state: ^lua.State, idx: i32) -> (color: ColorHSV) {
 	context = runtime.default_context()
 
 	i := abs_idx(state, idx)
@@ -38,12 +38,17 @@ to_color_hsv :: proc "c" (state: ^lua.State, idx: i32) -> ColorHSV {
 
 	lua.setmetatable(state, -2)
 
-	return {f32(h), f32(s), f32(v), scalar_to_u8(f32(a))}
+	color = {f32(h), f32(s), f32(v), scalar_to_u8(f32(a))}
+
+	return
 }
 
-check_color_hsv :: proc "c" (state: ^lua.State, arg: i32) -> ColorHSV {
+check_color_hsv :: proc "c" (state: ^lua.State, arg: i32) -> (color: ColorHSV) {
 	check_type(state, arg, "ColorHSV")
-	return to_color_hsv(state, arg)
+
+	color = to_color_hsv(state, arg)
+
+	return
 }
 
 push_color_hsv :: proc "c" (state: ^lua.State, color: ColorHSV) {

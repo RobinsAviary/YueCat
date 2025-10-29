@@ -34,7 +34,8 @@ to_camera :: proc "c" (state: ^lua.State, idx: i32) -> (camera: rl.Camera3D) {
 	return
 }
 
-check_camera :: proc "c" (state: ^lua.State, arg: i32) -> rl.Camera3D {
+check_camera :: proc "c" (state: ^lua.State, arg: i32) -> (camera: rl.Camera3D) {
 	check_type(state, arg, "Camera3D")
-	return to_camera(state, arg)
+	camera = to_camera(state, arg)
+	return
 }

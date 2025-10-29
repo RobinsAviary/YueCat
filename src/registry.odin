@@ -143,17 +143,4 @@ register_functions :: proc(state: ^lua.State) {
 	lua.getglobal(state, CONTROLLER_REGISTRY)
 	register_registry(state, controller_registry)
 	lua.pop(state, 1)
-
-	/*lua.checkstack(state, 1)
-	lua.getglobal(state, GAMEPAD_REGISTRY)
-	register(state, IsGamepadConnected, "IsConnected")
-	register(state, GetGamepadName, "GetName")
-	register(state, GetGamepadAxisCount, "GetAxisCount")
-	register(state, GetGamepadAxis, "GetAxis")
-	register(state, GetGamepadVector, "GetVector")
-	register(state, IsGamepadButtonHeld, "IsButtonHeld")
-	register(state, IsGamepadButtonPressed, "IsButtonPressed")
-	register(state, IsGamepadButtonReleased, "IsButtonReleased")
-	register(state, SetGamepadVibration, "SetVibration")
-	lua.pop(state, 1)*/
 }
