@@ -4,6 +4,7 @@ import lua "vendor:lua/5.4"
 import "core:fmt"
 import "core:strings"
 import os "core:os/os2"
+import "core:path/filepath"
 
 TextureUData :: "Texture"
 AudioUData :: "Audio"
@@ -17,8 +18,18 @@ PROGRAM :: "program\\"
 LUA_EXTENSION :: ".lua"
 MAIN_FILE :: "main" + LUA_EXTENSION
 
+// os.get_current_directory()
+
 open_base :: proc(state: ^lua.State) {
-	handle, error := os.open("resources\\base")
+	base_path, base_path_allocated := filepath.from_slash("resources/base")
+	base_directory := strings.concatenate({config.runtime_location, base_path})
+
+	if config.verbose do fmt.printfln("Base directory: \"%s\"", base_directory)
+
+	handle, error := os.open(base_directory)
+
+	delete(base_directory)
+	if base_path_allocated do delete(base_path)
 
 	if error != os.ERROR_NONE {
 		fmt.println(error)
@@ -82,6 +93,8 @@ print_stack :: proc(state: ^lua.State) {
 }
 
 main :: proc() {
+	init_config()
+
 	state := new_state()
 
 	main_loop(state)

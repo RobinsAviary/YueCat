@@ -51,16 +51,14 @@ init_config :: proc() {
 
 	config.default_deadzone = 0.15
 	config.verbose = true
+
+	if config.verbose do fmt.printfln("Runtime location: \"%s\"", config.runtime_location)
 }
 
 init_loop :: proc(state: ^lua.State) {
-	init_config()
-
 	build_yuescripts()
 
 	do_file(state, PROGRAM + "main.lua")
-
-	if config.verbose do fmt.printfln("Runtime location: \"%s\"", config.runtime_location)
 
 	CallEngineFunc(state, "Init")
 

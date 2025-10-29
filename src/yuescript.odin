@@ -14,10 +14,10 @@ build_yuescripts :: proc() {
 
 	yuescript_folder, folder_allocated := filepath.from_slash(YUESCRIPT_FOLDER)
 
-	yuescript_directory := strings.concatenate({config.runtime_location, yuescript_folder})
+	yuescript_directory := strings.concatenate({config.runtime_location, yuescript_folder, "windows/x64/"})
 	fmt.printfln("YueScript compiler location: \"%s\"", yuescript_directory)
 
-	processState, stdout, stderr, err := os.process_exec({yuescript_directory, {"yue", "..\\..\\..\\" + PROGRAM}, nil, nil, nil, nil}, context.allocator)
+	processState, stdout, stderr, err := os.process_exec({yuescript_directory, {"yue.exe", "..\\..\\..\\..\\..\\" + PROGRAM}, nil, nil, nil, nil}, context.allocator)
 
 	delete(yuescript_directory)
 	if folder_allocated do delete(yuescript_folder)
