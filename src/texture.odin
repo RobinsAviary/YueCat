@@ -21,14 +21,11 @@ LoadTexture :: proc "c" (state: ^lua.State) -> (results: c.int) {
 check_texture :: proc "c" (state: ^lua.State, arg: i32) -> (texture: ^rl.Texture) {
 	user := lua.L_checkudata(state, arg, TextureUData)
 	texture = cast(^rl.Texture)user
-
 	return texture
 }
 
 UnloadTexture :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	texture := check_texture(state, 1)
-
 	rl.UnloadTexture(texture^)
-
 	return
 }

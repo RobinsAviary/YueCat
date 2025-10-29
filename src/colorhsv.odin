@@ -45,9 +45,7 @@ to_color_hsv :: proc "c" (state: ^lua.State, idx: i32) -> (color: ColorHSV) {
 
 check_color_hsv :: proc "c" (state: ^lua.State, arg: i32) -> (color: ColorHSV) {
 	check_type(state, arg, "ColorHSV")
-
 	color = to_color_hsv(state, arg)
-
 	return
 }
 

@@ -29,17 +29,13 @@ to_color :: proc "c" (state: ^lua.State, idx: i32) -> (color: rl.Color) {
 
 check_color :: proc "c" (state: ^lua.State, arg: i32) -> (color: rl.Color) {
 	check_type(state, arg, "Color")
-	
 	color = to_color(state, arg)
-
 	return
 }
 
 check_color_default :: proc "c" (state: ^lua.State, arg: i32, default: rl.Color) -> (color: rl.Color) {
 	if lua.isnoneornil(state, arg) do return default
-
 	color = check_color(state, arg)
-
 	return
 }
 

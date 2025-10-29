@@ -23,8 +23,6 @@ to_rectangle :: proc "c" (state: ^lua.State, idx: i32) -> (rectangle: rl.Rectang
 
 check_rectangle :: proc "c" (state: ^lua.State, arg: i32) -> (rectangle: rl.Rectangle) {
 	check_type(state, arg, "Rectangle")
-	
 	rectangle = to_rectangle(state, arg)
-	
 	return
 }

@@ -27,8 +27,6 @@ to_cube :: proc "c" (state: ^lua.State, idx: i32) -> (cube: Cube) {
 
 check_cube :: proc "c" (state: ^lua.State, arg: i32) -> (cube: Cube) {
 	check_type(state, arg, "Cube")
-	
 	cube = to_cube(state, arg)
-	
 	return
 }

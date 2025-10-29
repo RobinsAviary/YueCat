@@ -7,7 +7,6 @@ to_vector3 :: proc "c" (state: ^lua.State, idx: i32) -> (vector: rl.Vector3) {
 	i := abs_idx(state, idx)
 
 	lua.checkstack(state, 3)
-	
 	lua.getfield(state, i, "x")
 	lua.getfield(state, i, "y")
 	lua.getfield(state, i, "z")
@@ -15,7 +14,6 @@ to_vector3 :: proc "c" (state: ^lua.State, idx: i32) -> (vector: rl.Vector3) {
 	x := lua.tonumber(state, -3)
 	y := lua.tonumber(state, -2)
 	z := lua.tonumber(state, -1)
-
 	lua.pop(state, 3)
 
 	vector = {f32(x), f32(y), f32(z)}
@@ -23,15 +21,14 @@ to_vector3 :: proc "c" (state: ^lua.State, idx: i32) -> (vector: rl.Vector3) {
 	return
 }
 
-check_vector3 :: proc "c" (state: ^lua.State, arg: i32) -> rl.Vector3 {
+check_vector3 :: proc "c" (state: ^lua.State, arg: i32) -> (vector: rl.Vector3) {
 	check_type(state, arg, "Vector3")
-	return to_vector3(state, arg)
+	vector = to_vector3(state, arg)
+	return
 }
 
 check_vector3_default :: proc "c" (state: ^lua.State, arg: i32, default: rl.Vector3) -> (vector: rl.Vector3) {
 	if lua.isnoneornil(state, arg) do return default
-
 	vector = check_vector3(state, arg)
-
 	return
 }
