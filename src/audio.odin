@@ -28,13 +28,7 @@ LoadAudio :: proc "c" (state: ^lua.State) -> i32 {
 	data := cast(^rl.Sound)lua.newuserdatauv(state, size_of(audio), 0)
 	lua.L_setmetatable(state, AudioUData)
 
-	data.buffer = audio.buffer
-	data.channels = audio.channels
-	data.frameCount = audio.frameCount
-	data.processor = audio.processor
-	data.sampleRate = audio.sampleRate
-	data.sampleSize = audio.sampleSize
-	data.stream = audio.stream
+	data^ = audio
 
 	return 1
 }
