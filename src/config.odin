@@ -12,6 +12,7 @@ Config :: struct {
 	flags: ConfigFlags,
 	default_deadzone: f32,
 	verbose: bool,
+	runtime_location: string,
 }
 
 ConfigFlags :: struct {
@@ -24,27 +25,27 @@ ConfigFlags :: struct {
 
 config: Config
 
-read_config :: proc (state: ^lua.State) -> (readConfig: Config) {
-	if config.verbose do fmt.println("Reading config settings...")
+read_config :: proc (state: ^lua.State, updated_config: ^Config) {
+	if updated_config.verbose do fmt.println("Reading config settings...")
 
 	lua.checkstack(state, 1)
 	lua.getglobal(state, "Config")
 	
 	// Window
-	if config.verbose do fmt.println("Reading window settings...")
+	if updated_config.verbose do fmt.println("Reading window settings...")
 	lua.checkstack(state, 3)
 	lua.getfield(state, -1, "Window")
 
 	lua.getfield(state, -1, "title")
-	readConfig.window_title = string(lua.tostring(state, -1))
+	updated_config.window_title = string(lua.tostring(state, -1))
 	lua.pop(state, 1)
 
 	lua.getfield(state, -1, "size")
-	readConfig.window_size = to_vector2(state, -1)
+	updated_config.window_size = to_vector2(state, -1)
 	lua.pop(state, 1)
 
 	// Flags
-	if config.verbose do fmt.println("Reading window flags...")
+	if updated_config.verbose do fmt.println("Reading window flags...")
 	flags: ConfigFlags
 	
 	lua.checkstack(state, 6)
@@ -73,17 +74,17 @@ read_config :: proc (state: ^lua.State) -> (readConfig: Config) {
 
 	lua.pop(state, 1) // Pop Flags
 
-	readConfig.flags = flags
+	updated_config.flags = flags
 	
 	lua.pop(state, 1) // Pop Window
 
 	// Audio
-	if config.verbose do fmt.println("Reading audio settings...")
+	if updated_config.verbose do fmt.println("Reading audio settings...")
 	lua.checkstack(state, 2)
 	lua.getfield(state, -1, "Audio")
 
 	lua.getfield(state, -1, "active")
-	readConfig.audio_active = bool(lua.toboolean(state, -1))
+	updated_config.audio_active = bool(lua.toboolean(state, -1))
 	lua.pop(state, 1) // Pop Active
 
 	lua.pop(state, 1) // Pop Audio

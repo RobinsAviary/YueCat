@@ -9,7 +9,7 @@ init_sdl :: proc() {
 	if sdl.Init({.GAMECONTROLLER}) < 0 {
 		fmt.println("Something went wrong while trying to initialize SDL!")
 		fmt.println(sdl.GetError())
-		os.exit(1)
+		throw_error(.SDL_INIT_FAILED)
 	}
 	
 	if config.verbose do fmt.println("SDL initialized!\n")

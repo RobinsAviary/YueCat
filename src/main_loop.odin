@@ -5,18 +5,67 @@ import rl "vendor:raylib"
 import "core:fmt"
 import "core:strings"
 import sdl "vendor:sdl2"
+import os "core:os/os2"
+import "core:path/filepath"
 
-init_loop :: proc(state: ^lua.State) {
-	build_yuescript()
+Error :: enum {
+	NO_SLASH_RUNTIME = 1,
+	FIND_EXECUTABLE_PATH,
+	SDL_INIT_FAILED,
+	YUESCRIPT_COMPILER_FAILED,
+}
+throw_error :: proc(error: Error) {
+	fmt.println(error)
+	os.exit(int(error))
+}
 
-	do_file(state, PROGRAM + "main.lua")
+find_runtime_location :: proc(allocator := context.allocator) -> string {
+	loc, error := os.get_executable_path(allocator)
+	
+	if error != nil {
+		fmt.println("Something went wrong while trying to access the runtime's location!")
+		fmt.println(error)
+		throw_error(.FIND_EXECUTABLE_PATH)
+	}
+	
+	loc, _ = filepath.to_slash(loc, allocator)
+	end_index := strings.last_index(loc, "/")
+	if end_index == -1 {
+		fmt.println("Unable to find a slash for the runtime location!")
+		fmt.printfln("Input was: %s", loc)
+		throw_error(.NO_SLASH_RUNTIME)
+	}
+	path, ok := strings.substring_to(loc, end_index + 1)
+	if !ok {
+		fmt.println("Indexed out of bounds while trying to get runtime location!")
+		fmt.printfln("Input was: %s", loc)
+	}
+
+	path, _ = filepath.from_slash(path, allocator)
+
+	return path
+}
+
+init_config :: proc() {
+	config.runtime_location = find_runtime_location(context.allocator)
 
 	config.default_deadzone = 0.15
 	config.verbose = true
+}
+
+init_loop :: proc(state: ^lua.State) {
+	init_config()
+
+	build_yuescripts()
+
+	do_file(state, PROGRAM + "main.lua")
+
+	if config.verbose do fmt.printfln("Runtime location: \"%s\"", config.runtime_location)
 
 	CallEngineFunc(state, "Init")
 
-	config = read_config(state)
+	// Update our config based on user settings
+	read_config(state, &config)
 
 	// TODO: Add config to disable controllers
 	init_sdl()
@@ -74,6 +123,8 @@ cleanup_loop :: proc(state: ^lua.State) {
 	rl.CloseWindow()
 
 	cleanup_sdl()
+
+	delete(config.runtime_location, context.allocator)
 
 	delete(controllers)
 }
