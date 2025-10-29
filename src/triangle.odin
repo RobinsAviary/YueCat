@@ -31,8 +31,6 @@ to_triangle :: proc "c" (state: ^lua.State, idx: i32) -> (triangle: Triangle) {
 
 check_triangle :: proc "c" (state: ^lua.State, arg: i32) -> (triangle: Triangle) {
 	check_type(state, arg, "Triangle")
-	
 	triangle = to_triangle(state, arg)
-	
 	return
 }

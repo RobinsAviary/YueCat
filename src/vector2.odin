@@ -23,17 +23,13 @@ to_vector2 :: proc "c" (state: ^lua.State, idx: i32) -> (vector: rl.Vector2) {
 
 check_vector2 :: proc "c" (state: ^lua.State, arg: i32) -> (vector: rl.Vector2) {
 	check_type(state, arg, "Vector2")
-	
 	vector = to_vector2(state, arg)
-	
 	return
 }
 
 check_vector2_default :: proc "c" (state: ^lua.State, arg: i32, default: rl.Vector2) -> (vector: rl.Vector2) {
 	if lua.isnoneornil(state, arg) do return default
-
 	vector = check_vector2(state, arg)
-
 	return
 }
 
