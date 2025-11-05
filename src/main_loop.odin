@@ -60,6 +60,15 @@ init_loop :: proc(state: ^lua.State) {
 
 	do_file(state, PROGRAM + "main.lua")
 
+	program_folder, program_folder_allocated := filepath.from_slash(PROGRAM)
+
+	c_program_folder := strings.clone_to_cstring(program_folder)
+
+	rl.ChangeDirectory(c_program_folder)
+
+	delete(c_program_folder)
+	if program_folder_allocated do delete(program_folder)
+
 	CallEngineFunc(state, "Init")
 
 	// Update our config based on user settings

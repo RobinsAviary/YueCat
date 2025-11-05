@@ -12,7 +12,7 @@ Controller.Disconnected = (index) ->
 Engine.Init = ->
 	-- Primarily for config
 	Config.Window.size = Vector2.New(800, 450)
-	--Config.window.title = "raylib [core] example - basic window"
+	Config.window.title = "raylib [core] example - basic window"
 
 	Config.Window.Flags.msaa = true
 
@@ -23,7 +23,7 @@ tex = nil
 Engine.Ready = ->
 	-- Initialization
 	Engine.SetFPSTarget(60)
-	tex = Texture.Load("olddemo/resources/marcillesmall.png")
+	tex = Texture.Load("resources/marcillesmall.png")
 
 Engine.Step = ->
 	-- Update

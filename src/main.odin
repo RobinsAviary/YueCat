@@ -13,7 +13,7 @@ ControllerUData :: "Controller"
 NAME :: "YueCat"
 VERSION :: "Alpha"
 
-PROGRAM :: "program\\"
+PROGRAM :: "program/"
 // Includes .
 LUA_EXTENSION :: ".lua"
 MAIN_FILE :: "main" + LUA_EXTENSION
@@ -21,7 +21,7 @@ MAIN_FILE :: "main" + LUA_EXTENSION
 // os.get_current_directory()
 
 open_base :: proc(state: ^lua.State) {
-	base_path, base_path_allocated := filepath.from_slash("resources/base")
+	base_path, base_path_allocated := filepath.from_slash("resources/base/")
 	base_directory := strings.concatenate({config.runtime_location, base_path})
 
 	if config.verbose do fmt.printfln("Base directory: \"%s\"", base_directory)

@@ -12,13 +12,14 @@ Controller.Disconnected = function(index)
 end
 Engine.Init = function()
 	Config.Window.size = Vector2.New(800, 450)
+	Config.window.title = "raylib [core] example - basic window"
 	Config.Window.Flags.msaa = true
 	return Controller.SetDefaultDeadzone(.2)
 end
 local tex = nil
 Engine.Ready = function()
 	Engine.SetFPSTarget(60)
-	tex = Texture.Load("olddemo/resources/marcillesmall.png")
+	tex = Texture.Load("resources/marcillesmall.png")
 end
 Engine.Step = function()
 	if cunt ~= nil then
