@@ -1,0 +1,64 @@
+global circle = Circle.New(Vector2.New(400, 120), 32)
+cunt = nil
+
+Controller.Connected = (controller) ->
+	cunt = controller
+
+Controller.Disconnected = (index) ->
+	if cunt != nil
+		if cunt.index == index
+			cunt = nil
+
+Engine.Init = ->
+	-- Primarily for config
+	Config.Window.size = Vector2.New(800, 450)
+	Config.Window.title = "raylib [core] example - basic window"
+
+	Config.Window.Flags.msaa = true
+
+	Controller.SetDefaultDeadzone(.2)
+
+tex = nil
+sfx = nil
+
+Engine.Ready = ->
+	-- Initialization
+	Engine.SetFPSTarget(60)
+	tex = Texture.Load("resources/marcillesmall.png")
+	sfx = Audio.Load("resources/pickupCoin.wav")
+
+Engine.Step = ->
+	-- Update
+	if cunt != nil
+		vec = Controller.GetVector(cunt, Controller.Vector.Left)
+		circle.position += vec * Vector2.New(Engine.GetDelta() * 100)
+
+		if Controller.IsButtonReleased(cunt, Controller.Button.B)
+			Audio.Play(sfx)
+
+	if Keyboard.IsKeyPressed(Keyboard.Key.Space)
+		print("Boing!")
+
+	--print(vec)
+
+Engine.Draw = ->
+	-- Draw
+	Draw.Clear(Color.White)
+
+	Draw.Text("Congrats! You created your first window!", Vector2.New(190, 200), Color.LightGray)
+
+	Draw.Circle(circle, Color.Red)
+
+	if cunt != nil
+		--print(Controller.IsButtonHeld(cunt, Controller.Button.A))
+
+	--print(Gamepad.GetAxis(0, 0))
+
+	--Draw.FPS()
+
+	Draw.Texture(tex)
+
+Engine.Cleanup = ->
+	-- De-initialization
+	Texture.Unload(tex)
+	Audio.Unload(sfx)

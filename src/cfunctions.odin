@@ -399,6 +399,44 @@ IsControllerButtonHeld :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	return 1
 }
 
+IsControllerButtonPressed :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	context = runtime.default_context()
+
+	controller := check_controller(state, 1)
+	button := lua.L_checkinteger(state, 2)
+
+	lua.checkstack(state, 1)
+
+	output: bool
+
+	if controller.valid {
+		output = sdl.GameControllerButton(button) in controller.pressed
+	}
+
+	lua.pushboolean(state, b32(output))
+
+	return 1
+}
+
+IsControllerButtonReleased :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	context = runtime.default_context()
+
+	controller := check_controller(state, 1)
+	button := lua.L_checkinteger(state, 2)
+
+	lua.checkstack(state, 1)
+
+	output: bool
+
+	if controller.valid {
+		output = sdl.GameControllerButton(button) in controller.released
+	}
+
+	lua.pushboolean(state, b32(output))
+
+	return 1
+}
+
 GetAxis :: proc "c" (controller: ^Controller, axis: sdl.GameControllerAxis) -> (axis_value: f32) {
 	if controller.valid {
 		axis_value_raw := sdl.GameControllerGetAxis(controller.sdl_pointer, sdl.GameControllerAxis(axis))
@@ -518,5 +556,149 @@ ControllerGetDefaultDeadzone :: proc "c" (state: ^lua.State) -> (results: c.int)
 	lua.checkstack(state, 1)
 	lua.pushnumber(state, lua.Number(config.default_deadzone))
 
-	return 0
+	return 1
+}
+
+BeginScissor :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	rectangle := check_rectangle(state, 1)
+	rl.BeginScissorMode(i32(rectangle.x), i32(rectangle.y), i32(rectangle.width), i32(rectangle.height))
+
+	return
+}
+
+EndScissor :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	rl.EndScissorMode()
+
+	return
+}
+
+MinimizeWindow :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	rl.MinimizeWindow()
+
+	return
+}
+
+MaximizeWindow :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	rl.MaximizeWindow()
+
+	return
+}
+
+RestoreWindow :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	rl.RestoreWindow()
+
+	return
+}
+
+SetWindowPosition :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	position := check_vector2(state, 1)
+
+	rl.SetWindowPosition(c.int(position.x), c.int(position.y))
+
+	return
+}
+
+SetWindowTitle :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	title := lua.L_checkstring(state, 1)
+
+	rl.SetWindowTitle(title)
+
+	return
+}
+
+SetWindowMonitor :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	monitor := lua.L_checkinteger(state, 1)
+
+	rl.SetWindowMonitor(c.int(monitor))
+
+	return
+}
+
+SetWindowSizeMinimum :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	minimum := check_vector2(state, 1)
+
+	rl.SetWindowMinSize(c.int(minimum.x), c.int(minimum.y))
+
+	return
+}
+
+SetWindowSizeMaximum :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	maximum := check_vector2(state, 1)
+
+	rl.SetWindowMaxSize(c.int(maximum.x), c.int(maximum.y))
+
+	return
+}
+
+SetWindowSize :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	size := check_vector2(state, 1)
+
+	rl.SetWindowSize(c.int(size.x), c.int(size.y))
+
+	return
+}
+
+GetWindowSize :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	size := rl.Vector2 {f32(rl.GetScreenWidth()), f32(rl.GetScreenHeight())}
+
+	lua.checkstack(state, 1)
+	push_vector2(state, size)
+
+	return 1
+}
+
+GetWindowWidth :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	lua.checkstack(state, 1)
+	lua.pushinteger(state, lua.Integer(rl.GetScreenWidth()))
+
+	return 1
+}
+
+GetWindowHeight :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	lua.checkstack(state, 1)
+	lua.pushinteger(state, lua.Integer(rl.GetScreenHeight()))
+
+	return 1
+}
+
+SetWindowOpacity :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	rl.SetWindowOpacity(c.float(lua.L_checknumber(state, 1)))
+
+	return
+}
+
+GetCurrentMonitor :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	lua.checkstack(state, 1)
+	lua.pushinteger(state, lua.Integer(rl.GetCurrentMonitor()))
+
+	return 1
+}
+
+GetWindowPosition :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	lua.checkstack(state, 1)
+	push_vector2(state, rl.GetWindowPosition())
+
+	return 1
+}
+
+GetMonitorCount :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	lua.checkstack(state, 1)
+	lua.pushinteger(state, lua.Integer(rl.GetMonitorCount()))
+
+	return 1
+}
+
+GetClipboard :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	lua.checkstack(state, 1)
+	lua.pushstring(state, rl.GetClipboardText())
+
+	return 1
+}
+
+SetClipboard :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	clipboard_text := rl.GetClipboardText()
+
+	rl.SetClipboardText(clipboard_text)
+
+	return
 }

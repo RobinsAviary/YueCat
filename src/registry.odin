@@ -11,6 +11,7 @@ TEXTURE_REGISTRY :: "Texture"
 AUDIO_REGISTRY :: "Audio"
 COLOR_REGISTRY :: "Color"
 CONTROLLER_REGISTRY :: "Controller"
+WINDOW_REGISTRY :: "Window"
 
 draw_registry: Registry = {
 	{DrawClear, "Clear"},
@@ -29,6 +30,8 @@ draw_registry: Registry = {
 	{Begin3D, "Begin3D"},
 	{End3D, "End3D"},
 	{DrawFPS, "FPS"},
+	{BeginScissor, "BeginScissor"},
+	{EndScissor, "EndScissor"},
 }
 
 keyboard_registry: Registry = {
@@ -43,6 +46,9 @@ engine_registry: Registry = {
 	{GetDelta, "GetDelta"},
 	{GetFPS, "GetFPS"},
 	{SetFPSTarget, "SetFPSTarget"},
+	{GetMonitorCount, "GetMonitorCount"},
+	{SetClipboard, "SetClipboard"},
+	{GetClipboard, "GetClipboard"},
 }
 
 mouse_registry: Registry = {
@@ -83,6 +89,26 @@ controller_registry: Registry = {
 	{ControllerGetDeadzone, "GetDeadzone"},
 	{ControllerSetDefaultDeadzone, "SetDefaultDeadzone"},
 	{ControllerGetDefaultDeadzone, "GetDefaultDeadzone"},
+	{IsControllerButtonPressed,"IsButtonPressed"},
+	{IsControllerButtonReleased, "IsButtonReleased"},
+}
+
+window_registry: Registry = {
+	{MaximizeWindow, "Maximize"},
+	{MinimizeWindow, "Minimize"},
+	{RestoreWindow, "Restore"},
+	{SetWindowPosition, "SetPosition"},
+	{SetWindowTitle, "SetTitle"},
+	{SetWindowMonitor, "SetMonitor"},
+	{SetWindowSizeMinimum, "SetMinimumSize"},
+	{SetWindowSizeMaximum, "SetMaximumSize"},
+	{SetWindowSize, "SetSize"},
+	{GetWindowSize, "GetSize"},
+	{GetWindowWidth, "GetWidth"},
+	{GetWindowHeight, "GetHeight"},
+	{SetWindowOpacity, "SetOpacity"},
+	{GetCurrentMonitor, "GetCurrentMonitor"},
+	{GetWindowPosition, "GetPosition"},
 }
 
 registry_value :: struct {
@@ -142,5 +168,10 @@ register_functions :: proc(state: ^lua.State) {
 	lua.checkstack(state, 1)
 	lua.getglobal(state, CONTROLLER_REGISTRY)
 	register_registry(state, controller_registry)
+	lua.pop(state, 1)
+
+	lua.checkstack(state, 1)
+	lua.getglobal(state, WINDOW_REGISTRY)
+	register_registry(state, window_registry)
 	lua.pop(state, 1)
 }

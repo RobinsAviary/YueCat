@@ -21,6 +21,8 @@ Controller :: struct {
 	valid: bool,
 	sdl_pointer: ^sdl.GameController,
 	deadzone: f32,
+	pressed: bit_set[sdl.GameControllerButton],
+	released: bit_set[sdl.GameControllerButton],
 }
 
 controllers: map[uint]Controller
@@ -33,8 +35,8 @@ close_controllers :: proc() {
 	}
 }
 
-controller_device_added :: proc(state: ^lua.State, event: sdl.Event) {
-	which := event.cdevice.which
+controller_device_added :: proc(state: ^lua.State, event: sdl.ControllerDeviceEvent) {
+	which := event.which
 
 	controller_pointer := sdl.GameControllerOpen(which)
 
@@ -72,24 +74,34 @@ controller_device_added :: proc(state: ^lua.State, event: sdl.Event) {
 	lua.pop(state, 1)
 }
 
-controller_device_disconnected :: proc(state: ^lua.State, event: sdl.Event) {
-	which := event.cdevice.which
-
+find_controller :: proc(which: sdl.JoystickID) -> (found_controller: ^Controller, index: sdl.JoystickID, exists: bool) {
 	for i, controller in controllers {
 		other_which := sdl.JoystickInstanceID(sdl.GameControllerGetJoystick(controller.sdl_pointer))
-		if which == i32(other_which) {
-			if config.verbose do fmt.printfln("Controller disconnected: index %d", i)
-			sdl.GameControllerClose(controllers[i].sdl_pointer)
-			delete_key(&controllers, i)
 
-			lua.checkstack(state, 3)
-			lua.getglobal(state, "Controller")
-			lua.getfield(state, -1, "Disconnected")
-			lua.pushinteger(state, lua.Integer(i))
-			pcall(state, 1)
-			lua.pop(state, 1)
-			break
+		if which == other_which {
+			exists = true
+			found_controller = &controllers[i]
+			index = sdl.JoystickID(i)
+			return
 		}
+	}
+
+	return
+}
+
+controller_device_disconnected :: proc(state: ^lua.State, event: sdl.ControllerDeviceEvent) {
+	if controller, index, exists := find_controller(sdl.JoystickID(event.which)); exists {
+		if config.verbose do fmt.printfln("Controller disconnected: index %d", index)
+
+		sdl.GameControllerClose(controller.sdl_pointer)
+		delete_key(&controllers, uint(index))
+
+		lua.checkstack(state, 3)
+		lua.getglobal(state, "Controller")
+		lua.getfield(state, -1, "Disconnected")
+		lua.pushinteger(state, lua.Integer(index))
+		pcall(state, 1)
+		lua.pop(state, 1)
 	}
 }
 
@@ -97,4 +109,20 @@ cleanup_sdl :: proc() {
 	close_controllers()
 
 	sdl.Quit()
+}
+
+controller_button_down_event :: proc(state: ^lua.State, event: sdl.ControllerButtonEvent) {
+	button := sdl.GameControllerButton(event.button)
+
+	if controller, _, exists := find_controller(sdl.JoystickID(event.which)); exists {
+		controller.pressed |= {button}
+	}
+}
+
+controller_button_up_event :: proc(state: ^lua.State, event: sdl.ControllerButtonEvent) {
+	button := sdl.GameControllerButton(event.button)
+	
+	if controller, _, exists := find_controller(sdl.JoystickID(event.which)); exists {
+		controller.released |= {button}
+	}
 }

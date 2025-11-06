@@ -1,58 +1,72 @@
-global circle = Circle.New(Vector2.New(400, 120), 32)
-cunt = nil
+cont = nil
+global Textures = {}
+
+slots = {
+	Vector2.New 152, 91,
+	Vector2.New 247, 91,
+	Vector2.New 342, 91,
+}
+
+slot_positions = {
+	0,
+	0,
+	0,
+}
 
 Controller.Connected = (controller) ->
-	cunt = controller
+	cont = controller
 
 Controller.Disconnected = (index) ->
-	if cunt != nil
-		if cunt.index == index
-			cunt = nil
+	if cont != nil
+		if cont.index == index
+			cont = nil
 
 Engine.Init = ->
 	-- Primarily for config
-	Config.Window.size = Vector2.New(800, 450)
-	Config.window.title = "raylib [core] example - basic window"
+	Config.Window.size = Vector2.New 455, 360
+	Config.Window.title = "raylib [core] example - basic window"
 
 	Config.Window.Flags.msaa = true
 
-	Controller.SetDefaultDeadzone(.2)
-
-tex = nil
+	Controller.SetDefaultDeadzone .2
 
 Engine.Ready = ->
 	-- Initialization
-	Engine.SetFPSTarget(60)
-	tex = Texture.Load("resources/marcillesmall.png")
+	Engine.SetFPSTarget 144
+
+	Textures.fruits = Texture.Load "resources/fruits.png"
+	Textures.coin = Texture.Load "resources/coin.png"
+	Textures.cointilt = Texture.Load "resources/cointilt.png"
+	Textures.machineback = Texture.Load "resources/machineback.png"
+	Textures.insertback = Texture.Load "resources/machineback2.png"
+	Textures.slotback = Texture.Load "resources/slotback.png"
+	Textures.slotoverlay = Texture.Load "resources/slotoverlay.png"
 
 Engine.Step = ->
 	-- Update
-	if cunt != nil
-		vec = Controller.GetVector(cunt, Controller.Vector.Left)
-		circle.position += vec * Vector2.New(Engine.GetDelta() * 100)
-
-	if Keyboard.IsKeyPressed(Keyboard.Key.Space)
-		print("Boing!")
-
-	--print(vec)
+	if cont != nil
+		vec = Controller.GetVector cont, Controller.Vector.Left
 
 Engine.Draw = ->
 	-- Draw
-	Draw.Clear(Color.White)
+	Draw.Clear Color.White
 
-	Draw.Text("Congrats! You created your first window!", Vector2.New(190, 200), Color.LightGray)
+	Draw.Text "Congrats! You created your first window!", Vector2.New(190, 200), Color.LightGray
 
-	Draw.Circle(circle, Color.Red)
+	Draw.Texture Textures.insertback, Vector2.New(372, 4)
 
-	if cunt != nil
-		--print(Controller.IsButtonHeld(cunt, Controller.Button.A))
+	Draw.Texture Textures.coin, Vector2.New(377, 0)
 
-	--print(Gamepad.GetAxis(0, 0))
+	Draw.Texture Textures.machineback
 
-	--Draw.FPS()
-
-	Draw.Texture(tex)
+	for _, slot in pairs(slots)
+		Draw.Texture Textures.slotback, slot
+		Draw.BeginScissor Rectangle.New(slot + Vector2.New(2), Vector2.New(77, 130) - Vector2.New(4))
+		Draw.Texture Textures.fruits, slot + Vector2.New(8, 0)
+		Draw.EndScissor!
+		Draw.Texture Textures.slotoverlay, slot + Vector2.New(-10,2)
 
 Engine.Cleanup = ->
 	-- De-initialization
-	Texture.Unload(tex)
+	for _, texture in pairs Textures
+		Texture.Unload texture

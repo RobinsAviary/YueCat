@@ -102,6 +102,13 @@ init_loop :: proc(state: ^lua.State) {
 	CallEngineFunc(state, "Ready")
 }
 
+clear_controller_buttons :: proc() {
+	for _, &controller in controllers {
+		controller.pressed = {}
+		controller.released = {}
+	}
+}
+
 main_loop :: proc(state: ^lua.State) {
 	init_loop(state)
 
@@ -117,6 +124,8 @@ main_loop :: proc(state: ^lua.State) {
 
 		free_all(context.temp_allocator)
 		lua.gc(state, .COLLECT) // Do a garbage collection cycle after each frame, just in case.
+
+		clear_controller_buttons()
 	}
 
 	cleanup_loop(state)

@@ -45,6 +45,5 @@ Engine.Draw = ->
 	Draw.Text("Hello, World!", Vector2.New(0, 0), Color.White)
 
 Engine.Cleanup = ->
-	--Audio.Unload(snd)
 	Texture.Unload(tex)
 	Audio.Unload(snd)

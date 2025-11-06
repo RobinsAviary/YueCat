@@ -1,44 +1,62 @@
-circle = Circle.New(Vector2.New(400, 120), 32)
-local cunt = nil
+local cont = nil
+Textures = { }
+local slots = {
+	Vector2.New(152, 91),
+	Vector2.New(247, 91),
+	Vector2.New(342, 91)
+}
+local slot_positions = {
+	0,
+	0,
+	0
+}
 Controller.Connected = function(controller)
-	cunt = controller
+	cont = controller
 end
 Controller.Disconnected = function(index)
-	if cunt ~= nil then
-		if cunt.index == index then
-			cunt = nil
+	if cont ~= nil then
+		if cont.index == index then
+			cont = nil
 		end
 	end
 end
 Engine.Init = function()
-	Config.Window.size = Vector2.New(800, 450)
-	Config.window.title = "raylib [core] example - basic window"
+	Config.Window.size = Vector2.New(455, 360)
+	Config.Window.title = "raylib [core] example - basic window"
 	Config.Window.Flags.msaa = true
 	return Controller.SetDefaultDeadzone(.2)
 end
-local tex = nil
 Engine.Ready = function()
-	Engine.SetFPSTarget(60)
-	tex = Texture.Load("resources/marcillesmall.png")
+	Engine.SetFPSTarget(144)
+	Textures.fruits = Texture.Load("resources/fruits.png")
+	Textures.coin = Texture.Load("resources/coin.png")
+	Textures.cointilt = Texture.Load("resources/cointilt.png")
+	Textures.machineback = Texture.Load("resources/machineback.png")
+	Textures.insertback = Texture.Load("resources/machineback2.png")
+	Textures.slotback = Texture.Load("resources/slotback.png")
+	Textures.slotoverlay = Texture.Load("resources/slotoverlay.png")
 end
 Engine.Step = function()
-	if cunt ~= nil then
-		local vec = Controller.GetVector(cunt, Controller.Vector.Left)
-		local _obj_0 = circle
-		_obj_0.position = _obj_0.position + (vec * Vector2.New(Engine.GetDelta() * 100))
-	end
-	if Keyboard.IsKeyPressed(Keyboard.Key.Space) then
-		return print("Boing!")
+	if cont ~= nil then
+		local vec = Controller.GetVector(cont, Controller.Vector.Left)
 	end
 end
 Engine.Draw = function()
 	Draw.Clear(Color.White)
 	Draw.Text("Congrats! You created your first window!", Vector2.New(190, 200), Color.LightGray)
-	Draw.Circle(circle, Color.Red)
-	if cunt ~= nil then
+	Draw.Texture(Textures.insertback, Vector2.New(372, 4))
+	Draw.Texture(Textures.coin, Vector2.New(377, 0))
+	Draw.Texture(Textures.machineback)
+	for _, slot in pairs(slots) do
+		Draw.Texture(Textures.slotback, slot)
+		Draw.BeginScissor(Rectangle.New(slot + Vector2.New(2), Vector2.New(77, 130) - Vector2.New(4)))
+		Draw.Texture(Textures.fruits, slot + Vector2.New(8, 0))
+		Draw.EndScissor()
+		Draw.Texture(Textures.slotoverlay, slot + Vector2.New(-10, 2))
 	end
-	return Draw.Texture(tex)
 end
 Engine.Cleanup = function()
-	return Texture.Unload(tex)
+	for _, texture in pairs(Textures) do
+		Texture.Unload(texture)
+	end
 end

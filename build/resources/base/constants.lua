@@ -24,52 +24,44 @@ Vector2 = {
 	meta = {
 		__name = "Vector2",
 		__add = function(a, b)
-			a.x = a.x + b.x
-			a.y = a.y + b.y
+			local v = Vector2.New(a.x + b.x, a.y + b.y)
 			
-			return a
+			return v
 		end,
 		__sub = function(a, b)
-			a.x = a.x - b.x
-			a.y = a.y - b.y
+			local v = Vector2.New(a.x - b.x, a.y - b.y)
 
-			return a
+			return v
 		end,
 		__mul = function(a, b)
-			a.x = a.x * b.x
-			a.y = a.y * b.y
+			local v = Vector2.New(a.x * b.x, a.y * b.y)
 
-			return a
+			return v
 		end,
 		__div = function(a, b)
-			a.x = a.x / b.x
-			a.y = a.y / b.y
+			local v = Vector2.New(a.x / b.x, a.y / b.y)
 
-			return a
+			return v
 		end,
 		__idiv = function(a, b)
-			a.x = math.floor(a.x / b.x)
-			a.y = math.floor(a.y / b.y)
+			local v = Vector2.New(a.x // b.x, a.y // b.y)
 
-			return a
+			return v
 		end,
 		__mod = function(a,b)
-			a.x = a.x % b.x
-			a.y = a.y % a.y
+			local v = Vector2.New(a.x % b.x, a.y % b.y)
 
-			return a
+			return v
 		end,
 		__pow = function(a,b)
-			a.x = a.x ^ b.x
-			a.y = a.y ^ b.y
+			local v = Vector2.New(a.x ^ b.x, a.y ^ b.y)
 
-			return a
+			return v
 		end,
 		__unm = function(a)
-			a.x = -a.x
-			a.y = -a.y
+			local v = Vector2.New(-a.x, -a.y)
 			
-			return a
+			return v
 		end,
 		__eq = function(a, b)
 			return a.x == b.x and a.y == b.y
@@ -684,3 +676,5 @@ Controller = {
 
 	end,
 }
+
+Window = {}
