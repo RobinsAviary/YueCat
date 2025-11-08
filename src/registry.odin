@@ -50,7 +50,6 @@ engine_registry: Registry = {
 		{GetDelta, "GetDelta"},
 		{GetFPS, "GetFPS"},
 		{SetFPSTarget, "SetFPSTarget"},
-		{GetMonitorCount, "GetMonitorCount"},
 		{SetClipboard, "SetClipboard"},
 		{GetClipboard, "GetClipboard"},
 		{SetExitKey, "SetExitKey"},
@@ -135,7 +134,6 @@ window_registry: Registry = {
 		{RestoreWindow, "Restore"},
 		{SetWindowPosition, "SetPosition"},
 		{SetWindowTitle, "SetTitle"},
-		{SetWindowMonitor, "SetMonitor"},
 		{SetWindowSizeMinimum, "SetMinimumSize"},
 		{SetWindowSizeMaximum, "SetMaximumSize"},
 		{SetWindowSize, "SetSize"},
@@ -143,8 +141,9 @@ window_registry: Registry = {
 		{GetWindowWidth, "GetWidth"},
 		{GetWindowHeight, "GetHeight"},
 		{SetWindowOpacity, "SetOpacity"},
-		{GetCurrentMonitor, "GetCurrentMonitor"},
 		{GetWindowPosition, "GetPosition"},
+		{SetWindowMonitor, "SetMonitor"},
+		{GetCurrentMonitor, "GetCurrentMonitor"},
 	},
 }
 
@@ -189,6 +188,13 @@ font_registry: Registry = {
 		{LoadFont, "Load"},
 		{UnloadFont, "Unload"},
 		{GetDefaultFont, "GetDefault"},
+	},
+}
+
+monitor_registry: Registry = {
+	"Monitor",
+	{
+		{GetMonitorCount, "GetCount"},
 	},
 }
 
@@ -242,4 +248,6 @@ register_functions :: proc(state: ^lua.State) {
 	register_registry(state, time_registry)
 
 	register_registry(state, font_registry)
+	
+	register_registry(state, monitor_registry)
 }
