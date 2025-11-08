@@ -21,10 +21,16 @@ MAIN_FILE :: "main" + LUA_EXTENSION
 // os.get_current_directory()
 
 open_base :: proc(state: ^lua.State) {
+	// Generate lua files
+	
 	base_path, base_path_allocated := filepath.from_slash("resources/base/")
 	base_directory := strings.concatenate({config.runtime_location, base_path})
 
 	if config.verbose do fmt.printfln("Base directory: \"%s\"", base_directory)
+
+	run_yuescript(base_directory)
+
+	// Run lua files
 
 	handle, error := os.open(base_directory)
 

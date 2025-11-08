@@ -123,7 +123,6 @@ main_loop :: proc(state: ^lua.State) {
 		rl.EndDrawing()
 
 		free_all(context.temp_allocator)
-		lua.gc(state, .COLLECT) // Do a garbage collection cycle after each frame, just in case.
 
 		clear_controller_buttons()
 	}

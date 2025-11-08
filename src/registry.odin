@@ -3,112 +3,164 @@ package YueCat
 import "core:fmt"
 import lua "vendor:lua/5.4"
 
-KEYBOARD_REGISTRY :: "Keyboard"
-DRAW_REGISTRY :: "Draw"
-ENGINE_REGISTRY :: "Engine"
-MOUSE_REGISTRY :: "Mouse"
-TEXTURE_REGISTRY :: "Texture"
-AUDIO_REGISTRY :: "Audio"
-COLOR_REGISTRY :: "Color"
-CONTROLLER_REGISTRY :: "Controller"
-WINDOW_REGISTRY :: "Window"
-
 draw_registry: Registry = {
-	{DrawClear, "Clear"},
-	{DrawLine, "Line"},
-	{DrawRectangle, "Rectangle"},
-	{DrawRectangleLined, "RectangleLined"},
-	{DrawCircleLined, "CircleLined"},
-	{DrawCircle, "Circle"},
-	{DrawTriangle, "Triangle"},
-	{DrawTriangleLined, "TriangleLined"},
-	{DrawTexture, "Texture"},
-	{DrawText, "Text"},
-	{DrawGrid, "Grid"},
-	{DrawCube, "Cube"},
-	{DrawBox, "Box"},
-	{Begin3D, "Begin3D"},
-	{End3D, "End3D"},
-	{DrawFPS, "FPS"},
-	{BeginScissor, "BeginScissor"},
-	{EndScissor, "EndScissor"},
+	"Draw",
+	{
+		{DrawClear, "Clear"},
+		{DrawLine, "Line"},
+		{DrawRectangle, "Rectangle"},
+		{DrawRectangleLined, "RectangleLined"},
+		{DrawCircleLined, "CircleLined"},
+		{DrawCircle, "Circle"},
+		{DrawTriangle, "Triangle"},
+		{DrawTriangleLined, "TriangleLined"},
+		{DrawTexture, "Texture"},
+		{DrawText, "Text"},
+		{DrawGrid, "Grid"},
+		{DrawCube, "Cube"},
+		{DrawBox, "Box"},
+		{Begin3D, "Begin3D"},
+		{End3D, "End3D"},
+		{DrawFPS, "FPS"},
+		{BeginScissor, "BeginScissor"},
+		{EndScissor, "EndScissor"},
+	},
 }
 
 keyboard_registry: Registry = {
-	{IsKeyboardKeyReleased, "IsKeyReleased"},
-	{IsKeyboardKeyPressed, "IsKeyPressed"},
-	{IsKeyboardKeyHeld, "IsKeyHeld"},
+	"Keyboard",
+	{
+		{IsKeyboardKeyReleased, "IsKeyReleased"},
+		{IsKeyboardKeyPressed, "IsKeyPressed"},
+		{IsKeyboardKeyHeld, "IsKeyHeld"},
+	},
 }
 
 engine_registry: Registry = {
-	{OpenURL, "OpenURL"},
-	{GetTime, "GetTime"},
-	{GetDelta, "GetDelta"},
-	{GetFPS, "GetFPS"},
-	{SetFPSTarget, "SetFPSTarget"},
-	{GetMonitorCount, "GetMonitorCount"},
-	{SetClipboard, "SetClipboard"},
-	{GetClipboard, "GetClipboard"},
+	"Engine",
+	{
+		{OpenURL, "OpenURL"},
+		{GetTime, "GetTime"},
+		{GetDelta, "GetDelta"},
+		{GetFPS, "GetFPS"},
+		{SetFPSTarget, "SetFPSTarget"},
+		{GetMonitorCount, "GetMonitorCount"},
+		{SetClipboard, "SetClipboard"},
+		{GetClipboard, "GetClipboard"},
+		{SetExitKey, "SetExitKey"},
+		{Sleep, "Sleep"},
+		{TakeScreenshot, "TakeScreenshot"},
+	},
 }
 
 mouse_registry: Registry = {
-	{GetMousePosition, "GetPosition"},
-	{GetMouseX, "GetX"},
-	{GetMouseY, "GetY"},
-	{SetMouseX, "SetX"},
-	{SetMouseY, "SetY"},
-	{SetMousePosition, "SetPosition"},
-	{IsMouseButtonPressed, "IsButtonPressed"},
-	{IsMouseButtonHeld, "IsButtonHeld"},
-	{IsMouseButtonReleased, "IsButtonReleased"},
-	{IsCursorOnScreen, "IsOnScreen"},
+	"Mouse",
+	{
+		{GetMousePosition, "GetPosition"},
+		{GetMouseX, "GetX"},
+		{GetMouseY, "GetY"},
+		{SetMouseX, "SetX"},
+		{SetMouseY, "SetY"},
+		{SetMousePosition, "SetPosition"},
+		{IsMouseButtonPressed, "IsButtonPressed"},
+		{IsMouseButtonHeld, "IsButtonHeld"},
+		{IsMouseButtonReleased, "IsButtonReleased"},
+		{IsCursorOnScreen, "IsOnScreen"},
+		{GetMouseWheelMove, "GetMouseWheelMove"},
+		{GetMouseWheelMoveVector, "GetMouseWheelMoveVector"},
+	},
 }
 
 texture_registry: Registry = {
-	{LoadTexture, "Load"},
-	{UnloadTexture, "Unload"},
+	"Texture",
+	{
+		{LoadTexture, "Load"},
+		{UnloadTexture, "Unload"},
+		{TextureGetSize, "GetSize"},
+		{TextureGetWidth, "GetWidth"},
+		{TextureGetHeight, "GetHeight"},
+	},
 }
 
 audio_registry: Registry = {
-	{LoadAudio, "Load"},
-	{UnloadAudio, "Unload"},
-	{PlayAudio, "Play"},
+	"Audio",
+	{
+		{LoadAudio, "Load"},
+		{UnloadAudio, "Unload"},
+		{PlayAudio, "Play"},
+		{SetMasterVolume, "SetMasterVolume"},
+		{GetMasterVolume, "GetMasterVolume"},
+		{AudioGetChannelCount, "GetChannelCount"},
+		{AudioGetFrameCount, "GetFrameCount"},
+		{AudioGetSampleRate, "GetSampleRate"},
+		{AudioGetSampleSize, "GetSampleSize"},
+	},
 }
 
 color_registry: Registry = {
-	{ColorToHSV, "ToHSV"},
-	{ColorFromHSV, "FromHSV"},
+	"Color",
+	{
+		{ColorToHSV, "ToHSV"},
+		{ColorFromHSV, "FromHSV"},
+	},
 }
 
 controller_registry: Registry = {
-	{IsControllerButtonHeld, "IsButtonHeld"},
-	{GetControllerAxis, "GetAxis"},
-	{GetControllerVector, "GetVector"},
-	{GetControllerName, "GetName"},
-	{ControllerSetDeadzone, "SetDeadzone"},
-	{ControllerGetDeadzone, "GetDeadzone"},
-	{ControllerSetDefaultDeadzone, "SetDefaultDeadzone"},
-	{ControllerGetDefaultDeadzone, "GetDefaultDeadzone"},
-	{IsControllerButtonPressed,"IsButtonPressed"},
-	{IsControllerButtonReleased, "IsButtonReleased"},
+	"Controller",
+	{
+		{IsControllerButtonHeld, "IsButtonHeld"},
+		{GetControllerAxis, "GetAxis"},
+		{GetControllerVector, "GetVector"},
+		{GetControllerName, "GetName"},
+		{ControllerSetDeadzone, "SetDeadzone"},
+		{ControllerGetDeadzone, "GetDeadzone"},
+		{ControllerSetDefaultDeadzone, "SetDefaultDeadzone"},
+		{ControllerGetDefaultDeadzone, "GetDefaultDeadzone"},
+		{IsControllerButtonPressed,"IsButtonPressed"},
+		{IsControllerButtonReleased, "IsButtonReleased"},
+	},
 }
 
 window_registry: Registry = {
-	{MaximizeWindow, "Maximize"},
-	{MinimizeWindow, "Minimize"},
-	{RestoreWindow, "Restore"},
-	{SetWindowPosition, "SetPosition"},
-	{SetWindowTitle, "SetTitle"},
-	{SetWindowMonitor, "SetMonitor"},
-	{SetWindowSizeMinimum, "SetMinimumSize"},
-	{SetWindowSizeMaximum, "SetMaximumSize"},
-	{SetWindowSize, "SetSize"},
-	{GetWindowSize, "GetSize"},
-	{GetWindowWidth, "GetWidth"},
-	{GetWindowHeight, "GetHeight"},
-	{SetWindowOpacity, "SetOpacity"},
-	{GetCurrentMonitor, "GetCurrentMonitor"},
-	{GetWindowPosition, "GetPosition"},
+	"Window",
+	{
+		{MaximizeWindow, "Maximize"},
+		{MinimizeWindow, "Minimize"},
+		{RestoreWindow, "Restore"},
+		{SetWindowPosition, "SetPosition"},
+		{SetWindowTitle, "SetTitle"},
+		{SetWindowMonitor, "SetMonitor"},
+		{SetWindowSizeMinimum, "SetMinimumSize"},
+		{SetWindowSizeMaximum, "SetMaximumSize"},
+		{SetWindowSize, "SetSize"},
+		{GetWindowSize, "GetSize"},
+		{GetWindowWidth, "GetWidth"},
+		{GetWindowHeight, "GetHeight"},
+		{SetWindowOpacity, "SetOpacity"},
+		{GetCurrentMonitor, "GetCurrentMonitor"},
+		{GetWindowPosition, "GetPosition"},
+	},
+}
+
+cursor_registry: Registry = {
+	"Cursor",
+	{
+		{ShowCursor, "Show"},
+		{HideCursor, "Hide"},
+		{IsCursorHidden, "IsHidden"},
+		{IsCursorOnScreen, "IsOnScreen"},
+	},
+}
+
+touch_registry: Registry = {
+	"Touch",
+	{
+		{GetTouchX, "GetX"},
+		{GetTouchY, "GetY"},
+		{GetTouchPosition, "GetPosition"},
+		{GetTouchPointId, "GetPointId"},
+		{GetTouchPointCount, "GetPointCount"},
+	},
 }
 
 registry_value :: struct {
@@ -116,62 +168,45 @@ registry_value :: struct {
 	lua_name: cstring,
 }
 
-Registry :: []registry_value
+Registry :: struct {
+	name: cstring,
+	values: []registry_value,
+}
 
 register_registry :: proc(state: ^lua.State, registry: Registry) {
-	registry_len := i32(len(registry))
+	lua.checkstack(state, 1)
+	lua.getglobal(state, registry.name)
+
+	registry_len := i32(len(registry.values))
 	lua.checkstack(state, registry_len)
-	for value in registry {
+	for value in registry.values {
 		lua.pushcfunction(state, value.cfunction)
 		lua.setfield(state, -2, value.lua_name)
 	}
+
+	lua.pop(state, 1)
 }
 
 register_functions :: proc(state: ^lua.State) {
 	if config.verbose do fmt.println("Registering functions...")
-
-	lua.checkstack(state, 1)
-	lua.getglobal(state, DRAW_REGISTRY)
+	
 	register_registry(state, draw_registry)
-	lua.pop(state, 1)
 
-	lua.checkstack(state, 1)
-	lua.getglobal(state, ENGINE_REGISTRY)
 	register_registry(state, engine_registry)
-	lua.pop(state, 1)
 
-	lua.checkstack(state, 1)
-	lua.getglobal(state, MOUSE_REGISTRY)
 	register_registry(state, mouse_registry)
-	lua.pop(state, 1)
 
-	lua.checkstack(state, 1)
-	lua.getglobal(state, TEXTURE_REGISTRY)
 	register_registry(state, texture_registry)
-	lua.pop(state, 1)
 
-	lua.checkstack(state, 1)
-	lua.getglobal(state, KEYBOARD_REGISTRY)
 	register_registry(state, keyboard_registry)
-	lua.pop(state, 1)
 
-	lua.checkstack(state, 1)
-	lua.getglobal(state, AUDIO_REGISTRY)
 	register_registry(state, audio_registry)
-	lua.pop(state, 1)
 
-	lua.checkstack(state, 1)
-	lua.getglobal(state, COLOR_REGISTRY)
 	register_registry(state, color_registry)
-	lua.pop(state, 1)
 
-	lua.checkstack(state, 1)
-	lua.getglobal(state, CONTROLLER_REGISTRY)
 	register_registry(state, controller_registry)
-	lua.pop(state, 1)
 
-	lua.checkstack(state, 1)
-	lua.getglobal(state, WINDOW_REGISTRY)
 	register_registry(state, window_registry)
-	lua.pop(state, 1)
+
+	register_registry(state, cursor_registry)
 }

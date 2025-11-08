@@ -1,15 +1,57 @@
 local cont = nil
 Textures = { }
+Sounds = { }
+local spot_kind = {
+	orange = {
+		position = 21
+	},
+	watermelon = {
+		position = 61
+	},
+	coconut = {
+		position = 97
+	},
+	bell = {
+		position = 136
+	},
+	pear = {
+		position = 177
+	},
+	bar = {
+		position = 217
+	},
+	seven = {
+		position = 254
+	},
+	cherry = {
+		position = 296
+	}
+}
 local slots = {
-	Vector2.New(152, 91),
-	Vector2.New(247, 91),
-	Vector2.New(342, 91)
+	{
+		position = Vector2.New(152, 91),
+		speed = 1,
+		offset = 0,
+		stop_at = nil
+	},
+	{
+		position = Vector2.New(247, 91),
+		speed = .8,
+		offset = 0,
+		stop_at = nil
+	},
+	{
+		position = Vector2.New(342, 91),
+		speed = .4,
+		offset = 0,
+		stop_at = nil
+	}
 }
-local slot_positions = {
-	0,
-	0,
-	0
+local Timer = {
+	current = 0,
+	max = .1
 }
+local slots_rolling = true
 Controller.Connected = function(controller)
 	cont = controller
 end
@@ -28,35 +70,62 @@ Engine.Init = function()
 end
 Engine.Ready = function()
 	Engine.SetFPSTarget(144)
-	Textures.fruits = Texture.Load("resources/fruits.png")
-	Textures.coin = Texture.Load("resources/coin.png")
-	Textures.cointilt = Texture.Load("resources/cointilt.png")
-	Textures.machineback = Texture.Load("resources/machineback.png")
-	Textures.insertback = Texture.Load("resources/machineback2.png")
-	Textures.slotback = Texture.Load("resources/slotback.png")
-	Textures.slotoverlay = Texture.Load("resources/slotoverlay.png")
+	Textures.fruits = Texture.Load("resources/textures/fruits.png")
+	Textures.coin = Texture.Load("resources/textures/coin.png")
+	Textures.cointilt = Texture.Load("resources/textures/cointilt.png")
+	Textures.machineback = Texture.Load("resources/textures/machineback.png")
+	Textures.insertback = Texture.Load("resources/textures/machineback2.png")
+	Textures.slotback = Texture.Load("resources/textures/slotback.png")
+	Textures.slotoverlay = Texture.Load("resources/textures/slotoverlay.png")
+	Sounds.tick = Audio.Load("resources/audio/click.wav")
+	return Audio.SetMasterVolume(0)
 end
 Engine.Step = function()
 	if cont ~= nil then
 		local vec = Controller.GetVector(cont, Controller.Vector.Left)
 	end
+	if not slots_rolling and Timer.current ~= 0 then
+		Timer.current = 0
+	end
+	if slots_rolling then
+		Timer.current = Timer.current + Engine.GetDelta()
+		for _index_0 = 1, #slots do
+			local slot = slots[_index_0]
+			slot.offset = slot.offset - (slot.speed * Engine.GetDelta() * 500)
+			if slot.offset < -Texture.GetHeight(Textures.fruits) then
+				slot.offset = 0
+			end
+		end
+	end
+	if Timer.current > Timer.max then
+		Timer.current = 0
+	end
+	if Keyboard.IsKeyPressed(Keyboard.Key.Space) then
+		print(table.randomkey(spot_kind))
+	end
+	return print(Answer)
 end
 Engine.Draw = function()
-	Draw.Clear(Color.White)
-	Draw.Text("Congrats! You created your first window!", Vector2.New(190, 200), Color.LightGray)
+	Draw.Clear(Color.RayWhite)
 	Draw.Texture(Textures.insertback, Vector2.New(372, 4))
 	Draw.Texture(Textures.coin, Vector2.New(377, 0))
 	Draw.Texture(Textures.machineback)
-	for _, slot in pairs(slots) do
-		Draw.Texture(Textures.slotback, slot)
-		Draw.BeginScissor(Rectangle.New(slot + Vector2.New(2), Vector2.New(77, 130) - Vector2.New(4)))
-		Draw.Texture(Textures.fruits, slot + Vector2.New(8, 0))
+	for _index_0 = 1, #slots do
+		local slot = slots[_index_0]
+		Draw.Texture(Textures.slotback, slot.position)
+		Draw.BeginScissor(Rectangle.New(slot.position + Vector2.New(2), Vector2.New(77, 130) - Vector2.New(4)))
+		Draw.Texture(Textures.fruits, slot.position + Vector2.New(0, slot.offset) + Vector2.New(8, 0))
+		Draw.Texture(Textures.fruits, slot.position + Vector2.New(0, slot.offset + Texture.GetHeight(Textures.fruits)) + Vector2.New(8, 0))
 		Draw.EndScissor()
-		Draw.Texture(Textures.slotoverlay, slot + Vector2.New(-10, 2))
+		Draw.Texture(Textures.slotoverlay, slot.position + Vector2.New(0, 2))
 	end
+	return Draw.FPS()
 end
 Engine.Cleanup = function()
 	for _, texture in pairs(Textures) do
 		Texture.Unload(texture)
+	end
+	for _, sound in pairs(Sounds) do
+		Audio.Unload(sound)
 	end
 end

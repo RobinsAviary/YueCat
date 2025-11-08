@@ -777,3 +777,61 @@ Various inspirations for this project:
 * [Csound](https://csound.com/)
 * [SFML](https://www.sfml-dev.org/)
 * [GLFW](https://www.glfw.org/)
+
+# Language Reference
+
+*This is a rough reference of the YueScript/MoonScript language, in an attempt to put everything more in one place.*
+
+## Tables
+
+### Regular Tables
+
+```
+tbl = {
+    variable_name: "variable value"
+    name2: 1.3
+    tbl2 = {
+        thing = 2
+    }
+}
+```
+
+### Numeric Tables (Lists)
+
+```
+tbl = {
+    1,
+    "element",
+    3.4,
+    {
+        6
+    },
+    false
+}
+```
+
+## Functions
+
+Argument parenthesis `()` are optional.
+
+Scope is controlled by indents.
+
+### Regular Function
+
+```
+function_name = (arguments) ->
+    //do stuff here, return value
+```
+
+### Self Function
+
+Function implicitly passes `self` when called.
+
+```
+function_name = (arguments, other_stuff) =>
+    // do stuff here, access `self` as necessary to affect state.
+```
+
+## Operators
+
+`+=`, `-=`, `*=`, `/=`.

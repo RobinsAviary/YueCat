@@ -94,8 +94,15 @@ DrawText :: proc "c" (state: ^lua.State) -> (results: c.int) {
 
 GetMouseWheelMove :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	lua.checkstack(state, 1)
-	lua.pushnumber(state, lua.Number(rl.GetMouseWheelMoveV().y))
+	lua.pushnumber(state, lua.Number(rl.GetMouseWheelMove()))
 	
+	return 1
+}
+
+GetMouseWheelMoveVector :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	lua.checkstack(state, 1)
+	push_vector2(state, rl.GetMouseWheelMoveV())
+
 	return 1
 }
 
@@ -702,3 +709,205 @@ SetClipboard :: proc "c" (state: ^lua.State) -> (results: c.int) {
 
 	return
 }
+
+ShowCursor :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	rl.ShowCursor()
+
+	return
+}
+
+HideCursor :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	rl.HideCursor()
+
+	return
+}
+
+SetMasterVolume :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	volume := lua.L_checknumber(state, 1)
+	
+	rl.SetMasterVolume(c.float(volume))
+
+	return
+}
+
+GetMasterVolume :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	lua.checkstack(state, 1)
+	lua.pushnumber(state, lua.Number(rl.GetMasterVolume()))
+
+	return 1
+}
+
+TextureGetSize :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	texture := check_texture(state, 1)
+
+	vector := rl.Vector2 {f32(texture.width), f32(texture.height)}
+	lua.checkstack(state, 1)
+	push_vector2(state, vector)
+	
+	return 1
+}
+
+TextureGetWidth :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	texture := check_texture(state, 1)
+
+	lua.checkstack(state, 1)
+	lua.pushinteger(state, lua.Integer(texture.width))
+	
+	return 1
+}
+
+TextureGetHeight :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	texture := check_texture(state, 1)
+
+	lua.checkstack(state, 1)
+	lua.pushinteger(state, lua.Integer(texture.height))
+
+	return 1
+}
+
+AudioGetChannelCount :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	audio := check_audio(state, 1)
+
+	lua.checkstack(state, 1)
+	lua.pushinteger(state, lua.Integer(audio.channels))
+
+	return 1
+}
+
+AudioGetFrameCount :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	audio := check_audio(state, 1)
+
+	lua.checkstack(state, 1)
+	lua.pushinteger(state, lua.Integer(audio.frameCount))
+
+	return 1
+}
+
+AudioGetSampleRate :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	audio := check_audio(state, 1)
+
+	lua.checkstack(state, 1)
+	lua.pushinteger(state, lua.Integer(audio.sampleRate))
+
+	return 1
+}
+
+AudioGetSampleSize :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	audio := check_audio(state, 1)
+
+	lua.checkstack(state, 1)
+	lua.pushinteger(state, lua.Integer(audio.sampleSize))
+
+	return 1
+}
+
+check_number_default :: proc "c" (state: ^lua.State, arg: c.int, default: c.float = 0) -> (result: c.float) {
+	if lua.isnumber(state, arg) {
+		result = c.float(lua.tonumber(state, arg))
+	} else if lua.isnoneornil(state, arg) {
+		result = default
+	} else {
+		// TODO: Maybe improve with check_type
+		lua.L_checknumber(state, arg)
+	}
+
+	return
+}
+
+check_integer_default :: proc "c" (state: ^lua.State, arg: c.int, default: c.int = 0) -> (result: c.int) {
+	if lua.isinteger(state, arg) {
+		result = c.int(lua.tointeger(state, arg))
+	} else if lua.isnoneornil(state, arg) {
+		result = default
+	} else {
+		lua.L_checkinteger(state, 1)
+	}
+
+	return
+}
+
+GetTouchX :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	touch_index := check_integer_default(state, 1)
+
+	lua.checkstack(state, 1)
+	lua.pushnumber(state, lua.Number(rl.GetTouchPosition(touch_index).x))
+
+	return 1
+}
+
+GetTouchY :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	touch_index := check_integer_default(state, 1)
+
+	lua.checkstack(state, 1)
+	lua.pushnumber(state, lua.Number(rl.GetTouchPosition(touch_index).y))
+
+	return 1
+}
+
+GetTouchPosition :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	touch_index := check_integer_default(state, 1)
+
+	lua.checkstack(state, 1)
+	push_vector2(state, rl.GetTouchPosition(touch_index))
+
+	return 1
+}
+
+GetTouchPointId :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	touch_index := lua.L_checkinteger(state, 1)
+
+	lua.checkstack(state, 1)
+	lua.pushinteger(state, lua.Integer(rl.GetTouchPointId(c.int(touch_index))))
+
+	return 1
+}
+
+GetTouchPointCount :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	lua.checkstack(state, 1)
+	lua.pushinteger(state, lua.Integer(rl.GetTouchPointCount()))
+
+	return 1
+}
+
+IsCursorHidden :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	lua.checkstack(state, 1)
+	lua.pushboolean(state, b32(rl.IsCursorHidden()))
+
+	return 1
+}
+
+SetExitKey :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	if lua.isnoneornil(state, 1) {
+		rl.SetExitKey(.KEY_NULL)
+	} else {
+		key := lua.L_checkinteger(state, 1)
+	
+		rl.SetExitKey(rl.KeyboardKey(key))
+	}
+
+	return 0
+}
+
+GetMouseDelta :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	lua.checkstack(state, 1)
+	push_vector2(state, rl.GetMouseDelta())
+
+	return 1
+}
+
+Sleep :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	time := lua.L_checknumber(state, 1)
+
+	rl.WaitTime(f64(time))
+
+	return
+}
+
+TakeScreenshot :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	filename := lua.L_checkstring(state, 1)
+
+	rl.TakeScreenshot(filename)
+
+	return
+}
+

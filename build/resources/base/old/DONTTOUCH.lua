@@ -1,43 +1,66 @@
 Engine = {
-	Ready = function() end,
-	Step = function() end,
-	Draw = function() end,
-	Cleanup = function() end,
-	Init = function() end
+	Ready = function()
+
+	end,
+
+	Step = function()
+
+	end,
+
+	Draw = function()
+
+	end,
+
+	Cleanup = function()
+
+	end,
+
+	Init = function()
+
+	end,
 }
+
 Vector2 = {
 	meta = {
 		__name = "Vector2",
 		__add = function(a, b)
 			local v = Vector2.New(a.x + b.x, a.y + b.y)
+			
 			return v
 		end,
 		__sub = function(a, b)
 			local v = Vector2.New(a.x - b.x, a.y - b.y)
+
 			return v
 		end,
 		__mul = function(a, b)
 			local v = Vector2.New(a.x * b.x, a.y * b.y)
+
 			return v
 		end,
 		__div = function(a, b)
 			local v = Vector2.New(a.x / b.x, a.y / b.y)
+
 			return v
 		end,
 		__idiv = function(a, b)
 			local v = Vector2.New(a.x // b.x, a.y // b.y)
+
 			return v
 		end,
-		__mod = function(a, b)
+		__mod = function(a,b)
 			local v = Vector2.New(a.x % b.x, a.y % b.y)
+
 			return v
 		end,
-		__pow = function(a, b)
+		__pow = function(a,b)
 			local v = Vector2.New(a.x ^ b.x, a.y ^ b.y)
+
 			return v
 		end,
 		__unm = function(a)
 			local v = Vector2.New(-a.x, -a.y)
+			
 			return v
 		end,
 		__eq = function(a, b)
@@ -48,24 +71,33 @@ Vector2 = {
 		end,
 		__len = function(a)
 			return math.sqrt(a.x * a.x + a.y * a.y)
-		end
+		end,
 	}
 }
+
 Vector2.New = function(x, y)
 	x = x or 0
 	y = y or x or 0
+
 	local tbl = {
 		x = x,
-		y = y
+		y = y,
 	}
+
 	setmetatable(tbl, Vector2.meta)
+
 	return tbl
 end
+
 Vector2.Zero = Vector2.New()
+
 Vector2.Up = Vector2.New(0, 1)
 Vector2.Down = Vector2.New(0, -1)
 Vector2.Left = Vector2.New(-1, 0)
 Vector2.Right = Vector2.New(1, 0)
+
+
+
 Vector3 = {
 	meta = {
 		__name = "Vector3",
@@ -73,48 +105,56 @@ Vector3 = {
 			a.x = a.x + b.x
 			a.y = a.y + b.y
 			a.z = a.z + b.z
+			
 			return a
 		end,
 		__sub = function(a, b)
 			a.x = a.x - b.x
 			a.y = a.y - b.y
 			a.z = a.z - b.z
+
 			return a
 		end,
 		__mul = function(a, b)
 			a.x = a.x * b.x
 			a.y = a.y * b.y
 			a.z = a.z * b.z
+
 			return a
 		end,
 		__div = function(a, b)
 			a.x = a.x / b.x
 			a.y = a.y / b.y
 			a.z = a.z / b.z
+
 			return a
 		end,
 		__idiv = function(a, b)
 			a.x = math.floor(a.x / b.x)
 			a.y = math.floor(a.y / b.y)
 			a.z = math.floor(a.z / b.z)
+
 			return a
 		end,
-		__mod = function(a, b)
+		__mod = function(a,b)
 			a.x = a.x % b.x
 			a.y = a.y % a.y
 			a.z = a.z % a.z
+
 			return a
 		end,
-		__pow = function(a, b)
+		__pow = function(a,b)
 			a.x = a.x ^ b.x
 			a.y = a.y ^ b.y
 			a.z = a.z ^ a.z
+
 			return a
 		end,
 		__unm = function(a)
 			a.x = -a.x
 			a.y = -a.y
 			a.z = -a.z
+			
 			return a
 		end,
 		__eq = function(a, b)
@@ -125,41 +165,57 @@ Vector3 = {
 		end,
 		__len = function(a)
 			return math.sqrt(a.x * a.x + a.y * a.y + a.z * a.z)
-		end
+		end,
 	}
 }
+
 Vector3.New = function(x, y, z)
 	x = x or 0
 	y = y or x or 0
 	z = z or y or x or 0
+
 	local tbl = {
 		x = x,
 		y = y,
-		z = z
+		z = z,
 	}
+
 	setmetatable(tbl, Vector3.meta)
+
 	return tbl
 end
+
 Vector3.Zero = Vector3.New()
+
+
+
 Color = {
 	meta = {
 		__name = "Color"
 	}
 }
+
+-- Color.ToHSV()
+-- Color.FromHSV()
+
 Color.New = function(r, g, b, a)
 	r = r or 0
 	g = g or r or 0
 	b = b or r or g or 0
 	a = a or 1
+
 	local tbl = {
 		r = r,
 		g = g,
 		b = b,
-		a = a
+		a = a,
 	}
+
 	setmetatable(tbl, Color.meta)
+
 	return tbl
 end
+
 Color.White = Color.New(1)
 Color.Black = Color.New()
 Color.Gray = Color.New(.510)
@@ -186,145 +242,197 @@ Color.DarkBrown = Color.New(.298, .247, .184)
 Color.Transparent = Color.New(0, 0, 0, 0)
 Color.Magenta = Color.New(1, 0, 1)
 Color.RayWhite = Color.New(.961)
+
+
+
 ColorHSV = {
 	meta = {
 		__name = "ColorHSV"
 	}
 }
+
 ColorHSV.New = function(h, s, v, a)
 	h = h or 0
 	s = s or 1
 	v = v or s or 1
 	a = a or 1
+
 	local tbl = {
 		h = h,
 		s = s,
 		v = v,
-		a = a
+		a = a,
 	}
+
 	setmetatable(tbl, ColorHSV.meta)
+
 	return tbl
 end
+
 Rectangle = {
 	meta = {
 		__name = "Rectangle"
 	}
 }
+
 Rectangle.New = function(position, size)
 	local tbl = {
 		position = position or Vector2.Zero,
-		size = size or Vector2.Zero
+		size = size or Vector2.Zero,
 	}
+
 	setmetatable(tbl, Rectangle.meta)
+
 	return tbl
 end
+
+
+
 Circle = {
 	meta = {
 		__name = "Circle"
 	}
 }
+
 Circle.New = function(position, radius)
 	local tbl = {
 		position = position or Vector2.Zero,
 		radius = radius or 0
 	}
+
 	setmetatable(tbl, Circle.meta)
+
 	return tbl
 end
+
 Triangle = {
 	meta = {
 		__name = "Triangle"
 	}
 }
+
 Triangle.New = function(firstPoint, secondPoint, thirdPoint)
 	local tbl = {
 		firstPoint = firstPoint or Vector2.Zero,
 		secondPoint = secondPoint or Vector2.Zero,
-		thirdPoint = thirdPoint or Vector2.Zero
+		thirdPoint = thirdPoint or Vector2.Zero,
 	}
 end
+
+
+
 Cube = {
 	meta = {
 		__name = "Cube"
 	}
 }
+
 Cube.New = function(position, size)
 	position = position or Vector3.Zero
 	size = size or 0
+
 	local tbl = {
 		position = position,
-		size = size
+		size = size,
 	}
+
 	setmetatable(tbl, Cube.meta)
+
 	return tbl
 end
+
 Box = {
 	meta = {
 		__name = "Box"
 	}
 }
+
 Box.New = function(position, size)
 	position = position or Vector3.Zero
 	size = Vector3.Zero
+
 	local tbl = {
 		position = position,
-		size = size
+		size = size,
 	}
+
 	setmetatable(tbl, Box.meta)
+
 	return tbl
 end
+
 Sphere = {
 	meta = {
 		__name = "Sphere"
 	}
 }
+
 Sphere.New = function(position, diameter)
 	position = position or Vector3.Zero
 	diameter = diameter or 0
+
 	local tbl = {
 		position = position,
-		diameter = diameter
+		diameter = diameter,
 	}
+
 	setmetatable(tbl, Sphere.meta)
+
 	return tbl
 end
+
 Cylinder = {
 	meta = {
 		__name = "Cylinder"
 	}
 }
+
 Cylinder.New = function(position, diameter, height)
 	position = position or Vector3.Zero
 	diameter = diameter or 0
 	height = height or 0
+
 	local tbl = {
 		position = position,
 		diameter = diameter,
-		height = height
+		height = height,
 	}
+
 	setmetatable(tbl, Cylinder.meta)
+
 	return tbl
 end
+
 Triangle3D = {
 	meta = {
 		__name = "Triangle3D"
 	}
 }
+
 Triangle3D.New = function(firstPoint, secondPoint, thirdPoint)
 	firstPoint = firstPoint or Vector3.Zero
 	secondPoint = secondPoint or Vector3.Zero
 	thirdPoint = thirdPoint or Vector3.Zero
+
 	local tbl = {
 		firstPoint = firstPoint or Vector3.Zero,
 		secondPoint = secondPoint or Vector3.Zero,
-		thirdPoint = thirdPoint or Vector3.Zero
+		thirdPoint = thirdPoint or Vector3.Zero,
 	}
+
 	setmetatable(tbl, Triangle3D.meta)
+
 	return tbl
 end
-Draw = { }
-Mouse = { }
-Texture = { }
+
+
+
+Draw = {}
+
+Mouse = {}
+
+Texture = {}
+
 Keyboard = {
 	Key = {
 		Null = 0,
@@ -373,7 +481,7 @@ Keyboard = {
 		Z = 90,
 		Bracket = {
 			Left = 91,
-			Right = 93
+			Right = 93,
 		},
 		BackSlash = 92,
 		Grave = 96,
@@ -411,21 +519,22 @@ Keyboard = {
 		F12 = 301,
 		Shift = {
 			Left = 340,
-			Right = 344
+			Right = 344,
 		},
 		Control = {
 			Left = 341,
-			Right = 345
+			Right = 345,
 		},
 		Alt = {
 			Left = 342,
-			Right = 346
+			Right = 346,
 		},
 		Super = {
 			Left = 343,
-			Right = 347
+			Right = 347,
 		},
 		KBMenu = 348,
+		-- Keypad
 		Keypad = {
 			Zero = 320,
 			One = 321,
@@ -443,58 +552,72 @@ Keyboard = {
 			Subtract = 333,
 			Add = 334,
 			Enter = 335,
-			Equal = 336
+			Equal = 336,
 		},
+		-- Android buttons
 		Button = {
 			Back = 4,
 			Menu = 5,
 			VolumeUp = 24,
-			VolumeDown = 25
+			VolumeDown = 25,
 		}
 	}
 }
-Audio = { }
+
+Audio = {}
+
 Config = {
 	Window = {
 		size = Vector2.New(640, 480),
 		title = "YueCat",
+
 		Flags = {
-			msaa = false,
-			borderless = false,
-			topmost = false,
-			resizable = false,
-			vsync = false
-		}
+			msaa = false, -- Antialiasing
+            borderless = false, -- Undecorated window
+            topmost = false, -- Window always stays on top
+            resizable = false, -- Window is resizable
+            vsync = false, -- Vsync
+		},
 	},
+	
 	Audio = {
-		active = true
+		active = true,
 	}
 }
+
+
+
 Camera3D = {
 	meta = {
-		__name = "Camera3D"
+		__name = "Camera3D",
 	},
+
 	Projection = {
 		Perspective = 0,
-		Orthographic = 1
+		Orthographic = 1,
 	}
 }
+
 Camera3D.New = function(position, target, up, fov, projection)
 	position = position or Vector2.Zero
 	target = target or Vector2.Zero
 	up = up or Vector2.Zero
 	fov = fov or 45
 	projection = projection or Camera3D.Projection.Perspective
-	local tbl = {
+
+	tbl = {
 		position = position,
 		target = target,
 		up = up,
 		fov = fov,
-		projection = projection
+		projection = projection,
 	}
+
 	setmetatable(tbl, Camera3D.meta)
+
 	return tbl
 end
+
 Controller = {
 	Button = {
 		Invalid = -1,
@@ -513,55 +636,71 @@ Controller = {
 			Up = 11,
 			Down = 12,
 			Left = 13,
-			Right = 14
+			Right = 14,
 		},
 		Misc1 = 15,
 		Paddle1 = 16,
 		Paddle2 = 17,
 		Paddle3 = 18,
 		Paddle4 = 19,
-		Touchpad = 20
+		Touchpad = 20,
 	},
+
 	Axis = {
 		Invalid = -1,
 		Left = {
 			x = 0,
-			y = 1
+			y = 1,
 		},
 		Right = {
 			x = 2,
-			y = 3
+			y = 3,
 		},
 		Trigger = {
 			Left = 4,
-			Right = 5
+			Right = 5,
 		}
 	},
+
 	Vector = {
 		DPad = 0,
 		Left = 1,
-		Right = 2
+		Right = 2,
 	},
-	Connected = function(controller) end,
-	Disconnected = function(index) end
+
+	Connected = function(controller)
+			
+	end,
+
+	Disconnected = function(index)
+
+	end,
 }
-Window = { }
-Cursor = { }
+
+Window = {}
+
+Cursor = {}
+
 table.randomkey = function(tbl)
-	local keys = { }
+	local keys = {}
+	
 	for k, _ in pairs(tbl) do
 		table.insert(keys, k)
 	end
+
 	return keys[math.random(#keys)]
 end
+
 table.random = function(tbl)
 	return tbl[table.randomkey(tbl)]
 end
+
 table.length = function(tbl)
 	local count = 0
+
 	for _, _ in pairs(tbl) do
 		count = count + 1
 	end
+
 	return count
 end
-Answer = 42
