@@ -588,3 +588,15 @@ table.length = function(tbl)
 	end
 	return count
 end
+Time = {
+	meta = {
+		__name = "Time",
+		__call = function(_, nsec)
+			nsec = nsec or 0
+			local tbl = {
+				nsec = nsec
+			}
+			return tbl
+		end
+	}
+}

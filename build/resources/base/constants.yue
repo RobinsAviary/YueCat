@@ -710,3 +710,17 @@ table.length = (tbl) ->
 		count = count + 1
 
 	return count
+
+global Time = {
+	meta: {
+		__name: "Time"
+		__call: (_, nsec) ->
+			nsec = nsec or 0
+
+			tbl = {
+				nsec: nsec
+			}
+
+			return tbl
+	}
+}

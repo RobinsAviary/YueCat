@@ -36,9 +36,9 @@ check_vector2_default :: proc "c" (state: ^lua.State, arg: i32, default: rl.Vect
 push_vector2 :: proc "c" (state: ^lua.State, vector: rl.Vector2) {
 	context = runtime.default_context()
 
-	lua.checkstack(state, 2)
+	lua.checkstack(state, 3)
 
-	lua.createtable(state, 0, 1)
+	lua.createtable(state, 0, 2)
 
 	lua.pushnumber(state, lua.Number(vector.x))
 	lua.setfield(state, -2, "x")

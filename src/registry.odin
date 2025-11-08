@@ -163,6 +163,20 @@ touch_registry: Registry = {
 	},
 }
 
+time_registry: Registry = {
+	"Time",
+	{
+		{Now, "Now"},
+		{Weekday, "Weekday"},
+		{Year, "Year"},
+		{Month, "Month"},
+		{IsLeapYear, "IsLeapYear"},
+		{FromNanoseconds, "FromNanoseconds"},
+		{Day, "Day"},
+		//{Date, "Date"},
+	},
+}
+
 registry_value :: struct {
 	cfunction: lua.CFunction,
 	lua_name: cstring,
@@ -209,4 +223,6 @@ register_functions :: proc(state: ^lua.State) {
 	register_registry(state, window_registry)
 
 	register_registry(state, cursor_registry)
+
+	register_registry(state, time_registry)
 }

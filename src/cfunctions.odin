@@ -7,6 +7,7 @@ import "core:strings"
 import "core:fmt"
 import sdl "vendor:sdl2"
 import "core:c"
+import "core:time"
 
 DrawClear :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	context = runtime.default_context()
@@ -911,3 +912,61 @@ TakeScreenshot :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	return
 }
 
+Now :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	push_time(state, time.now())
+
+	return 1
+}
+
+Weekday :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	pushed_time := check_time(state, 1)
+	
+	lua.checkstack(state, 1)
+	lua.pushinteger(state, lua.Integer(time.weekday(pushed_time)))
+
+	return 1
+}
+
+Year :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	pushed_time := check_time(state, 1)
+
+	lua.checkstack(state, 1)
+	lua.pushinteger(state, lua.Integer(time.year(pushed_time)))
+
+	return 1
+}
+
+Month :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	pushed_time := check_time(state, 1)
+	
+	lua.checkstack(state, 1)
+	lua.pushinteger(state, lua.Integer(time.month(pushed_time)))
+
+	return 1
+}
+
+IsLeapYear :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	year := lua.L_checkinteger(state, 1)
+
+	lua.checkstack(state, 1)
+	lua.pushboolean(state, b32(time.is_leap_year(int(year))))
+
+	return 1
+}
+
+FromNanoseconds :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	pushed_time := time.from_nanoseconds(i64(lua.L_checkinteger(state, 1)))
+
+	push_time(state, pushed_time)
+
+	return 1
+}
+
+Day :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	day := lua.L_checkinteger(state, 1)
+
+	lua.checkstack(state, 1)
+	lua.pushinteger(state, lua.Integer(time.day({i64(day)})))
+
+	return 1
+}
