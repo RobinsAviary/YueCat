@@ -31,19 +31,19 @@ spot_kind = {
 
 slots = {
 	{
-		position: Vector2.New 152, 91
+		position: Vector2 152, 91
 		speed: 1
 		offset: 0
 		stop_at: nil
 	},
 	{
-		position: Vector2.New 247, 91
+		position: Vector2 247, 91
 		speed: .8
 		offset: 0
 		stop_at: nil
 	},
 	{
-		position: Vector2.New 342, 91
+		position: Vector2 342, 91
 		speed: .4
 		offset: 0
 		stop_at: nil
@@ -67,7 +67,7 @@ Controller.Disconnected = (index) ->
 
 Engine.Init = ->
 	-- Primarily for config
-	Config.Window.size = Vector2.New 455, 360
+	Config.Window.size = Vector2 455, 360
 	Config.Window.title = "raylib [core] example - basic window"
 
 	Config.Window.Flags.msaa = true
@@ -114,25 +114,23 @@ Engine.Step = ->
 	if Keyboard.IsKeyPressed(Keyboard.Key.Space)
 		print(table.randomkey(spot_kind))
 
-	print(Answer)
-
 Engine.Draw = ->
 	-- Draw
 	Draw.Clear Color.RayWhite
 
-	Draw.Texture Textures.insertback, Vector2.New(372, 4)
+	Draw.Texture Textures.insertback, Vector2(372, 4)
 
-	Draw.Texture Textures.coin, Vector2.New(377, 0)
+	Draw.Texture Textures.coin, Vector2(377, 0)
 
 	Draw.Texture Textures.machineback
 
 	for slot in *slots
 		Draw.Texture Textures.slotback, slot.position
-		Draw.BeginScissor Rectangle.New(slot.position + Vector2.New(2), Vector2.New(77, 130) - Vector2.New(4))
-		Draw.Texture Textures.fruits, slot.position + Vector2.New(0, slot.offset) + Vector2.New(8, 0)
-		Draw.Texture Textures.fruits, slot.position + Vector2.New(0, slot.offset + Texture.GetHeight(Textures.fruits)) + Vector2.New(8, 0)
+		Draw.BeginScissor Rectangle(slot.position + Vector2(2), Vector2(77, 130) - Vector2(4))
+		Draw.Texture Textures.fruits, slot.position + Vector2(0, slot.offset) + Vector2(8, 0)
+		Draw.Texture Textures.fruits, slot.position + Vector2(0, slot.offset + Texture.GetHeight(Textures.fruits)) + Vector2(8, 0)
 		Draw.EndScissor!
-		Draw.Texture Textures.slotoverlay, slot.position + Vector2.New(0,2)
+		Draw.Texture Textures.slotoverlay, slot.position + Vector2(0,2)
 
 	Draw.FPS()
 

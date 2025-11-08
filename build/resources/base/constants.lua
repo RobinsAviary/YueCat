@@ -9,35 +9,35 @@ Vector2 = {
 	meta = {
 		__name = "Vector2",
 		__add = function(a, b)
-			local v = Vector2.New(a.x + b.x, a.y + b.y)
+			local v = Vector2(a.x + b.x, a.y + b.y)
 			return v
 		end,
 		__sub = function(a, b)
-			local v = Vector2.New(a.x - b.x, a.y - b.y)
+			local v = Vector2(a.x - b.x, a.y - b.y)
 			return v
 		end,
 		__mul = function(a, b)
-			local v = Vector2.New(a.x * b.x, a.y * b.y)
+			local v = Vector2(a.x * b.x, a.y * b.y)
 			return v
 		end,
 		__div = function(a, b)
-			local v = Vector2.New(a.x / b.x, a.y / b.y)
+			local v = Vector2(a.x / b.x, a.y / b.y)
 			return v
 		end,
 		__idiv = function(a, b)
-			local v = Vector2.New(a.x // b.x, a.y // b.y)
+			local v = Vector2(a.x // b.x, a.y // b.y)
 			return v
 		end,
 		__mod = function(a, b)
-			local v = Vector2.New(a.x % b.x, a.y % b.y)
+			local v = Vector2(a.x % b.x, a.y % b.y)
 			return v
 		end,
 		__pow = function(a, b)
-			local v = Vector2.New(a.x ^ b.x, a.y ^ b.y)
+			local v = Vector2(a.x ^ b.x, a.y ^ b.y)
 			return v
 		end,
 		__unm = function(a)
-			local v = Vector2.New(-a.x, -a.y)
+			local v = Vector2(-a.x, -a.y)
 			return v
 		end,
 		__eq = function(a, b)
@@ -48,24 +48,33 @@ Vector2 = {
 		end,
 		__len = function(a)
 			return math.sqrt(a.x * a.x + a.y * a.y)
+		end,
+		__call = function(_, x, y)
+			x = x or 0
+			y = y or x or 0
+			local tbl = {
+				x = x,
+				y = y
+			}
+			setmetatable(tbl, Vector2.meta)
+			return tbl
 		end
 	}
 }
-Vector2.New = function(x, y)
-	x = x or 0
-	y = y or x or 0
-	local tbl = {
-		x = x,
-		y = y
-	}
-	setmetatable(tbl, Vector2.meta)
-	return tbl
+setmetatable(Vector2, Vector2.meta)
+Vector2.Zero = Vector2()
+Vector2.Up = function()
+	return Vector2(0, 1)
 end
-Vector2.Zero = Vector2.New()
-Vector2.Up = Vector2.New(0, 1)
-Vector2.Down = Vector2.New(0, -1)
-Vector2.Left = Vector2.New(-1, 0)
-Vector2.Right = Vector2.New(1, 0)
+Vector2.Down = function()
+	return Vector2(0, -1)
+end
+Vector2.Left = function()
+	return Vector2(-1, 0)
+end
+Vector2.Right = function()
+	return Vector2(1, 0)
+end
 Vector3 = {
 	meta = {
 		__name = "Vector3",
@@ -125,203 +134,218 @@ Vector3 = {
 		end,
 		__len = function(a)
 			return math.sqrt(a.x * a.x + a.y * a.y + a.z * a.z)
+		end,
+		__call = function(_, x, y, z)
+			x = x or 0
+			y = y or x or 0
+			z = z or y or x or 0
+			local tbl = {
+				x = x,
+				y = y,
+				z = z
+			}
+			setmetatable(tbl, Vector3.meta)
+			return tbl
 		end
 	}
 }
-Vector3.New = function(x, y, z)
-	x = x or 0
-	y = y or x or 0
-	z = z or y or x or 0
-	local tbl = {
-		x = x,
-		y = y,
-		z = z
-	}
-	setmetatable(tbl, Vector3.meta)
-	return tbl
+setmetatable(Vector3, Vector3.meta)
+Vector3.Zero = function()
+	return Vector3()
 end
-Vector3.Zero = Vector3.New()
 Color = {
 	meta = {
-		__name = "Color"
+		__name = "Color",
+		__call = function(_, r, g, b, a)
+			r = r or 0
+			g = g or r or 0
+			b = b or g or r or 0
+			a = a or 1
+			local tbl = {
+				r = r,
+				g = g,
+				b = b,
+				a = a
+			}
+			setmetatable(tbl, Color.meta)
+			return tbl
+		end
 	}
 }
-Color.New = function(r, g, b, a)
-	r = r or 0
-	g = g or r or 0
-	b = b or r or g or 0
-	a = a or 1
-	local tbl = {
-		r = r,
-		g = g,
-		b = b,
-		a = a
-	}
-	setmetatable(tbl, Color.meta)
-	return tbl
-end
-Color.White = Color.New(1)
-Color.Black = Color.New()
-Color.Gray = Color.New(.510)
-Color.LightGray = Color.New(.784)
-Color.DarkGray = Color.New(.314)
-Color.Yellow = Color.New(.992, .976, 0)
-Color.Gold = Color.New(1, .796, 0)
-Color.Orange = Color.New(1, .631, 0)
-Color.Pink = Color.New(1, .427, .761)
-Color.Red = Color.New(.902, .161, .216)
-Color.Maroon = Color.New(.745, .129, .216)
-Color.Green = Color.New(0, .894, .188)
-Color.Lime = Color.New(0, .620, .184)
-Color.DarkGreen = Color.New(0, .459, .173)
-Color.SkyBlue = Color.New(.4, .749, 1)
-Color.Blue = Color.New(0, .475, .945)
-Color.DarkBlue = Color.New(0, .322, .675)
-Color.Purple = Color.New(.784, .478, 1)
-Color.Violet = Color.New(.529, .235, .745)
-Color.DarkPurple = Color.New(.439, .122, .494)
-Color.Beige = Color.New(.827, .690, .514)
-Color.Brown = Color.New(.498, .415, .310)
-Color.DarkBrown = Color.New(.298, .247, .184)
-Color.Transparent = Color.New(0, 0, 0, 0)
-Color.Magenta = Color.New(1, 0, 1)
-Color.RayWhite = Color.New(.961)
+setmetatable(Color, Color.meta)
+Color.White = Color(1)
+Color.Black = Color()
+Color.Gray = Color(.510)
+Color.LightGray = Color(.784)
+Color.DarkGray = Color(.314)
+Color.Yellow = Color(.992, .976, 0)
+Color.Gold = Color(1, .796, 0)
+Color.Orange = Color(1, .631, 0)
+Color.Pink = Color(1, .427, .761)
+Color.Red = Color(.902, .161, .216)
+Color.Maroon = Color(.745, .129, .216)
+Color.Green = Color(0, .894, .188)
+Color.Lime = Color(0, .620, .184)
+Color.DarkGreen = Color(0, .459, .173)
+Color.SkyBlue = Color(.4, .749, 1)
+Color.Blue = Color(0, .475, .945)
+Color.DarkBlue = Color(0, .322, .675)
+Color.Purple = Color(.784, .478, 1)
+Color.Violet = Color(.529, .235, .745)
+Color.DarkPurple = Color(.439, .122, .494)
+Color.Beige = Color(.827, .690, .514)
+Color.Brown = Color(.498, .415, .310)
+Color.DarkBrown = Color(.298, .247, .184)
+Color.Transparent = Color(0, 0, 0, 0)
+Color.Magenta = Color(1, 0, 1)
+Color.RayWhite = Color(.961)
 ColorHSV = {
 	meta = {
-		__name = "ColorHSV"
+		__name = "ColorHSV",
+		__call = function(_, h, s, v, a)
+			h = h or 0
+			s = s or 1
+			v = v or s or 1
+			a = a or 1
+			local tbl = {
+				h = h,
+				s = s,
+				v = v,
+				a = a
+			}
+			setmetatable(tbl, ColorHSV.meta)
+			return tbl
+		end
 	}
 }
-ColorHSV.New = function(h, s, v, a)
-	h = h or 0
-	s = s or 1
-	v = v or s or 1
-	a = a or 1
-	local tbl = {
-		h = h,
-		s = s,
-		v = v,
-		a = a
-	}
-	setmetatable(tbl, ColorHSV.meta)
-	return tbl
-end
+setmetatable(ColorHSV, ColorHSV.meta)
 Rectangle = {
 	meta = {
-		__name = "Rectangle"
+		__name = "Rectangle",
+		__call = function(_, position, size)
+			local tbl = {
+				position = position or Vector2.Zero,
+				size = size or Vector2.Zero
+			}
+			setmetatable(tbl, Rectangle.meta)
+			return tbl
+		end
 	}
 }
-Rectangle.New = function(position, size)
-	local tbl = {
-		position = position or Vector2.Zero,
-		size = size or Vector2.Zero
-	}
-	setmetatable(tbl, Rectangle.meta)
-	return tbl
-end
+setmetatable(Rectangle, Rectangle.meta)
 Circle = {
 	meta = {
-		__name = "Circle"
+		__name = "Circle",
+		__call = function(_, position, radius)
+			local tbl = {
+				position = position or Vector2.Zero,
+				radius = radius or 0
+			}
+			setmetatable(tbl, Circle.meta)
+			return tbl
+		end
 	}
 }
-Circle.New = function(position, radius)
-	local tbl = {
-		position = position or Vector2.Zero,
-		radius = radius or 0
-	}
-	setmetatable(tbl, Circle.meta)
-	return tbl
-end
+setmetatable(Circle, Circle.meta)
 Triangle = {
 	meta = {
-		__name = "Triangle"
+		__name = "Triangle",
+		__call = function(_, firstPoint, secondPoint, thirdPoint)
+			local tbl = {
+				firstPoint = firstPoint or Vector2.Zero,
+				secondPoint = secondPoint or Vector2.Zero,
+				thirdPoint = thirdPoint or Vector2.Zero
+			}
+			setmetatable(tbl, Triangle.meta)
+			return tbl
+		end
 	}
 }
-Triangle.New = function(firstPoint, secondPoint, thirdPoint)
-	local tbl = {
-		firstPoint = firstPoint or Vector2.Zero,
-		secondPoint = secondPoint or Vector2.Zero,
-		thirdPoint = thirdPoint or Vector2.Zero
-	}
-end
+setmetatable(Triangle, Triangle.meta)
 Cube = {
 	meta = {
-		__name = "Cube"
+		__name = "Cube",
+		__call = function(_, position, size)
+			position = position or Vector3.Zero
+			size = size or 0
+			local tbl = {
+				position = position,
+				size = size
+			}
+			setmetatable(tbl, Cube.meta)
+			return tbl
+		end
 	}
 }
-Cube.New = function(position, size)
-	position = position or Vector3.Zero
-	size = size or 0
-	local tbl = {
-		position = position,
-		size = size
-	}
-	setmetatable(tbl, Cube.meta)
-	return tbl
-end
+setmetatable(Cube, Cube.meta)
 Box = {
 	meta = {
-		__name = "Box"
+		__name = "Box",
+		__call = function(_, position, size)
+			position = position or Vector3.Zero
+			size = Vector3.Zero
+			local tbl = {
+				position = position,
+				size = size
+			}
+			setmetatable(tbl, Box.meta)
+			return tbl
+		end
 	}
 }
-Box.New = function(position, size)
-	position = position or Vector3.Zero
-	size = Vector3.Zero
-	local tbl = {
-		position = position,
-		size = size
-	}
-	setmetatable(tbl, Box.meta)
-	return tbl
-end
+setmetatable(Box, Box.meta)
 Sphere = {
 	meta = {
-		__name = "Sphere"
+		__name = "Sphere",
+		__call = function(_, position, diameter)
+			position = position or Vector3.Zero
+			diameter = diameter or 0
+			local tbl = {
+				position = position,
+				diameter = diameter
+			}
+			setmetatable(tbl, Sphere.meta)
+			return tbl
+		end
 	}
 }
-Sphere.New = function(position, diameter)
-	position = position or Vector3.Zero
-	diameter = diameter or 0
-	local tbl = {
-		position = position,
-		diameter = diameter
-	}
-	setmetatable(tbl, Sphere.meta)
-	return tbl
-end
+setmetatable(Sphere, Sphere.meta)
 Cylinder = {
 	meta = {
-		__name = "Cylinder"
+		__name = "Cylinder",
+		__call = function(_, position, diameter, height)
+			position = position or Vector3.Zero
+			diameter = diameter or 0
+			height = height or 0
+			local tbl = {
+				position = position,
+				diameter = diameter,
+				height = height
+			}
+			setmetatable(tbl, Cylinder.meta)
+			return tbl
+		end
 	}
 }
-Cylinder.New = function(position, diameter, height)
-	position = position or Vector3.Zero
-	diameter = diameter or 0
-	height = height or 0
-	local tbl = {
-		position = position,
-		diameter = diameter,
-		height = height
-	}
-	setmetatable(tbl, Cylinder.meta)
-	return tbl
-end
+setmetatable(Cylinder, Cylinder.meta)
 Triangle3D = {
 	meta = {
-		__name = "Triangle3D"
+		__name = "Triangle3D",
+		__call = function(_, firstPoint, secondPoint, thirdPoint)
+			firstPoint = firstPoint or Vector3.Zero
+			secondPoint = secondPoint or Vector3.Zero
+			thirdPoint = thirdPoint or Vector3.Zero
+			local tbl = {
+				firstPoint = firstPoint or Vector3.Zero,
+				secondPoint = secondPoint or Vector3.Zero,
+				thirdPoint = thirdPoint or Vector3.Zero
+			}
+			setmetatable(tbl, Triangle3D.meta)
+			return tbl
+		end
 	}
 }
-Triangle3D.New = function(firstPoint, secondPoint, thirdPoint)
-	firstPoint = firstPoint or Vector3.Zero
-	secondPoint = secondPoint or Vector3.Zero
-	thirdPoint = thirdPoint or Vector3.Zero
-	local tbl = {
-		firstPoint = firstPoint or Vector3.Zero,
-		secondPoint = secondPoint or Vector3.Zero,
-		thirdPoint = thirdPoint or Vector3.Zero
-	}
-	setmetatable(tbl, Triangle3D.meta)
-	return tbl
-end
+setmetatable(Triangle3D, Triangle3D.meta)
 Draw = { }
 Mouse = { }
 Texture = { }
@@ -456,7 +480,7 @@ Keyboard = {
 Audio = { }
 Config = {
 	Window = {
-		size = Vector2.New(640, 480),
+		size = Vector2(640, 480),
 		title = "YueCat",
 		Flags = {
 			msaa = false,
@@ -472,29 +496,29 @@ Config = {
 }
 Camera3D = {
 	meta = {
-		__name = "Camera3D"
+		__name = "Camera3D",
+		__call = function(_, position, target, up, fov, projection)
+			position = position or Vector2.Zero
+			target = target or Vector2.Zero
+			up = up or Vector2.Zero
+			fov = fov or 45
+			projection = projection or Camera3D.Projection.Perspective
+			local tbl = {
+				position = position,
+				target = target,
+				up = up,
+				fov = fov,
+				projection = projection
+			}
+			setmetatable(tbl, Camera3D.meta)
+			return tbl
+		end
 	},
 	Projection = {
 		Perspective = 0,
 		Orthographic = 1
 	}
 }
-Camera3D.New = function(position, target, up, fov, projection)
-	position = position or Vector2.Zero
-	target = target or Vector2.Zero
-	up = up or Vector2.Zero
-	fov = fov or 45
-	projection = projection or Camera3D.Projection.Perspective
-	local tbl = {
-		position = position,
-		target = target,
-		up = up,
-		fov = fov,
-		projection = projection
-	}
-	setmetatable(tbl, Camera3D.meta)
-	return tbl
-end
 Controller = {
 	Button = {
 		Invalid = -1,
@@ -564,4 +588,3 @@ table.length = function(tbl)
 	end
 	return count
 end
-Answer = 42

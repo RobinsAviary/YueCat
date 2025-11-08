@@ -29,19 +29,19 @@ local spot_kind = {
 }
 local slots = {
 	{
-		position = Vector2.New(152, 91),
+		position = Vector2(152, 91),
 		speed = 1,
 		offset = 0,
 		stop_at = nil
 	},
 	{
-		position = Vector2.New(247, 91),
+		position = Vector2(247, 91),
 		speed = .8,
 		offset = 0,
 		stop_at = nil
 	},
 	{
-		position = Vector2.New(342, 91),
+		position = Vector2(342, 91),
 		speed = .4,
 		offset = 0,
 		stop_at = nil
@@ -63,7 +63,7 @@ Controller.Disconnected = function(index)
 	end
 end
 Engine.Init = function()
-	Config.Window.size = Vector2.New(455, 360)
+	Config.Window.size = Vector2(455, 360)
 	Config.Window.title = "raylib [core] example - basic window"
 	Config.Window.Flags.msaa = true
 	return Controller.SetDefaultDeadzone(.2)
@@ -101,23 +101,22 @@ Engine.Step = function()
 		Timer.current = 0
 	end
 	if Keyboard.IsKeyPressed(Keyboard.Key.Space) then
-		print(table.randomkey(spot_kind))
+		return print(table.randomkey(spot_kind))
 	end
-	return print(Answer)
 end
 Engine.Draw = function()
 	Draw.Clear(Color.RayWhite)
-	Draw.Texture(Textures.insertback, Vector2.New(372, 4))
-	Draw.Texture(Textures.coin, Vector2.New(377, 0))
+	Draw.Texture(Textures.insertback, Vector2(372, 4))
+	Draw.Texture(Textures.coin, Vector2(377, 0))
 	Draw.Texture(Textures.machineback)
 	for _index_0 = 1, #slots do
 		local slot = slots[_index_0]
 		Draw.Texture(Textures.slotback, slot.position)
-		Draw.BeginScissor(Rectangle.New(slot.position + Vector2.New(2), Vector2.New(77, 130) - Vector2.New(4)))
-		Draw.Texture(Textures.fruits, slot.position + Vector2.New(0, slot.offset) + Vector2.New(8, 0))
-		Draw.Texture(Textures.fruits, slot.position + Vector2.New(0, slot.offset + Texture.GetHeight(Textures.fruits)) + Vector2.New(8, 0))
+		Draw.BeginScissor(Rectangle(slot.position + Vector2(2), Vector2(77, 130) - Vector2(4)))
+		Draw.Texture(Textures.fruits, slot.position + Vector2(0, slot.offset) + Vector2(8, 0))
+		Draw.Texture(Textures.fruits, slot.position + Vector2(0, slot.offset + Texture.GetHeight(Textures.fruits)) + Vector2(8, 0))
 		Draw.EndScissor()
-		Draw.Texture(Textures.slotoverlay, slot.position + Vector2.New(0, 2))
+		Draw.Texture(Textures.slotoverlay, slot.position + Vector2(0, 2))
 	end
 	return Draw.FPS()
 end

@@ -2,7 +2,9 @@
 
 # About
 
-YueCat is a software development framework, largely focused on games. It allows you to create software entirely without an editor using a flavor of Lua called [YueScript](https://yuescript.org/).
+[![Static Badge](https://img.shields.io/badge/YueCat-YueScript-red?labelColor=%23f59387&color=%23c2ab59)](https://yuescript.org/)
+
+YueCat is a software development framework, largely focused on games. It allows you to create software entirely without an editor using a flavor of Lua called [YueScript](https://github.com/IppClub/YueScript).
 
 The API largely mirrors [raylib](https://www.raylib.com/)'s, with some key differences to make typing simpler.
 

@@ -19,42 +19,42 @@ global Vector2 = {
 	meta: {
 		__name: "Vector2"
 		__add: (a, b) ->
-			v = Vector2.New(a.x + b.x, a.y + b.y)
+			v = Vector2(a.x + b.x, a.y + b.y)
 			
 			return v
 		
 		__sub: (a, b) ->
-			v = Vector2.New(a.x - b.x, a.y - b.y)
+			v = Vector2(a.x - b.x, a.y - b.y)
 
 			return v
 		
 		__mul: (a, b) ->
-			v = Vector2.New(a.x * b.x, a.y * b.y)
+			v = Vector2(a.x * b.x, a.y * b.y)
 
 			return v
 		
 		__div: (a, b) ->
-			v = Vector2.New(a.x / b.x, a.y / b.y)
+			v = Vector2(a.x / b.x, a.y / b.y)
 
 			return v
 		
 		__idiv: (a, b) ->
-			v = Vector2.New(a.x // b.x, a.y // b.y)
+			v = Vector2(a.x // b.x, a.y // b.y)
 
 			return v
 		
 		__mod: (a,b) ->
-			v = Vector2.New(a.x % b.x, a.y % b.y)
+			v = Vector2(a.x % b.x, a.y % b.y)
 
 			return v
 		
 		__pow: (a,b) ->
-			v = Vector2.New(a.x ^ b.x, a.y ^ b.y)
+			v = Vector2(a.x ^ b.x, a.y ^ b.y)
 
 			return v
 		
 		__unm: (a) ->
-			v = Vector2.New(-a.x, -a.y)
+			v = Vector2(-a.x, -a.y)
 			
 			return v
 		
@@ -66,28 +66,34 @@ global Vector2 = {
 		
 		__len: (a) ->
 			return math.sqrt(a.x * a.x + a.y * a.y)
+		
+		__call: (_, x, y) ->
+			x = x or 0
+			y = y or x or 0
+
+			tbl = {
+				x: x
+				y: y
+			}
+
+			setmetatable(tbl, Vector2.meta)
+
+			return tbl 
 	}
 }
 
-Vector2.New = (x, y) ->
-	x = x or 0
-	y = y or x or 0
+setmetatable(Vector2, Vector2.meta)
 
-	tbl = {
-		x: x
-		y: y
-	}
+Vector2.Zero = Vector2()
 
-	setmetatable(tbl, Vector2.meta)
-
-	return tbl
-
-Vector2.Zero = Vector2.New()
-
-Vector2.Up = Vector2.New(0, 1)
-Vector2.Down = Vector2.New(0, -1)
-Vector2.Left = Vector2.New(-1, 0)
-Vector2.Right = Vector2.New(1, 0)
+Vector2.Up = ->
+	return Vector2(0, 1)
+Vector2.Down = ->
+	return Vector2(0, -1)
+Vector2.Left = ->
+	return Vector2(-1, 0)
+Vector2.Right = ->
+	return Vector2(1, 0)
 
 
 
@@ -158,253 +164,278 @@ global Vector3 = {
 		
 		__len: (a) ->
 			return math.sqrt(a.x * a.x + a.y * a.y + a.z * a.z)
+		
+		__call: (_, x, y, z) ->
+			x = x or 0
+			y = y or x or 0
+			z = z or y or x or 0
+
+			tbl = {
+				x: x
+				y: y
+				z: z
+			}
+
+			setmetatable(tbl, Vector3.meta)
+
+			return tbl
 	}
 }
 
-Vector3.New = (x, y, z) ->
-	x = x or 0
-	y = y or x or 0
-	z = z or y or x or 0
+setmetatable(Vector3, Vector3.meta)
 
-	tbl = {
-		x: x
-		y: y
-		z: z
-	}
-
-	setmetatable(tbl, Vector3.meta)
-
-	return tbl
-
-Vector3.Zero = Vector3.New()
+Vector3.Zero = ->
+	return Vector3()
 
 
 
 global Color = {
 	meta: {
 		__name: "Color"
+		__call: (_, r, g, b, a) ->
+			r = r or 0
+			g = g or r or 0
+			b = b or g or r or 0
+			a = a or 1
+
+			tbl = {
+				r: r
+				g: g
+				b: b
+				a: a
+			}
+
+			setmetatable(tbl, Color.meta)
+
+			return tbl
 	}
 }
+
+setmetatable(Color, Color.meta)
 
 -- Color.ToHSV()
 -- Color.FromHSV()
 
-Color.New = (r, g, b, a) ->
-	r = r or 0
-	g = g or r or 0
-	b = b or r or g or 0
-	a = a or 1
-
-	tbl = {
-		r: r
-		g: g
-		b: b
-		a: a
-	}
-
-	setmetatable(tbl, Color.meta)
-
-	return tbl
-
-Color.White = Color.New(1)
-Color.Black = Color.New()
-Color.Gray = Color.New(.510)
-Color.LightGray = Color.New(.784)
-Color.DarkGray = Color.New(.314)
-Color.Yellow = Color.New(.992, .976, 0)
-Color.Gold = Color.New(1, .796, 0)
-Color.Orange = Color.New(1, .631, 0)
-Color.Pink = Color.New(1, .427, .761)
-Color.Red = Color.New(.902, .161, .216)
-Color.Maroon = Color.New(.745, .129, .216)
-Color.Green = Color.New(0, .894, .188)
-Color.Lime = Color.New(0, .620, .184)
-Color.DarkGreen = Color.New(0, .459, .173)
-Color.SkyBlue = Color.New(.4, .749, 1)
-Color.Blue = Color.New(0, .475, .945)
-Color.DarkBlue = Color.New(0, .322, .675)
-Color.Purple = Color.New(.784, .478, 1)
-Color.Violet = Color.New(.529, .235, .745)
-Color.DarkPurple = Color.New(.439, .122, .494)
-Color.Beige = Color.New(.827, .690, .514)
-Color.Brown = Color.New(.498, .415, .310)
-Color.DarkBrown = Color.New(.298, .247, .184)
-Color.Transparent = Color.New(0, 0, 0, 0)
-Color.Magenta = Color.New(1, 0, 1)
-Color.RayWhite = Color.New(.961)
-
-
+Color.White = Color(1)
+Color.Black = Color()
+Color.Gray = Color(.510)
+Color.LightGray = Color(.784)
+Color.DarkGray = Color(.314)
+Color.Yellow = Color(.992, .976, 0)
+Color.Gold = Color(1, .796, 0)
+Color.Orange = Color(1, .631, 0)
+Color.Pink = Color(1, .427, .761)
+Color.Red = Color(.902, .161, .216)
+Color.Maroon = Color(.745, .129, .216)
+Color.Green = Color(0, .894, .188)
+Color.Lime = Color(0, .620, .184)
+Color.DarkGreen = Color(0, .459, .173)
+Color.SkyBlue = Color(.4, .749, 1)
+Color.Blue = Color(0, .475, .945)
+Color.DarkBlue = Color(0, .322, .675)
+Color.Purple = Color(.784, .478, 1)
+Color.Violet = Color(.529, .235, .745)
+Color.DarkPurple = Color(.439, .122, .494)
+Color.Beige = Color(.827, .690, .514)
+Color.Brown = Color(.498, .415, .310)
+Color.DarkBrown = Color(.298, .247, .184)
+Color.Transparent = Color(0, 0, 0, 0)
+Color.Magenta = Color(1, 0, 1)
+Color.RayWhite = Color(.961)
 
 global ColorHSV = {
 	meta: {
 		__name: "ColorHSV"
+		__call: (_, h, s, v, a) ->
+			h = h or 0
+			s = s or 1
+			v = v or s or 1
+			a = a or 1
+
+			tbl = {
+				h: h
+				s: s
+				v: v
+				a: a
+			}
+
+			setmetatable(tbl, ColorHSV.meta)
+
+			return tbl
 	}
 }
 
-ColorHSV.New = (h, s, v, a) ->
-	h = h or 0
-	s = s or 1
-	v = v or s or 1
-	a = a or 1
-
-	tbl = {
-		h: h
-		s: s
-		v: v
-		a: a
-	}
-
-	setmetatable(tbl, ColorHSV.meta)
-
-	return tbl
+setmetatable(ColorHSV, ColorHSV.meta)
 
 global Rectangle = {
 	meta: {
 		__name: "Rectangle"
+		__call: (_, position, size) ->
+			tbl = {
+				position: position or Vector2.Zero
+				size: size or Vector2.Zero
+			}
+
+			setmetatable(tbl, Rectangle.meta)
+
+			return tbl
 	}
 }
 
-Rectangle.New = (position, size) ->
-	tbl = {
-		position: position or Vector2.Zero
-		size: size or Vector2.Zero
-	}
-
-	setmetatable(tbl, Rectangle.meta)
-
-	return tbl
+setmetatable(Rectangle, Rectangle.meta)
 
 
 
 global Circle = {
 	meta: {
 		__name: "Circle"
+		__call: (_, position, radius) ->
+			tbl = {
+				position: position or Vector2.Zero
+				radius: radius or 0
+			}
+
+			setmetatable(tbl, Circle.meta)
+
+			return tbl
 	}
 }
 
-Circle.New = (position, radius) ->
-	tbl = {
-		position: position or Vector2.Zero
-		radius: radius or 0
-	}
+setmetatable(Circle, Circle.meta)
 
-	setmetatable(tbl, Circle.meta)
 
-	return tbl
 
 global Triangle = {
 	meta: {
 		__name: "Triangle"
+		__call: (_, firstPoint, secondPoint, thirdPoint) ->
+			tbl = {
+				firstPoint: firstPoint or Vector2.Zero
+				secondPoint: secondPoint or Vector2.Zero
+				thirdPoint: thirdPoint or Vector2.Zero
+			}
+
+			setmetatable(tbl, Triangle.meta)
+
+			return tbl
 	}
 }
 
-Triangle.New = (firstPoint, secondPoint, thirdPoint) ->
-	tbl = {
-		firstPoint: firstPoint or Vector2.Zero
-		secondPoint: secondPoint or Vector2.Zero
-		thirdPoint: thirdPoint or Vector2.Zero
-	}
+setmetatable(Triangle, Triangle.meta)
 
 
 
 global Cube = {
 	meta: {
 		__name: "Cube"
+		__call: (_, position, size) ->
+			position = position or Vector3.Zero
+			size = size or 0
+
+			tbl = {
+				position: position
+				size: size
+			}
+
+			setmetatable(tbl, Cube.meta)
+
+			return tbl
 	}
 }
 
-Cube.New = (position, size) ->
-	position = position or Vector3.Zero
-	size = size or 0
+setmetatable(Cube, Cube.meta)
 
-	tbl = {
-		position: position
-		size: size
-	}
 
-	setmetatable(tbl, Cube.meta)
-
-	return tbl
 
 global Box = {
 	meta: {
 		__name: "Box"
+		__call: (_, position, size) ->
+			position = position or Vector3.Zero
+			size = Vector3.Zero
+
+			tbl = {
+				position: position
+				size: size
+			}
+
+			setmetatable(tbl, Box.meta)
+
+			return tbl
 	}
 }
 
-Box.New = (position, size) ->
-	position = position or Vector3.Zero
-	size = Vector3.Zero
+setmetatable(Box, Box.meta)
 
-	tbl = {
-		position: position
-		size: size
-	}
 
-	setmetatable(tbl, Box.meta)
-
-	return tbl
 
 global Sphere = {
 	meta: {
 		__name: "Sphere"
+		__call: (_, position, diameter) ->
+			position = position or Vector3.Zero
+			diameter = diameter or 0
+
+			tbl = {
+				position: position
+				diameter: diameter
+			}
+
+			setmetatable(tbl, Sphere.meta)
+
+			return tbl
 	}
 }
 
-Sphere.New = (position, diameter) ->
-	position = position or Vector3.Zero
-	diameter = diameter or 0
+setmetatable(Sphere, Sphere.meta)
 
-	tbl = {
-		position: position
-		diameter: diameter
-	}
 
-	setmetatable(tbl, Sphere.meta)
-
-	return tbl
 
 global Cylinder = {
 	meta: {
 		__name: "Cylinder"
+		__call: (_, position, diameter, height) ->
+			position = position or Vector3.Zero
+			diameter = diameter or 0
+			height = height or 0
+
+			tbl = {
+				position: position
+				diameter: diameter
+				height: height
+			}
+
+			setmetatable(tbl, Cylinder.meta)
+
+			return tbl
 	}
 }
 
-Cylinder.New = (position, diameter, height) ->
-	position = position or Vector3.Zero
-	diameter = diameter or 0
-	height = height or 0
+setmetatable(Cylinder, Cylinder.meta)
 
-	tbl = {
-		position: position
-		diameter: diameter
-		height: height
-	}
 
-	setmetatable(tbl, Cylinder.meta)
-
-	return tbl
 
 global Triangle3D = {
 	meta: {
 		__name: "Triangle3D"
+		__call: (_, firstPoint, secondPoint, thirdPoint) ->
+			firstPoint = firstPoint or Vector3.Zero
+			secondPoint = secondPoint or Vector3.Zero
+			thirdPoint = thirdPoint or Vector3.Zero
+
+			tbl = {
+				firstPoint: firstPoint or Vector3.Zero
+				secondPoint: secondPoint or Vector3.Zero
+				thirdPoint: thirdPoint or Vector3.Zero
+			}
+
+			setmetatable(tbl, Triangle3D.meta)
+
+			return tbl
 	}
 }
 
-Triangle3D.New = (firstPoint, secondPoint, thirdPoint) ->
-	firstPoint = firstPoint or Vector3.Zero
-	secondPoint = secondPoint or Vector3.Zero
-	thirdPoint = thirdPoint or Vector3.Zero
-
-	tbl = {
-		firstPoint: firstPoint or Vector3.Zero
-		secondPoint: secondPoint or Vector3.Zero
-		thirdPoint: thirdPoint or Vector3.Zero
-	}
-
-	setmetatable(tbl, Triangle3D.meta)
-
-	return tbl
+setmetatable(Triangle3D, Triangle3D.meta)
 
 
 
@@ -549,7 +580,7 @@ global Audio = {}
 
 global Config = {
 	Window: {
-		size: Vector2.New(640, 480)
+		size: Vector2(640, 480)
 		title: "YueCat"
 
 		Flags: {
@@ -571,6 +602,25 @@ global Config = {
 global Camera3D = {
 	meta: {
 		__name: "Camera3D"
+
+		__call: (_, position, target, up, fov, projection) ->
+			position = position or Vector2.Zero
+			target = target or Vector2.Zero
+			up = up or Vector2.Zero
+			fov = fov or 45
+			projection = projection or Camera3D.Projection.Perspective
+
+			tbl = {
+				position: position
+				target: target
+				up: up
+				fov: fov
+				projection: projection
+			}
+
+			setmetatable(tbl, Camera3D.meta)
+
+			return tbl
 	}
 
 	Projection: {
@@ -579,24 +629,7 @@ global Camera3D = {
 	}
 }
 
-Camera3D.New = (position, target, up, fov, projection) ->
-	position = position or Vector2.Zero
-	target = target or Vector2.Zero
-	up = up or Vector2.Zero
-	fov = fov or 45
-	projection = projection or Camera3D.Projection.Perspective
-
-	tbl = {
-		position: position
-		target: target
-		up: up
-		fov: fov
-		projection: projection
-	}
-
-	setmetatable(tbl, Camera3D.meta)
-
-	return tbl
+	
 
 global Controller = {
 	Button: {
