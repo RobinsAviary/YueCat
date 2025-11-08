@@ -65,7 +65,7 @@ end
 Engine.Init = function()
 	Config.Window.size = Vector2(455, 360)
 	Config.Window.title = "raylib [core] example - basic window"
-	Config.Window.Flags.msaa = true
+	Config.Window.Flags.msaa = false
 	return Controller.SetDefaultDeadzone(.2)
 end
 Engine.Ready = function()
@@ -78,8 +78,9 @@ Engine.Ready = function()
 	Textures.slotback = Texture.Load("resources/textures/slotback.png")
 	Textures.slotoverlay = Texture.Load("resources/textures/slotoverlay.png")
 	Sounds.tick = Audio.Load("resources/audio/click.wav")
+	font = Font.Load("resources/fonts/arial.ttf", 64)
 	Audio.SetMasterVolume(0)
-	return math.DistanceAngle(500, .5 * math.pi)
+	return Vector2.DistanceAngle(500, .5 * math.pi)
 end
 Engine.Step = function()
 	if cont ~= nil then
@@ -119,7 +120,8 @@ Engine.Draw = function()
 		Draw.EndScissor()
 		Draw.Texture(Textures.slotoverlay, slot.position + Vector2(0, 2))
 	end
-	return Draw.FPS()
+	Draw.FPS()
+	return Draw.TextEx(font, "Hello Text", Vector2.Zero(), nil, nil, Color.Red)
 end
 Engine.Cleanup = function()
 	for _, texture in pairs(Textures) do
@@ -128,4 +130,5 @@ Engine.Cleanup = function()
 	for _, sound in pairs(Sounds) do
 		Audio.Unload(sound)
 	end
+	return Font.Unload(font)
 end

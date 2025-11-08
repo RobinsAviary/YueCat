@@ -29,6 +29,7 @@ draw_registry: Registry = {
 		{DrawRectangleGradient, "RectangleGradient"},
 		{DrawRectangleRounded, "RectangleRounded"},
 		{DrawRectangleRoundedLined, "RectangleRoundedLined"},
+		{DrawTextEx, "TextEx"},
 	},
 }
 
@@ -182,6 +183,15 @@ time_registry: Registry = {
 	},
 }
 
+font_registry: Registry = {
+	"Font",
+	{
+		{LoadFont, "Load"},
+		{UnloadFont, "Unload"},
+		{GetDefaultFont, "GetDefault"},
+	},
+}
+
 registry_value :: struct {
 	cfunction: lua.CFunction,
 	lua_name: cstring,
@@ -230,4 +240,6 @@ register_functions :: proc(state: ^lua.State) {
 	register_registry(state, cursor_registry)
 
 	register_registry(state, time_registry)
+
+	register_registry(state, font_registry)
 }

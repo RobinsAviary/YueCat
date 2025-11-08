@@ -27,6 +27,7 @@ LoadAudio :: proc "c" (state: ^lua.State) -> (results: c.int) {
 
 	audio := rl.LoadSound(fileName)
 
+	lua.checkstack(state, 1)
 	data := cast(^rl.Sound)lua.newuserdatauv(state, size_of(audio), 0)
 	lua.L_setmetatable(state, AudioUData)
 

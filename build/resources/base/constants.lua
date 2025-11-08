@@ -603,3 +603,4 @@ Time = {
 Vector2.DistanceAngle = function(distance, angle)
 	return Vector2(distance * math.cos(-(angle - (math.pi * .5))), distance * -math.sin(-(angle - (math.pi * .5))))
 end
+Font = { }

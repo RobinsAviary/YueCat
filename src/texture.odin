@@ -9,6 +9,7 @@ LoadTexture :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	
 	texture := rl.LoadTexture(fileName)
 
+	lua.checkstack(state, 1)
 	data := cast(^rl.Texture)lua.newuserdatauv(state, size_of(texture), 0)
 	lua.L_setmetatable(state, TextureUData)
 
@@ -21,7 +22,7 @@ LoadTexture :: proc "c" (state: ^lua.State) -> (results: c.int) {
 check_texture :: proc "c" (state: ^lua.State, arg: i32) -> (texture: ^rl.Texture) {
 	user := lua.L_checkudata(state, arg, TextureUData)
 	texture = cast(^rl.Texture)user
-	return texture
+	return
 }
 
 UnloadTexture :: proc "c" (state: ^lua.State) -> (results: c.int) {

@@ -70,7 +70,7 @@ Engine.Init = ->
 	Config.Window.size = Vector2 455, 360
 	Config.Window.title = "raylib [core] example - basic window"
 
-	Config.Window.Flags.msaa = true
+	Config.Window.Flags.msaa = false
 
 	Controller.SetDefaultDeadzone .2
 
@@ -87,9 +87,11 @@ Engine.Ready = ->
 	Textures.slotoverlay = Texture.Load "resources/textures/slotoverlay.png"
 	Sounds.tick = Audio.Load "resources/audio/click.wav"
 
+	global font = Font.Load "resources/fonts/arial.ttf", 64
+
 	Audio.SetMasterVolume(0)
 
-	math.DistanceAngle(500, .5 * math.pi)
+	Vector2.DistanceAngle(500, .5 * math.pi)
 
 Engine.Step = ->
 	-- Update
@@ -136,6 +138,8 @@ Engine.Draw = ->
 
 	Draw.FPS()
 
+	Draw.TextEx(font, "Hello Text", Vector2.Zero(), nil, nil, Color.Red)
+
 Engine.Cleanup = ->
 	-- De-initialization
 	for _, texture in pairs Textures
@@ -143,3 +147,5 @@ Engine.Cleanup = ->
 	
 	for _, sound in pairs Sounds
 		Audio.Unload sound
+	
+	Font.Unload(font)
