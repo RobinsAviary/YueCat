@@ -89,6 +89,8 @@ Engine.Ready = ->
 
 	Audio.SetMasterVolume(0)
 
+	math.DistanceAngle(500, .5 * math.pi)
+
 Engine.Step = ->
 	-- Update
 	if cont != nil

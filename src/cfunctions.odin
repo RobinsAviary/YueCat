@@ -970,3 +970,57 @@ Day :: proc "c" (state: ^lua.State) -> (results: c.int) {
 
 	return 1
 }
+
+DrawRectangleGradientV :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	rectangle := check_rectangle(state, 1)
+	top_color := check_color(state, 2)
+	bottom_color := check_color(state, 3)
+
+	rl.DrawRectangleGradientEx(rectangle, top_color, bottom_color, top_color, bottom_color)
+
+	return
+}
+
+DrawRectangleGradientH :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	rectangle := check_rectangle(state, 1)
+	left_color := check_color(state, 2)
+	right_color := check_color(state, 3)
+
+	rl.DrawRectangleGradientEx(rectangle, left_color, left_color, right_color, right_color)
+
+	return
+}
+
+DrawRectangleGradient :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	rectangle := check_rectangle(state, 1)
+	top_left_color := check_color(state, 2)
+	top_right_color := check_color(state, 3)
+	bottom_left_color := check_color(state, 4)
+	bottom_right_color := check_color(state, 5)
+	
+	rl.DrawRectangleGradientEx(rectangle, top_left_color, bottom_left_color, top_right_color, bottom_right_color)
+
+	return
+}
+
+DrawRectangleRounded :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	rectangle := check_rectangle(state, 1)
+	roundness := lua.L_checknumber(state, 2)
+	segments := lua.L_checkinteger(state, 3)
+	color := check_color(state, 4)
+
+	rl.DrawRectangleRounded(rectangle, c.float(roundness), c.int(segments), color)
+
+	return
+}
+
+DrawRectangleRoundedLined :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	rectangle := check_rectangle(state, 1)
+	roundness := lua.L_checknumber(state, 2)
+	segments := lua.L_checkinteger(state, 3)
+	color := check_color(state, 4)
+
+	rl.DrawRectangleRoundedLines(rectangle, c.float(roundness), c.int(segments), color)
+
+	return
+}

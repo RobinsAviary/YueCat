@@ -24,6 +24,11 @@ draw_registry: Registry = {
 		{DrawFPS, "FPS"},
 		{BeginScissor, "BeginScissor"},
 		{EndScissor, "EndScissor"},
+		{DrawRectangleGradientV, "RectangleGradientV"},
+		{DrawRectangleGradientH, "RectangleGradientH"},
+		{DrawRectangleGradient, "RectangleGradient"},
+		{DrawRectangleRounded, "RectangleRounded"},
+		{DrawRectangleRoundedLined, "RectangleRoundedLined"},
 	},
 }
 

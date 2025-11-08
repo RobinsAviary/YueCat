@@ -78,7 +78,8 @@ Engine.Ready = function()
 	Textures.slotback = Texture.Load("resources/textures/slotback.png")
 	Textures.slotoverlay = Texture.Load("resources/textures/slotoverlay.png")
 	Sounds.tick = Audio.Load("resources/audio/click.wav")
-	return Audio.SetMasterVolume(0)
+	Audio.SetMasterVolume(0)
+	return math.DistanceAngle(500, .5 * math.pi)
 end
 Engine.Step = function()
 	if cont ~= nil then
