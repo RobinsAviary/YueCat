@@ -195,6 +195,15 @@ monitor_registry: Registry = {
 	"Monitor",
 	{
 		{GetMonitorCount, "GetCount"},
+		{GetMonitorPosition, "GetPosition"},
+		{GetMonitorWidth, "GetWidth"},
+		{GetMonitorHeight, "GetHeight"},
+		{GetMonitorSize, "GetSize"},
+		{GetMonitorPhysicalWidth, "GetPhysicalWidth"},
+		{GetMonitorPhysicalHeight, "GetPhysicalHeight"},
+		{GetMonitorPhysicalSize, "GetPhysicalSize"},
+		{GetMonitorRefreshRate, "GetRefreshRate"},
+		{GetMonitorName, "GetMonitorName"},
 	},
 }
 

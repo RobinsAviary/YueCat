@@ -52,7 +52,7 @@ check_color_hsv :: proc "c" (state: ^lua.State, arg: i32) -> (color: ColorHSV) {
 push_color_hsv :: proc "c" (state: ^lua.State, color: ColorHSV) {
 	context = runtime.default_context()
 
-	lua.checkstack(state, 2)
+	lua.checkstack(state, 4)
 
 	lua.createtable(state, 0, 1)
 

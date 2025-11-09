@@ -36,7 +36,7 @@ check_vector2_default :: proc "c" (state: ^lua.State, arg: i32, default: rl.Vect
 push_vector2 :: proc "c" (state: ^lua.State, vector: rl.Vector2) {
 	context = runtime.default_context()
 
-	lua.checkstack(state, 3)
+	lua.checkstack(state, 2)
 
 	lua.createtable(state, 0, 2)
 

@@ -731,3 +731,8 @@ Vector2.DistanceAngle = (distance, angle) ->
 global Font = {}
 
 global Monitor = {}
+
+math.stween = (value, goal, smoothness) ->
+	return value + (goal - value) * smoothness
+
+table.concat this, tbla

@@ -605,3 +605,7 @@ Vector2.DistanceAngle = function(distance, angle)
 end
 Font = { }
 Monitor = { }
+math.stween = function(value, goal, smoothness)
+	return value + (goal - value) * smoothness
+end
+return table.concat(this, tbla)

@@ -139,6 +139,7 @@ SetFPSTarget :: proc "c" (state: ^lua.State) -> (results: c.int) {
 GetMousePosition :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	pos := rl.GetMousePosition()
 
+	lua.checkstack(state, 1)
 	push_vector2(state, pos)
 
 	return 1
@@ -308,6 +309,7 @@ ColorFromHSV :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	color := rl.ColorFromHSV(hsv.h, hsv.s, hsv.v)
 	color.a = hsv.a
 
+	lua.checkstack(state, 1)
 	push_color(state, color)
 
 	return 1
@@ -318,6 +320,7 @@ ColorToHSV :: proc "c" (state: ^lua.State) -> (results: c.int) {
 
 	RLhsv := rl.ColorToHSV(color)
 
+	lua.checkstack(state, 1)
 	push_color_hsv(state, {RLhsv[0], RLhsv[1], RLhsv[2], 1})
 
 	return 1
@@ -474,7 +477,6 @@ GetControllerVector :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	controller := check_controller(state, 1)
 	vector_index := lua.L_checkinteger(state, 2)
 
-	lua.checkstack(state, 1)
 	vector: rl.Vector2
 
 	if controller.valid {
@@ -508,6 +510,7 @@ GetControllerVector :: proc "c" (state: ^lua.State) -> (results: c.int) {
 		}
 	}
 
+	lua.checkstack(state, 1)
 	push_vector2(state, vector)
 
 	return 1
@@ -913,6 +916,7 @@ TakeScreenshot :: proc "c" (state: ^lua.State) -> (results: c.int) {
 }
 
 Now :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	lua.checkstack(state, 1)
 	push_time(state, time.now())
 
 	return 1
@@ -957,6 +961,7 @@ IsLeapYear :: proc "c" (state: ^lua.State) -> (results: c.int) {
 FromNanoseconds :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	pushed_time := time.from_nanoseconds(i64(lua.L_checkinteger(state, 1)))
 
+	lua.checkstack(state, 1)
 	push_time(state, pushed_time)
 
 	return 1
@@ -1023,4 +1028,88 @@ DrawRectangleRoundedLined :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	rl.DrawRectangleRoundedLines(rectangle, c.float(roundness), c.int(segments), color)
 
 	return
+}
+
+GetMonitorPosition :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	monitor := lua.L_checkinteger(state, 1)
+	
+	lua.checkstack(state, 1)
+	push_vector2(state, rl.GetMonitorPosition(c.int(monitor)))
+
+	return 1
+}
+
+GetMonitorWidth :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	monitor := lua.L_checkinteger(state, 1)
+
+	lua.checkstack(state, 1)
+	lua.pushinteger(state, lua.Integer(rl.GetMonitorWidth(c.int(monitor))))
+
+	return 1
+}
+
+GetMonitorHeight :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	monitor := lua.L_checkinteger(state, 1)
+
+	lua.checkstack(state, 1)
+	lua.pushinteger(state, lua.Integer(rl.GetMonitorHeight(c.int(monitor))))
+
+	return 1
+}
+
+GetMonitorSize :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	monitor := lua.L_checkinteger(state, 1)
+
+	lua.checkstack(state, 1)
+	push_vector2(state, {c.float(rl.GetMonitorWidth(c.int(monitor))), c.float(rl.GetMonitorHeight(c.int(monitor)))})
+
+	return 1
+}
+
+GetMonitorPhysicalWidth :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	monitor := lua.L_checkinteger(state, 1)
+
+	lua.checkstack(state, 1)
+	lua.pushinteger(state, lua.Integer(rl.GetMonitorPhysicalWidth(c.int(monitor))))
+
+	return 1
+}
+
+GetMonitorPhysicalHeight :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	monitor := lua.L_checkinteger(state, 1)
+	
+	lua.checkstack(state, 1)
+	lua.pushinteger(state, lua.Integer(rl.GetMonitorPhysicalHeight(c.int(monitor))))
+
+	return 1
+}
+
+GetMonitorPhysicalSize :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	monitor := lua.L_checkinteger(state, 1)
+	c_monitor := c.int(monitor)
+
+	lua.checkstack(state, 1)
+	push_vector2(state, {c.float(rl.GetMonitorPhysicalWidth(c_monitor)), c.float(rl.GetMonitorPhysicalHeight(c_monitor))})
+
+	return 1
+}
+
+GetMonitorRefreshRate :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	monitor := lua.L_checkinteger(state, 1)
+	c_monitor := c.int(monitor)
+
+	lua.checkstack(state, 1)
+	lua.pushinteger(state, lua.Integer(rl.GetMonitorRefreshRate(c_monitor)))
+
+	return 1
+}
+
+GetMonitorName :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	monitor := lua.L_checkinteger(state, 1)
+	c_monitor := c.int(monitor)
+	
+	lua.checkstack(state, 1)
+	lua.pushstring(state, rl.GetMonitorName(c_monitor))
+
+	return 1
 }

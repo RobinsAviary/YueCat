@@ -7,7 +7,7 @@ import "base:runtime"
 push_time :: proc "c" (state: ^lua.State, pushed_time: time.Time) {
 	context = runtime.default_context()
 
-	lua.checkstack(state, 2)
+	lua.checkstack(state, 1)
 
 	lua.createtable(state, 0, 1)
 

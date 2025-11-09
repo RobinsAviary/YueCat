@@ -42,7 +42,7 @@ check_color_default :: proc "c" (state: ^lua.State, arg: i32, default: rl.Color)
 push_color :: proc "c" (state: ^lua.State, color: rl.Color) {
 	context = runtime.default_context()
 
-	lua.checkstack(state, 2)
+	lua.checkstack(state, 4)
 
 	lua.createtable(state, 0, 1)
 
