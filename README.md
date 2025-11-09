@@ -152,21 +152,21 @@ Define this global table during the "Ready" callback to modify how YueCat launch
 
 ```
 Config = {
-    Window = {
-        size: Vector2 = Vector2.New(640, 480),
-        title: string = "YueCat <version>",
+    Window: {
+        size: Vector2 = Vector2(640, 480)
+        title: string = "YueCat <version>"
 
-        Flags = {
-            msaa = false, -- Antialiasing
-            borderless = false, -- Undecorated window
-            topmost = false, -- Window always stays on top
-            resizable = false, -- Window is resizable
-            vsync = false, -- Vsync
+        Flags: {
+            msaa: false -- Antialiasing
+            borderless: false -- Undecorated window
+            topmost = false -- Window always stays on top
+            resizable = false -- Window is resizable
+            vsync = false -- Vsync
         }
     }
 
-    Audio = {
-        active: bool = true,
+    Audio: {
+        active: bool = true
     }
 }
 ```
@@ -278,9 +278,9 @@ Checks if the button was just released this frame.
 #### Mouse.Button
 
 ```
-Mouse.Left = 0
-Mouse.Right = 1
-Mouse.Middle = 2
+Mouse.Left: 0
+Mouse.Right: 1
+Mouse.Middle: 2
 ```
 
 ### ⌨️ Keyboard
@@ -293,134 +293,133 @@ Mouse.Middle = 2
 
 #### Keyboard.Key
 ```
-Null (No key / invalid) = 0,
-Apostrophe = 39,
-Comma = 44,
-Minus = 45,
-Period = 46,
-Slash = 47,
-Zero = 48,
-One = 49,
-Two = 50,
-Three = 51,
-Four = 52,
-Five = 53,
-Six = 54,
-Seven = 55,
-Eight = 56,
-Nine = 57,
-Semicolon = 59,
-Equal = 61,
-A = 65,
-B = 66,
-C = 67,
-D = 68,
-E = 69,
-F = 70,
-G = 71,
-H = 72,
-I = 73,
-J = 74,
-K = 75,
-L = 76,
-M = 77,
-N = 78,
-O = 79,
-P = 80,
-Q = 81,
-R = 82,
-S = 83,
-T = 84,
-U = 85,
-V = 86,
-W = 87,
-X = 88,
-Y = 89,
-Z = 90,
-Bracket = {
-	Left = 91,
-	Right = 93,
-},
-BackSlash = 92,
-Grave = 96,
-Space = 32,
-Escape = 256,
-Enter = 257,
-Tab = 258,
-Backspace = 259,
-Insert = 260,
-Delete = 261,
-Right = 262,
-Left = 263,
-Down = 264,
-Up = 265,
-PageUp = 266,
-PageDown = 267,
-Home = 268,
-End = 269,
-CapsLock = 280,
-ScrollLock = 281,
-NumLock = 282,
-PrintScreen = 283,
-Pause = 284,
-F1 = 290,
-F2 = 291,
-F3 = 292,
-F4 = 293,
-F5 = 294,
-F6 = 295,
-F7 = 296,
-F8 = 297,
-F9 = 298,
-F10 = 299,
-F11 = 300,
-F12 = 301,
-Shift = {
-	Left = 340,
-	Right = 344,
-},
-Control = {
-	Left = 341,
-	Right = 345,
-},
-Alt = {
-	Left = 342,
-	Right = 346,
-},
-Super = {
-	Left = 343,
-	Right = 347,
-},
-KBMenu = 348,
+Null: 0
+Apostrophe: 39
+Comma: 44
+Minus: 45
+Period: 46
+Slash: 47
+Zero: 48
+One: 49
+Two: 50
+Three: 51
+Four: 52
+Five: 53
+Six: 54
+Seven: 55
+Eight: 56
+Nine: 57
+Semicolon: 59
+Equal: 61
+A: 65
+B: 66
+C: 67
+D: 68
+E: 69
+F: 70
+G: 71
+H: 72
+I: 73
+J: 74
+K: 75
+L: 76
+M: 77
+N: 78
+O: 79
+P: 80
+Q: 81
+R: 82
+S: 83
+T: 84
+U: 85
+V: 86
+W: 87
+X: 88
+Y: 89
+Z: 90
+Bracket: {
+	Left: 91
+	Right: 93
+}
+BackSlash: 92
+Grave: 96
+Space: 32
+Escape: 256
+Enter: 257
+Tab: 258
+Backspace: 259
+Insert: 260
+Delete: 261
+Right: 262
+Left: 263
+Down: 264
+Up: 265
+PageUp: 266
+PageDown: 267
+Home: 268
+End: 269
+CapsLock: 280
+ScrollLock: 281
+NumLock: 282
+PrintScreen: 283
+Pause: 284
+F1: 290
+F2: 291
+F3: 292
+F4: 293
+F5: 294
+F6: 295
+F7: 296
+F8: 297
+F9: 298
+F10: 299
+F11: 300
+F12: 301
+Shift: {
+	Left: 340
+	Right: 344
+}
+Control: {
+	Left: 341
+	Right: 345
+}
+Alt: {
+	Left: 342
+	Right: 346
+}
+Super: {
+	Left: 343
+	Right: 347
+}
+KBMenu: 348
 -- Keypad
-Keypad = {
-	Zero = 320,
-	One = 321,
-	Two = 322,
-	Three = 323,
-	Four = 324,
-	Five = 325,
-	Six = 326,
-	Seven = 327,
-	Eight = 328,
-	Nine = 329,
-	Decimal = 330,
-	Divide = 331,
-	Multiply = 332,
-	Subtract = 333,
-	Add = 334,
-	Enter = 335,
-	Equal = 336,
-},
+Keypad: {
+	Zero: 320
+	One: 321
+	Two: 322
+	Three: 323
+	Four: 324
+	Five: 325
+	Six: 326
+	Seven: 327
+	Eight: 328
+	Nine: 329
+	Decimal: 330
+	Divide: 331
+	Multiply: 332
+	Subtract: 333
+	Add: 334
+	Enter: 335
+	Equal: 336
+}
 -- Android buttons
-Button = {
-	Back = 4,
-	Menu = 5,
-	VolumeUp = 24,
-	VolumeDown = 25,
+Button: {
+	Back: 4
+	Menu: 5
+	VolumeUp: 24
+	VolumeDown: 25
 }
 ```
-
 ### 🎮 Controller
 
 [SDL2](https://www.libsdl.org/) is used as an underlying base for the controller system. As such, all programs support rebinding with Steam and other various community-made tools, and almost every controller ([over two-thousand](https://github.com/mdqinc/SDL_GameControllerDB/blob/master/gamecontrollerdb.txt)) will accurate map button names/bindings properly to the simple API.
@@ -465,7 +464,7 @@ Start,
 LeftStick, RightStick,
 LeftShoulder,
 RightShoulder,
-DPad = {
+DPad: {
     Up,
     Down,
     Left,
@@ -484,7 +483,7 @@ Touchpad
 ```
 Left,
 Right,
-Trigger = {
+Trigger: {
     Left,
     Right
 }
@@ -547,7 +546,7 @@ It is suggested to call this first in most programs, before you draw anything el
 
 Constructor example:
 ```
-vec = Vector2.New(5, 4)
+vec = Vector2(5, 4)
 ```
 
 ## ➡️ Vectors
@@ -565,12 +564,12 @@ Supports math operations and length (`#`) operator.
 #### Constants
 
 ```
-Vector2.Zero = Vector2.New()
+Vector2.Zero() = Vector2()
 
-Vector2.Up = Vector2.New(0, 1)
-Vector2.Down = Vector2.New(0, -1)
-Vector2.Left = Vector2.New(-1, 0)
-Vector2.Right = Vector2.New(1, 0)
+Vector2.Up = Vector2(0, 1)
+Vector2.Down = Vector2(0, -1)
+Vector2.Left = Vector2(-1, 0)
+Vector2.Right = Vector2(1, 0)
 ```
 
 ### 3️⃣ Vector3
@@ -587,7 +586,7 @@ Supports math operations and length (`#`) operator.
 #### Constants
 
 ```
-Vector3.Zero = Vector3.New()
+Vector3.Zero = Vector3()
 ```
 
 ## 🌈 Colors
@@ -605,32 +604,32 @@ a: number = 1           -- Alpha
 #### Constants
 
 ```
-Color.White = Color.New(1)
-Color.Black = Color.New()
-Color.Gray = Color.New(.510)
-Color.LightGray = Color.New(.784)
-Color.DarkGray = Color.New(.314)
-Color.Yellow = Color.New(.992, .976, 0)
-Color.Gold = Color.New(1, .796, 0)
-Color.Orange = Color.New(1, .631, 0)
-Color.Pink = Color.New(1, .427, .761)
-Color.Red = Color.New(.902, .161, .216)
-Color.Maroon = Color.New(.745, .129, .216)
-Color.Green = Color.New(0, .894, .188)
-Color.Lime = Color.New(0, .620, .184)
-Color.DarkGreen = Color.New(0, .459, .173)
-Color.SkyBlue = Color.New(.4, .749, 1)
-Color.Blue = Color.New(0, .475, .945)
-Color.DarkBlue = Color.New(0, .322, .675)
-Color.Purple = Color.New(.784, .478, 1)
-Color.Violet = Color.New(.529, .235, .745)
-Color.DarkPurple = Color.New(.439, .122, .494)
-Color.Beige = Color.New(.827, .690, .514)
-Color.Brown = Color.New(.498, .415, .310)
-Color.DarkBrown = Color.New(.298, .247, .184)
-Color.Transparent = Color.New(0, 0, 0, 0)
-Color.Magenta = Color.New(1, 0, 1)
-Color.RayWhite = Color.New(.961)
+Color.White = Color(1)
+Color.Black = Color()
+Color.Gray = Color(.510)
+Color.LightGray = Color(.784)
+Color.DarkGray = Color(.314)
+Color.Yellow = Color(.992, .976, 0)
+Color.Gold = Color(1, .796, 0)
+Color.Orange = Color(1, .631, 0)
+Color.Pink = Color(1, .427, .761)
+Color.Red = Color(.902, .161, .216)
+Color.Maroon = Color(.745, .129, .216)
+Color.Green = Color(0, .894, .188)
+Color.Lime = Color(0, .620, .184)
+Color.DarkGreen = Color(0, .459, .173)
+Color.SkyBlue = Color(.4, .749, 1)
+Color.Blue = Color(0, .475, .945)
+Color.DarkBlue = Color(0, .322, .675)
+Color.Purple = Color(.784, .478, 1)
+Color.Violet = Color(.529, .235, .745)
+Color.DarkPurple = Color(.439, .122, .494)
+Color.Beige = Color(.827, .690, .514)
+Color.Brown = Color(.498, .415, .310)
+Color.DarkBrown = Color(.298, .247, .184)
+Color.Transparent = Color(0, 0, 0, 0)
+Color.Magenta = Color(1, 0, 1)
+Color.RayWhite = Color(.961)
 ```
 
 ### 🎨🤖 ColorHSV
