@@ -515,7 +515,7 @@ It is suggested to call this first in most programs, before you draw anything el
 
 `Draw.Triangle(triangle: Triangle, color: Color)`
 
-`Draw.Texture(texture: Texture, postion: Vector2 = Vector2.Zero, tint: Color = Color.White)`
+`Draw.Texture(texture: Texture, postion: Vector2 = Vector2.Zero()(), tint: Color = Color.White)`
 
 `Draw.Begin3D(camera: Camera3D)`
 
@@ -586,7 +586,7 @@ Supports math operations and length (`#`) operator.
 #### Constants
 
 ```
-Vector3.Zero = Vector3()
+Vector3.Zero() = Vector3()
 ```
 
 ## 🌈 Colors
@@ -650,15 +650,15 @@ a: number = 1 -- Alpha
 
 Fields:
 ```
-position: Vector2 = Vector2.Zero
-size: Vector2 = Vector2.Zero
+position: Vector2 = Vector2.Zero()
+size: Vector2 = Vector2.Zero()
 ```
 
 #### 🔵 Circle
 
 Fields:
 ```
-position: Vector2 = Vector2.Zero
+position: Vector2 = Vector2.Zero()
 diameter: number = 0
 ```
 
@@ -666,9 +666,9 @@ diameter: number = 0
 
 Fields:
 ```
-firstPoint: Vector2 = Vector2.Zero
-secondPoint: Vector2 = Vector2.Zero
-thirdPoint: Vector2 = Vector2.Zero
+firstPoint: Vector2 = Vector2.Zero()
+secondPoint: Vector2 = Vector2.Zero()
+thirdPoint: Vector2 = Vector2.Zero()
 ```
 
 ### 🧊🛢️ 3D
@@ -677,7 +677,7 @@ thirdPoint: Vector2 = Vector2.Zero
 
 Fields:
 ```
-position: Vector3 = Vector3.Zero
+position: Vector3 = Vector3.Zero()
 size: number = 0
 ```
 
@@ -685,15 +685,15 @@ size: number = 0
 
 Fields:
 ```
-position: Vector3 = Vector3.Zero
-size: Vector3 = Vector3.Zero
+position: Vector3 = Vector3.Zero()
+size: Vector3 = Vector3.Zero()
 ```
 
 #### 🔮 Sphere
 
 Fields:
 ```
-position: Vector3 = Vector3.Zero
+position: Vector3 = Vector3.Zero()
 diameter: number = 0
 ```
 
@@ -701,7 +701,7 @@ diameter: number = 0
 
 Fields:
 ```
-position: Vector3 = Vector3.Zero
+position: Vector3 = Vector3.Zero()
 diameter: number = 0
 height: number = 0
 ```
@@ -710,9 +710,9 @@ height: number = 0
 
 Fields:
 ```
-firstPoint: Vector3 = Vector3.Zero
-secondPoint: Vector3 = Vector3.Zero
-thirdPoint: Vector3 = Vector3.Zero
+firstPoint: Vector3 = Vector3.Zero()
+secondPoint: Vector3 = Vector3.Zero()
+thirdPoint: Vector3 = Vector3.Zero()
 ```
 
 ## 🎥 Cameras
@@ -727,9 +727,9 @@ thirdPoint: Vector3 = Vector3.Zero
 
 Fields:
 ```
-position: Vector3 = Vector3.Zero
-target: Vector3 = Vector3.Zero
-up: Vector3 = Vector3.Zero
+position: Vector3 = Vector3.Zero()
+target: Vector3 = Vector3.Zero()
+up: Vector3 = Vector3.Zero()
 fov: number = 45
 projection: Camera3D.Projection = Camera3D.Projection.Perspective
 ```
