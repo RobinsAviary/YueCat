@@ -770,6 +770,8 @@ TextureGetHeight :: proc "c" (state: ^lua.State) -> (results: c.int) {
 }
 
 AudioGetChannelCount :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	audio_warning()
+
 	audio := check_audio(state, 1)
 
 	lua.checkstack(state, 1)
@@ -779,6 +781,8 @@ AudioGetChannelCount :: proc "c" (state: ^lua.State) -> (results: c.int) {
 }
 
 AudioGetFrameCount :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	audio_warning()
+
 	audio := check_audio(state, 1)
 
 	lua.checkstack(state, 1)
@@ -788,6 +792,8 @@ AudioGetFrameCount :: proc "c" (state: ^lua.State) -> (results: c.int) {
 }
 
 AudioGetSampleRate :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	audio_warning()
+
 	audio := check_audio(state, 1)
 
 	lua.checkstack(state, 1)
@@ -797,6 +803,8 @@ AudioGetSampleRate :: proc "c" (state: ^lua.State) -> (results: c.int) {
 }
 
 AudioGetSampleSize :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	audio_warning()
+
 	audio := check_audio(state, 1)
 
 	lua.checkstack(state, 1)
@@ -1110,6 +1118,175 @@ GetMonitorName :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	
 	lua.checkstack(state, 1)
 	lua.pushstring(state, rl.GetMonitorName(c_monitor))
+
+	return 1
+}
+
+AudioSetVolume :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	audio_warning()
+
+	audio := check_audio(state, 1)
+	volume := lua.L_checknumber(state, 2)
+
+	rl.SetSoundVolume(audio^, c.float(volume))
+
+	return
+}
+
+AudioSetPitch :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	audio_warning()
+
+	audio := check_audio(state, 1)
+	pitch := lua.L_checknumber(state, 2)
+	
+	rl.SetSoundPitch(audio^, c.float(pitch))
+
+	return
+}
+
+AudioSetPan :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	audio_warning()
+
+	audio := check_audio(state, 1)
+	pan := lua.L_checknumber(state, 2)
+
+	rl.SetSoundPan(audio^, c.float(pan))
+
+	return
+}
+
+StopAudio :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	audio_warning()
+
+	audio := check_audio(state, 1)
+
+	rl.StopSound(audio^)
+
+	return
+}
+
+PauseAudio :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	audio_warning()
+
+	audio := check_audio(state, 1)
+
+	rl.PauseSound(audio^)
+
+	return
+}
+
+ResumeAudio :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	audio_warning()
+
+	audio := check_audio(state, 1)
+
+	rl.ResumeSound(audio^)
+
+	return
+}
+
+IsAudioPlaying :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	audio_warning()
+
+	audio := check_audio(state, 1)
+
+	lua.checkstack(state, 1)
+	lua.pushboolean(state, b32(rl.IsSoundPlaying(audio^)))
+
+	return 1
+}
+
+PlayMusicStream :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	music := check_music(state, 1)
+
+	rl.PlayMusicStream(music^)
+	
+	return
+}
+
+IsMusicStreamPlaying :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	music := check_music(state, 1)
+
+	lua.checkstack(state, 1)
+	lua.pushboolean(state, b32(rl.IsMusicStreamPlaying(music^)))
+
+	return 1
+}
+
+StopMusicStream :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	music := check_music(state, 1)
+
+	rl.StopMusicStream(music^)
+
+	return
+}
+
+PauseMusicStream :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	music := check_music(state, 1)
+
+	rl.PauseMusicStream(music^)
+
+	return
+}
+
+ResumeMusicStream :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	music := check_music(state, 1)
+
+	rl.ResumeMusicStream(music^)
+
+	return
+}
+
+SeekMusicStream :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	music := check_music(state, 1)
+	seconds := lua.L_checknumber(state, 2)
+
+	rl.SeekMusicStream(music^, c.float(seconds))
+
+	return
+}
+
+SetMusicVolume :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	music := check_music(state, 1)
+	volume := lua.L_checknumber(state, 2)
+
+	rl.SetMusicVolume(music^, c.float(volume))
+
+	return
+}
+
+SetMusicPitch :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	music := check_music(state, 1)
+	pitch := lua.L_checknumber(state, 2)
+
+	rl.SetMusicPitch(music^, c.float(pitch))
+
+	return
+}
+
+SetMusicPan :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	music := check_music(state, 1)
+	pan := lua.L_checknumber(state, 2)
+
+	rl.SetMusicPan(music^, c.float(pan))
+
+	return
+}
+
+GetMusicTimeLength :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	music := check_music(state, 1)
+
+	lua.checkstack(state, 1)
+	lua.pushnumber(state, lua.Number(rl.GetMusicTimeLength(music^)))
+
+	return 1
+}
+
+GetMusicStreamTimePlayed :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	music := check_music(state, 1)
+	
+	lua.checkstack(state, 1)
+	lua.pushnumber(state, lua.Number(rl.GetMusicTimePlayed(music^)))
 
 	return 1
 }

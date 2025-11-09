@@ -10,6 +10,7 @@ TextureUData :: "Texture"
 AudioUData :: "Audio"
 ControllerUData :: "Controller"
 FontUData :: "Font"
+MusicUData :: "Music"
 
 NAME :: "YueCat"
 VERSION :: "Alpha"
@@ -59,7 +60,7 @@ open_base :: proc(state: ^lua.State) {
 	os.close(handle)
 }
 
-metatables: []string = {TextureUData, AudioUData, ControllerUData, FontUData}
+metatables: []string = {TextureUData, AudioUData, ControllerUData, FontUData, MusicUData}
 
 register_metatables :: proc(state: ^lua.State) {
 	if config.verbose do fmt.println("Registering metatables...")

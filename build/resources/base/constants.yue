@@ -735,4 +735,4 @@ global Monitor = {}
 math.stween = (value, goal, smoothness) ->
 	return value + (goal - value) * smoothness
 
-table.concat this, tbla
+global Music = {}

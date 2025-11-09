@@ -8,7 +8,7 @@ import "core:c"
 
 audio_warning :: proc "c" () {
 	context = runtime.default_context()
-	if !config.audio_active {
+	if !config.audio_active && !config.verbose {
 		fmt.println("WARNING: Attempted to call audio function, but audio is disabled!")
 	}
 }
@@ -16,9 +16,9 @@ audio_warning :: proc "c" () {
 LoadAudio :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	audio_warning()
 
-	lua.checkstack(state, 1)
-
 	if !config.audio_active {
+		lua.checkstack(state, 1)
+
 		lua.pushnil(state)
 		results = 1
 		return

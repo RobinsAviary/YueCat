@@ -99,6 +99,13 @@ audio_registry: Registry = {
 		{AudioGetFrameCount, "GetFrameCount"},
 		{AudioGetSampleRate, "GetSampleRate"},
 		{AudioGetSampleSize, "GetSampleSize"},
+		{AudioSetVolume, "SetVolume"},
+		{AudioSetPitch, "SetPitch"},
+		{AudioSetPan, "SetPan"},
+		{StopAudio, "Stop"},
+		{PauseAudio, "Pause"},
+		{ResumeAudio, "Resume"},
+		{IsAudioPlaying, "IsPlaying"},
 	},
 }
 
@@ -207,6 +214,25 @@ monitor_registry: Registry = {
 	},
 }
 
+music_registry: Registry = {
+	"Music",
+	{
+		{LoadMusic, "Load"},
+		{UnloadMusic, "Unload"},
+		{PlayMusicStream, "PlayStream"},
+		{IsMusicStreamPlaying, "IsStreamPlaying"},
+		{StopMusicStream, "StopStream"},
+		{PauseMusicStream, "PauseStream"},
+		{ResumeMusicStream, "ResumeStream"},
+		{SeekMusicStream, "SeekStream"},
+		{SetMusicVolume, "SetVolume"},
+		{SetMusicPitch, "SetPitch"},
+		{SetMusicPan, "SetPan"},
+		{GetMusicTimeLength, "GetTimeLength"},
+		{GetMusicStreamTimePlayed, "GetStreamTimePlayed"},
+	},
+}
+
 registry_value :: struct {
 	cfunction: lua.CFunction,
 	lua_name: cstring,
@@ -259,4 +285,6 @@ register_functions :: proc(state: ^lua.State) {
 	register_registry(state, font_registry)
 	
 	register_registry(state, monitor_registry)
+
+	register_registry(state, music_registry)
 }
