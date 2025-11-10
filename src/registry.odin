@@ -71,8 +71,8 @@ mouse_registry: Registry = {
 		{IsMouseButtonHeld, "IsButtonHeld"},
 		{IsMouseButtonReleased, "IsButtonReleased"},
 		{IsCursorOnScreen, "IsOnScreen"},
-		{GetMouseWheelMove, "GetMouseWheelMove"},
-		{GetMouseWheelMoveVector, "GetMouseWheelMoveVector"},
+		{GetMouseWheelMove, "GetWheelMove"},
+		{GetMouseWheelMoveVector, "GetWheelMoveVector"},
 	},
 }
 

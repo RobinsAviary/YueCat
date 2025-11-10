@@ -538,9 +538,9 @@ It is suggested to call this first in most programs, before you draw anything el
 ## 🎧 Sound
 
 ### 🔊 Audio
-`Texture.Load(fileName: string) -> Audio`
+`Audio.Load(fileName: string) -> Audio`
 
-`Texture.Unload(audio: Audio)`
+`Audio.Unload(audio: Audio)`
 
 # 🏗️ "Structs"
 
