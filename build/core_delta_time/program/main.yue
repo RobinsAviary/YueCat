@@ -1,0 +1,50 @@
+pos = Vector2.New()
+
+windowSize = Vector2.New(800, 450)
+deltaCircle = Vector2.New(0, windowSize.y/3)
+frameCircle = Vector2.New(0, windowSize.y*(2/3))
+
+speed = 10
+circleRadius = 32
+
+Engine.Init = ->
+	Config.window.size = windowSize
+	Config.window.title = "raylib [core] example - delta time"
+
+Engine.Ready = ->
+	Engine.SetFPSTarget(60)
+
+Engine.Step = ->
+	mouseWheel = Mouse.GetW()
+	if mouseWheel != 0
+		currentFps += mouseWheel
+		if currentFps < 0
+			currentFps = 0
+		Engine.SetFPSTarget(currentFps)
+	
+	deltaCircle.x += GetFrameTime() * 6 * speed
+	frameCircle.x += .1 * speed
+
+	if deltaCircle.x > windowSize.x
+		deltaCircle.x = 0
+	
+	if frameCircle.x > windowSize.x
+		frameCircle.x = 0
+	
+	if Keyboard.IsKeyPressed(Keyboard.Key.R)
+		deltaCircle.x = 0
+		frameCircle.x = 0
+
+Engine.Draw = ->
+	Draw.Clear(Color.RayWhite)
+
+	Draw.Circle(Circle.New(deltaCircle, circleRadius), Color.Red)
+	Draw.Circle(Circle.New(frameCircle, circleRadius), Color.Blue)
+
+	fpsText = ""
+
+	--if currentFps <= 0
+	--	fpsText = "FPS: unlimited"
+
+Engine.Cleanup = ->
+	--pass
