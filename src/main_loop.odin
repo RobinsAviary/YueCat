@@ -57,11 +57,15 @@ init_config :: proc() {
 }
 
 init_loop :: proc(state: ^lua.State) {
-	run_yuescript(PROGRAM)
+	run_yuescript(program_location)
 
-	do_file(state, PROGRAM + "main.lua")
+	program_main_file := strings.concatenate({program_location, "main.lua"})
 
-	program_folder, program_folder_allocated := filepath.from_slash(PROGRAM)
+	do_file(state, program_main_file)
+
+	delete(program_main_file)
+
+	program_folder, program_folder_allocated := filepath.from_slash(program_location)
 
 	c_program_folder := strings.clone_to_cstring(program_folder)
 

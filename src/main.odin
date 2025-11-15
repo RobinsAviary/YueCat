@@ -18,7 +18,7 @@ ImageUData :: "Image"
 NAME :: "YueCat"
 VERSION :: "Alpha (Pre-Release 1)"
 
-PROGRAM :: "program/"
+program_location := "program/"
 // Includes .
 LUA_EXTENSION :: ".lua"
 MAIN_FILE :: "main" + LUA_EXTENSION
@@ -104,6 +104,8 @@ print_stack :: proc(state: ^lua.State) {
 }
 
 main :: proc() {
+	process_console_args()
+
 	init_config()
 
 	state := new_state()
