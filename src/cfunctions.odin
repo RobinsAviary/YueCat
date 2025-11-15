@@ -1329,3 +1329,47 @@ SetTextureWrap :: proc "c" (state: ^lua.State) -> (results: c.int) {
 
 	return
 }
+
+DrawPixel :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	position := check_vector2(state, 1)
+	color := check_color(state, 2)
+
+	rl.DrawPixelV(position, color)
+
+	return
+}
+
+GetSplinePointLinear :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	lua.checkstack(state, 1)
+	push_vector2(state, rl.GetSplinePointLinear(check_vector2(state, 1), check_vector2(state, 2), f32(lua.L_checknumber(state, 3))))
+
+	return 1
+}
+
+GetSplinePointBasis :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	lua.checkstack(state, 1)
+	push_vector2(state, rl.GetSplinePointBasis(check_vector2(state, 1), check_vector2(state, 2), check_vector2(state, 3), check_vector2(state, 4), f32(lua.L_checknumber(state, 5))))
+
+	return 1
+}
+
+GetSplinePointCatmullRom :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	lua.checkstack(state, 1)
+	push_vector2(state, rl.GetSplinePointCatmullRom(check_vector2(state, 1), check_vector2(state, 2), check_vector2(state, 3), check_vector2(state, 4), f32(lua.L_checknumber(state, 5))))
+	
+	return 1
+}
+
+GetSplinePointBezierQuad :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	lua.checkstack(state, 1)
+	push_vector2(state, rl.GetSplinePointBezierQuad(check_vector2(state, 1), check_vector2(state, 2), check_vector2(state, 3), f32(lua.L_checknumber(state, 4))))
+
+	return 1
+}
+
+GetSplinePointBezierCubic :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	lua.checkstack(state, 1)
+	push_vector2(state, rl.GetSplinePointBezierCubic(check_vector2(state, 1), check_vector2(state, 2), check_vector2(state, 3), check_vector2(state, 4), f32(lua.L_checknumber(state, 4))))
+
+	return 1
+}

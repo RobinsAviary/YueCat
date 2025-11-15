@@ -756,3 +756,9 @@ global Music = {}
 global RenderTexture = {}
 
 global Sound = {}
+
+global Spline = {}
+
+global Image = {
+	Draw: {}
+}

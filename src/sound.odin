@@ -5,6 +5,8 @@ import rl "vendor:raylib"
 import "core:c"
 
 LoadSound :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	audio_warning()
+
 	audio := check_audio(state, 1)
 
 	sound := rl.LoadSoundAlias(audio^)
@@ -25,6 +27,8 @@ check_sound :: proc "c" (state: ^lua.State, arg: i32) -> (sound: ^rl.Sound) {
 }
 
 UnloadSound :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	audio_warning()
+
 	sound := check_sound(state, 1)
 
 	rl.UnloadSoundAlias(sound^)

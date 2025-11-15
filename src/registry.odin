@@ -30,6 +30,7 @@ draw_registry: Registry = {
 		{DrawRectangleRounded, "RectangleRounded"},
 		{DrawRectangleRoundedLined, "RectangleRoundedLined"},
 		{DrawTextEx, "TextEx"},
+		{DrawPixel, "Pixel"},
 	},
 }
 
@@ -250,6 +251,25 @@ sound_registry: Registry = {
 	{
 		{LoadSound, "Load"},
 		{UnloadSound, "Unload"},
+	},
+}
+
+spline_registry: Registry = {
+	"Spline",
+	{
+		{GetSplinePointLinear, "GetPointLinear"},
+		{GetSplinePointBasis, "GetPointBasis"},
+		{GetSplinePointCatmullRom, "GetPointCatmullRom"},
+		{GetSplinePointBezierQuad, "GetPointBezierQuad"},
+		{GetSplinePointBezierCubic, "GetPointBezierCubic"},
+	},
+}
+
+image_registry: Registry = {
+	"Image",
+	{
+		{LoadImage, "Load"},
+		{UnloadImage, "Unload"},
 	},
 }
 

@@ -626,3 +626,7 @@ end
 Music = { }
 RenderTexture = { }
 Sound = { }
+Spline = { }
+Image = {
+	Draw = { }
+}

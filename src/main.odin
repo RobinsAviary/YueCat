@@ -13,6 +13,7 @@ FontUData :: "Font"
 MusicUData :: "Music"
 RenderTextureUData :: "RenderTexture"
 SoundUData :: "Sound"
+ImageUData :: "Image"
 
 NAME :: "YueCat"
 VERSION :: "Alpha"

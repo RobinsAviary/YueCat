@@ -13,6 +13,7 @@ Error :: enum {
 	FIND_EXECUTABLE_PATH,
 	SDL_INIT_FAILED,
 	YUESCRIPT_COMPILER_FAILED,
+	UNSUPPORTED_OS,
 }
 throw_error :: proc(error: Error) {
 	fmt.println(error)
@@ -56,7 +57,7 @@ init_config :: proc() {
 }
 
 init_loop :: proc(state: ^lua.State) {
-	build_yuescripts()
+	run_yuescript(PROGRAM)
 
 	do_file(state, PROGRAM + "main.lua")
 
