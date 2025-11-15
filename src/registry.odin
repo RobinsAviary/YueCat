@@ -364,4 +364,6 @@ register_functions :: proc(state: ^lua.State) {
 	register_registry(state, music_registry)
 
 	register_registry(state, rendertexture_registry)
+
+	register_registry(state, image_registry)
 }
