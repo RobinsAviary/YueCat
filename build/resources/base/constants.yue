@@ -597,7 +597,7 @@ global Audio = {}
 global Config = {
 	Window: {
 		size: Vector2(640, 480)
-		title: "YueCat"
+		title: "YueCat Alpha"
 
 		Flags: {
 			msaa: false -- Antialiasing

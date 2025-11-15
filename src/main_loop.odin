@@ -75,6 +75,8 @@ init_loop :: proc(state: ^lua.State) {
 	// Update our config based on user settings
 	read_config(state, &config)
 
+	title := strings.clone_to_cstring(config.window_title)
+
 	// TODO: Add config to disable controllers
 	init_sdl()
 
@@ -91,8 +93,6 @@ init_loop :: proc(state: ^lua.State) {
 	if config.flags.vsync do flags |= {.VSYNC_HINT}
 
 	rl.SetConfigFlags(flags)
-
-	title := strings.clone_to_cstring(config.window_title)
 
 	rl.InitWindow(i32(config.window_size.x), i32(config.window_size.y), title)
 

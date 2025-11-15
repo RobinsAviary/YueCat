@@ -16,7 +16,7 @@ SoundUData :: "Sound"
 ImageUData :: "Image"
 
 NAME :: "YueCat"
-VERSION :: "Alpha"
+VERSION :: "Alpha (Pre-Release 1)"
 
 PROGRAM :: "program/"
 // Includes .

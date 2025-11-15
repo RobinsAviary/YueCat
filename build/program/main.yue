@@ -1,16 +1,9 @@
-pos = Vector2.Zero!
-
 Engine.Init = ->
-	Config.window.size = Vector2 640, 480
-	Config.window.title = "yuecat alpha - basic window"
+	Config.Window.size = Vector2 640, 480
+	Config.Window.title = "yuecat alpha - basic window"
 
 Engine.Ready = ->
 	Engine.SetFPSTarget 60
-
-	global rdr = RenderTexture.Load(Vector2(320, 240))
-	Texture.BeginMode(rdr)
-	Draw.Clear(Color.Red)
-	Texture.EndMode()
 
 Engine.Step = ->
 	-- pass
@@ -20,7 +13,5 @@ Engine.Draw = ->
 	Draw.Line Vector2.Zero, Vector2(640, 480), Color.Red
 	Draw.Line Vector2(640, 0), Vector2(0, 480), Color.Red
 
-	Draw.Texture(rdr)
-
 Engine.Cleanup = ->
-	RenderTexture.Unload(rdr)
+	-- pass
