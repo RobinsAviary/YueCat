@@ -1828,8 +1828,108 @@ ImageDrawTriangleLined :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	image := check_image(state, 1)
 	triangle := check_triangle(state, 2)
 	color := check_color(state, 3)
-	
+
 	rl.ImageDrawTriangleLines(image, triangle.first_point, triangle.second_point, triangle.third_point, color)
 
 	return
+}
+
+GetImageAlphaBorder :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	image := check_image(state, 1)
+	threshold := lua.L_checknumber(state, 2)
+	
+	lua.checkstack(state, 1)
+	push_rectangle(state, rl.GetImageAlphaBorder(image^, f32(threshold)))
+
+	return 1
+}
+
+ColorFade :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	color := check_color(state, 1)
+	fade := lua.L_checknumber(state, 2)
+
+	lua.checkstack(state, 1)
+	push_color(state, rl.Fade(color, f32(fade)))
+
+	return 1
+}
+
+ColorToHex :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	color := check_color(state, 1)
+
+	lua.checkstack(state, 1)
+	lua.pushinteger(state, lua.Integer(rl.ColorToInt(color)))
+
+	return 1
+}
+
+ColorTint :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	color := check_color(state, 1)
+	tint := check_color(state, 2)
+
+	lua.checkstack(state, 1)
+	push_color(state, rl.ColorTint(color, tint))
+
+	return 1
+}
+
+ColorBrightness :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	color := check_color(state, 1)
+	brightness := lua.L_checknumber(state, 2)
+
+	lua.checkstack(state, 1)
+	push_color(state, rl.ColorBrightness(color, f32(brightness)))
+
+	return 1
+}
+
+ColorContrast :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	color := check_color(state, 1)
+	contrast := lua.L_checknumber(state, 2)
+
+	lua.checkstack(state, 1)
+	push_color(state, rl.ColorContrast(color, f32(contrast)))
+	
+	return 1
+}
+
+ColorAlpha :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	color := check_color(state, 1)
+	alpha := lua.L_checkinteger(state, 2)
+
+	lua.checkstack(state, 1)
+	push_color(state, rl.ColorAlpha(color, f32(alpha)))
+
+	return 1
+}
+
+ColorAlphaBlend :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	src := check_color(state, 1)
+	dst := check_color(state, 2)
+	tint := check_color(state, 3)
+
+	lua.checkstack(state, 1)
+	push_color(state, rl.ColorAlphaBlend(dst, src, tint))
+
+	return 1
+}
+
+ColorLerp :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	color1 := check_color(state, 1)
+	color2 := check_color(state, 2)
+	factor := lua.L_checknumber(state, 3)
+
+	lua.checkstack(state, 1)
+	push_color(state, rl.ColorLerp(color1, color2, f32(factor)))
+
+	return 1
+}
+
+ColorFromHex :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	hex := lua.L_checkinteger(state, 1)
+	
+	lua.checkstack(state, 1)
+	push_color(state, rl.GetColor(c.uint(hex)))
+
+	return 1
 }

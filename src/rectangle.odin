@@ -26,3 +26,25 @@ check_rectangle :: proc "c" (state: ^lua.State, arg: i32) -> (rectangle: rl.Rect
 	rectangle = to_rectangle(state, arg)
 	return
 }
+
+push_rectangle :: proc "c" (state: ^lua.State, rectangle: rl.Rectangle) {
+	lua.checkstack(state, 1)
+
+	lua.createtable(state, 0, 2)
+
+	lua.checkstack(state, 2)
+	push_vector2(state, {rectangle.x, rectangle.y})
+	lua.setfield(state, -2, "position")
+
+	push_vector2(state, {rectangle.width, rectangle.height})
+	lua.setfield(state, -2, "size")
+
+	lua.checkstack(state, 2)
+
+	lua.getglobal(state, "Rectangle")
+	lua.getfield(state, -1, "meta")
+
+	lua.remove(state, -2)
+
+	lua.setmetatable(state, -2)
+}

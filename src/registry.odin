@@ -120,6 +120,17 @@ color_registry := Registry {
 	{
 		{ColorToHSV, "ToHSV"},
 		{ColorFromHSV, "FromHSV"},
+		{ColorFade, "Fade"},
+		{ColorToHex, "ToHex"},
+		//{ColorNormalize, "Normalize"},
+		//{ColorFromNormalized, "FromNormalized"},
+		{ColorTint, "Tint"},
+		{ColorBrightness, "Brightness"},
+		{ColorContrast, "Contrast"},
+		{ColorAlpha, "Alpha"},
+		{ColorAlphaBlend, "AlphaBlend"},
+		{ColorLerp, "Lerp"},
+		{ColorFromHex, "FromHex"},
 	},
 }
 
@@ -306,6 +317,7 @@ image_registry: Registry = {
 		{ImageColorBrightness, "Brightness"},
 		{ImageColorReplace, "ColorReplace"},
 		{GetImageColor, "GetColor"},
+		{GetImageAlphaBorder, "GetAlphaBorder"},
 	},
 }
 
