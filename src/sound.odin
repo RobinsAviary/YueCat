@@ -15,7 +15,7 @@ LoadSound :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	data := cast(^rl.Sound)lua.newuserdatauv(state, size_of(sound), 0)
 	lua.L_setmetatable(state, SoundUData)
 
-	data^ = sound
+	data = &sound
 
 	return 1
 }

@@ -1373,3 +1373,366 @@ GetSplinePointBezierCubic :: proc "c" (state: ^lua.State) -> (results: c.int) {
 
 	return 1
 }
+
+GenerateImageColor :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	size := check_vector2(state, 1)
+	color := check_color(state, 2)
+
+	img := rl.GenImageColor(c.int(size.x), c.int(size.y), color)
+
+	lua.checkstack(state, 1)
+	push_image(state, &img)
+
+	return 1
+}
+
+GenerateImageGradientLinear :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	size := check_vector2(state, 1)
+	direction := lua.L_checknumber(state, 2)
+	start_color := check_color(state, 3)
+	end_color := check_color(state, 4)
+
+	img := rl.GenImageGradientLinear(c.int(size.x), c.int(size.y), c.int(direction), start_color, end_color)
+
+	lua.checkstack(state, 1)
+	push_image(state, &img)
+
+	return 1
+}
+
+GenerateImageGradientRadial :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	size := check_vector2(state, 1)
+	density := lua.L_checknumber(state, 2)
+	inner_color := check_color(state, 3)
+	outer_color := check_color(state, 4)
+
+	img := rl.GenImageGradientRadial(c.int(size.x), c.int(size.y), f32(density), inner_color, outer_color)
+
+	lua.checkstack(state, 1)
+	push_image(state, &img)
+
+	return 1
+}
+
+GenerateImageGradientSquare :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	size := check_vector2(state, 1)
+	density := lua.L_checknumber(state, 2)
+	inner_color := check_color(state, 3)
+	outer_color := check_color(state, 4)
+
+	img := rl.GenImageGradientSquare(c.int(size.x), c.int(size.y), f32(density), inner_color, outer_color)
+	
+	lua.checkstack(state, 1)
+	push_image(state, &img)
+
+	return 1
+}
+
+GenerateImageCheckered :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	size := check_vector2(state, 1)
+	checker_size := check_vector2(state, 2)
+	color1 := check_color(state, 3)
+	color2 := check_color(state, 4)
+
+	img := rl.GenImageChecked(c.int(size.x), c.int(size.y), c.int(checker_size.x), c.int(checker_size.y), color1, color2)
+
+	lua.checkstack(state, 1)
+	push_image(state, &img)
+
+	return 1
+}
+
+GenerateImageWhiteNoise :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	size := check_vector2(state, 1)
+	factor := lua.L_checknumber(state, 2)
+
+	img := rl.GenImageWhiteNoise(c.int(size.x), c.int(size.y), f32(factor))
+
+	lua.checkstack(state, 1)
+	push_image(state, &img)
+
+	return 1
+}
+
+GenerateImagePerlinNoise :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	size := check_vector2(state, 1)
+	offset := check_vector2(state, 2)
+	factor := lua.L_checknumber(state, 3)
+
+	img := rl.GenImagePerlinNoise(c.int(size.x), c.int(size.y), c.int(offset.x), c.int(offset.y), f32(factor))
+
+	lua.checkstack(state, 1)
+	push_image(state, &img)
+
+	return 1
+}
+
+GenerateImageCellular :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	size := check_vector2(state, 1)
+	tile_size := lua.L_checkinteger(state, 2)
+
+	img := rl.GenImageCellular(c.int(size.x), c.int(size.y), c.int(tile_size))
+
+	lua.checkstack(state, 1)
+	push_image(state, &img)
+
+	return 1
+}
+
+GenerateImageText :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	size := check_vector2(state, 1)
+	text := lua.L_checkstring(state, 2)
+
+	img := rl.GenImageText(c.int(size.x), c.int(size.y), text)
+
+	lua.checkstack(state, 1)
+	push_image(state, &img)
+
+	return 1
+}
+
+ImageCopy :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	img := check_image(state, 1)
+	
+	img_copy := rl.ImageCopy(img^)
+
+	lua.checkstack(state, 1)
+	push_image(state, &img_copy)
+
+	return 1
+}
+
+ImageFromRectangle :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	img := check_image(state, 1)
+	rectangle := check_rectangle(state, 2)
+
+	img_rectangle := rl.ImageFromImage(img^, rectangle)
+
+	lua.checkstack(state, 1)
+	push_image(state, &img_rectangle)
+
+	return 1
+}
+
+ImageFromChannel :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	img := check_image(state, 1)
+	channel := check_integer_default(state, 2, 0)
+
+	img_channel := rl.ImageFromChannel(img^, channel)
+
+	lua.checkstack(state, 1)
+	push_image(state, &img_channel)
+
+	return 1
+}
+
+ImageText :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	text := lua.L_checkstring(state, 1)
+	font_size := check_integer_default(state, 2, rl.GetFontDefault().baseSize)
+	color := check_color(state, 3)
+
+	img := rl.ImageText(text, font_size, color)
+
+	lua.checkstack(state, 1)
+	push_image(state, &img)
+
+	return 1
+}
+
+ImageCrop :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	image := check_image(state, 1)
+	crop := check_rectangle(state, 2)
+
+	rl.ImageCrop(image, crop)
+
+	return
+}
+
+ImageAlphaCrop :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	image := check_image(state, 1)
+	threshold := lua.L_checknumber(state, 2)
+	
+	rl.ImageAlphaCrop(image, f32(threshold))
+
+	return
+}
+
+ImageAlphaClear :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	image := check_image(state, 1)
+	color := check_color(state, 2)
+	threshold := lua.L_checknumber(state, 3)
+
+	rl.ImageAlphaClear(image, color, f32(threshold))
+
+	return
+}
+
+ImageAlphaMask :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	image := check_image(state, 1)
+	image_alpha_mask := check_image(state, 2)
+	
+	rl.ImageAlphaMask(image, image_alpha_mask^)
+
+	return
+}
+
+ImageAlphaPremultiply :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	image := check_image(state, 1)
+
+	rl.ImageAlphaPremultiply(image)
+
+	return
+}
+
+ImageBlurGaussian :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	image := check_image(state, 1)
+	size := lua.L_checkinteger(state, 2)
+
+	rl.ImageBlurGaussian(image, c.int(size))
+
+	return
+}
+
+ImageResizeBilinear :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	image := check_image(state, 1)
+	size := check_vector2(state, 2)
+
+	rl.ImageResize(image, c.int(size.x), c.int(size.y))
+
+	return
+}
+
+ImageResizeNN :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	image := check_image(state, 1)
+	size := check_vector2(state, 2)
+
+	rl.ImageResizeNN(image, c.int(size.x), c.int(size.y))
+
+	return
+}
+
+ImageMipmaps :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	image := check_image(state, 1)
+	
+	rl.ImageMipmaps(image)
+
+	return
+}
+
+ImageDither :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	image := check_image(state, 1)
+	r_bpp := lua.L_checkinteger(state, 2)
+	g_bpp := lua.L_checkinteger(state, 3)
+	b_bpp := lua.L_checkinteger(state, 4)
+	a_bpp := check_integer_default(state, 5, 255)
+
+	rl.ImageDither(image, c.int(r_bpp), c.int(g_bpp), c.int(b_bpp), a_bpp)
+
+	return
+}
+
+ImageFlipVertical :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	image := check_image(state, 1)
+
+	rl.ImageFlipVertical(image)
+
+	return
+}
+
+ImageFlipHorizontal :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	image := check_image(state, 1)
+
+	rl.ImageFlipHorizontal(image)
+
+	return
+}
+
+ImageRotate :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	image := check_image(state, 1)
+	degrees := lua.L_checknumber(state, 2)
+
+	rl.ImageRotate(image, c.int(degrees))
+
+	return
+}
+
+ImageRotateCW :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	image := check_image(state, 1)
+
+	rl.ImageRotateCW(image)
+
+	return
+}
+
+ImageRotateCCW :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	image := check_image(state, 1)
+
+	rl.ImageRotateCCW(image)
+
+	return
+}
+
+ImageColorTint :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	image := check_image(state, 1)
+	color := check_color(state, 2)
+
+	rl.ImageColorTint(image, color)
+
+	return
+}
+
+ImageColorInvert :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	image := check_image(state, 1)
+	
+	rl.ImageColorInvert(image)
+
+	return
+}
+
+ImageColorGrayscale :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	image := check_image(state, 1)
+
+	rl.ImageColorGrayscale(image)
+
+	return
+}
+
+ImageColorContrast :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	image := check_image(state, 1)
+	contrast := lua.L_checknumber(state, 2)
+
+	rl.ImageColorContrast(image, f32(contrast))
+
+	return
+}
+
+ImageColorBrightness :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	image := check_image(state, 1)
+	brightness := lua.L_checkinteger(state, 2)
+
+	rl.ImageColorBrightness(image, c.int(brightness))
+
+	return
+}
+
+ImageColorReplace :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	image := check_image(state, 1)
+	color_to_replace := check_color(state, 2)
+	replacement_color := check_color(state, 3)
+	
+	rl.ImageColorReplace(image, color_to_replace, replacement_color)
+
+	return
+}
+
+GetImageColor :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	image := check_image(state, 1)
+	position := check_vector2(state, 2)
+
+	color := rl.GetImageColor(image^, c.int(position.x), c.int(position.y))
+
+	lua.checkstack(state, 1)
+	push_color(state, color)
+
+	return 1
+}
