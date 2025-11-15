@@ -2,8 +2,9 @@ package YueCat
 
 import "core:fmt"
 import lua "vendor:lua/5.4"
+import "core:c"
 
-draw_registry: Registry = {
+draw_registry := Registry {
 	"Draw",
 	{
 		{DrawClear, "Clear"},
@@ -34,7 +35,7 @@ draw_registry: Registry = {
 	},
 }
 
-keyboard_registry: Registry = {
+keyboard_registry := Registry {
 	"Keyboard",
 	{
 		{IsKeyboardKeyReleased, "IsKeyReleased"},
@@ -43,7 +44,7 @@ keyboard_registry: Registry = {
 	},
 }
 
-engine_registry: Registry = {
+engine_registry := Registry {
 	"Engine",
 	{
 		{OpenURL, "OpenURL"},
@@ -59,7 +60,7 @@ engine_registry: Registry = {
 	},
 }
 
-mouse_registry: Registry = {
+mouse_registry := Registry {
 	"Mouse",
 	{
 		{GetMousePosition, "GetPosition"},
@@ -77,7 +78,7 @@ mouse_registry: Registry = {
 	},
 }
 
-texture_registry: Registry = {
+texture_registry := Registry {
 	"Texture",
 	{
 		{LoadTexture, "Load"},
@@ -92,7 +93,7 @@ texture_registry: Registry = {
 	},
 }
 
-audio_registry: Registry = {
+audio_registry := Registry {
 	"Audio",
 	{
 		{LoadAudio, "Load"},
@@ -114,7 +115,7 @@ audio_registry: Registry = {
 	},
 }
 
-color_registry: Registry = {
+color_registry := Registry {
 	"Color",
 	{
 		{ColorToHSV, "ToHSV"},
@@ -122,7 +123,7 @@ color_registry: Registry = {
 	},
 }
 
-controller_registry: Registry = {
+controller_registry := Registry {
 	"Controller",
 	{
 		{IsControllerButtonHeld, "IsButtonHeld"},
@@ -138,7 +139,7 @@ controller_registry: Registry = {
 	},
 }
 
-window_registry: Registry = {
+window_registry := Registry {
 	"Window",
 	{
 		{MaximizeWindow, "Maximize"},
@@ -159,7 +160,7 @@ window_registry: Registry = {
 	},
 }
 
-cursor_registry: Registry = {
+cursor_registry := Registry {
 	"Cursor",
 	{
 		{ShowCursor, "Show"},
@@ -169,7 +170,7 @@ cursor_registry: Registry = {
 	},
 }
 
-touch_registry: Registry = {
+touch_registry := Registry {
 	"Touch",
 	{
 		{GetTouchX, "GetX"},
@@ -180,7 +181,7 @@ touch_registry: Registry = {
 	},
 }
 
-time_registry: Registry = {
+time_registry := Registry {
 	"Time",
 	{
 		{Now, "Now"},
@@ -194,7 +195,7 @@ time_registry: Registry = {
 	},
 }
 
-font_registry: Registry = {
+font_registry := Registry {
 	"Font",
 	{
 		{LoadFont, "Load"},
@@ -203,7 +204,7 @@ font_registry: Registry = {
 	},
 }
 
-monitor_registry: Registry = {
+monitor_registry := Registry {
 	"Monitor",
 	{
 		{GetMonitorCount, "GetCount"},
@@ -219,7 +220,7 @@ monitor_registry: Registry = {
 	},
 }
 
-music_registry: Registry = {
+music_registry := Registry {
 	"Music",
 	{
 		{LoadMusic, "Load"},
@@ -238,7 +239,7 @@ music_registry: Registry = {
 	},
 }
 
-rendertexture_registry: Registry = {
+rendertexture_registry := Registry {
 	"RenderTexture",
 	{
 		{LoadRenderTexture, "Load"},
@@ -246,7 +247,7 @@ rendertexture_registry: Registry = {
 	},
 }
 
-sound_registry: Registry = {
+sound_registry := Registry {
 	"Sound",
 	{
 		{LoadSound, "Load"},
@@ -254,7 +255,7 @@ sound_registry: Registry = {
 	},
 }
 
-spline_registry: Registry = {
+spline_registry := Registry {
 	"Spline",
 	{
 		{GetSplinePointLinear, "GetPointLinear"},
@@ -308,6 +309,21 @@ image_registry: Registry = {
 	},
 }
 
+image_draw_registry := Registry {
+	"Draw",
+	{
+		{ImageDrawLine, "Line"},
+		{ImageDrawCircle, "Circle"},
+		{ImageDrawCircleLined, "CircleLined"},
+		{ImageDrawRectangle, "Rectangle"},
+		{ImageDrawRectangleLined, "RectangleLined"},
+		{ImageDrawTriangle, "Triangle"},
+		{ImageDrawTriangleLined, "TriangleLined"},
+		{ImageDrawText, "Text"},
+		{ImageDrawTextEx, "TextEx"},
+	},
+}
+
 registry_value :: struct {
 	cfunction: lua.CFunction,
 	lua_name: cstring,
@@ -318,52 +334,59 @@ Registry :: struct {
 	values: []registry_value,
 }
 
-register_registry :: proc(state: ^lua.State, registry: Registry) {
-	lua.checkstack(state, 1)
-	lua.getglobal(state, registry.name)
-
+register_registry :: proc(state: ^lua.State, tblidx: c.int = -1, registry: Registry) {
 	registry_len := i32(len(registry.values))
 	lua.checkstack(state, registry_len)
 	for value in registry.values {
 		lua.pushcfunction(state, value.cfunction)
-		lua.setfield(state, -2, value.lua_name)
+		lua.setfield(state, tblidx - 1, value.lua_name)
+	}
+}
+
+register_registries :: proc(state: ^lua.State, registries: []Registry) {
+	lua.checkstack(state, c.int(len(registries)))
+	
+	for registry in registries {
+		lua.getglobal(state, registry.name)
+
+		lua.checkstack(state, c.int(len(registry.values)))
+		for value in registry.values {
+			lua.pushcfunction(state, value.cfunction)
+			lua.setfield(state, -2, value.lua_name)
+		}
 	}
 
-	lua.pop(state, 1)
+	lua.pop(state, c.int(len(registries)))
 }
 
 register_functions :: proc(state: ^lua.State) {
 	if config.verbose do fmt.println("Registering functions...")
 	
-	register_registry(state, draw_registry)
+	registries := []Registry {
+		draw_registry,
+		engine_registry,
+		mouse_registry,
+		texture_registry,
+		keyboard_registry,
+		audio_registry,
+		color_registry,
+		controller_registry,
+		window_registry,
+		cursor_registry,
+		time_registry,
+		font_registry,
+		monitor_registry,
+		music_registry,
+		rendertexture_registry,
+		image_registry,
+	}
 
-	register_registry(state, engine_registry)
+	register_registries(state, registries)
 
-	register_registry(state, mouse_registry)
-
-	register_registry(state, texture_registry)
-
-	register_registry(state, keyboard_registry)
-
-	register_registry(state, audio_registry)
-
-	register_registry(state, color_registry)
-
-	register_registry(state, controller_registry)
-
-	register_registry(state, window_registry)
-
-	register_registry(state, cursor_registry)
-
-	register_registry(state, time_registry)
-
-	register_registry(state, font_registry)
-	
-	register_registry(state, monitor_registry)
-
-	register_registry(state, music_registry)
-
-	register_registry(state, rendertexture_registry)
-
-	register_registry(state, image_registry)
+	// Register Image.Draw
+	lua.checkstack(state, 2)
+	lua.getglobal(state, "Image")
+	lua.getfield(state, -1, "Draw")
+	register_registry(state, -1, image_draw_registry)
+	lua.pop(state, 2)
 }

@@ -1736,3 +1736,100 @@ GetImageColor :: proc "c" (state: ^lua.State) -> (results: c.int) {
 
 	return 1
 }
+
+ImageDrawLine :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	image := check_image(state, 1)
+	start_position := check_vector2(state, 2)
+	end_position := check_vector2(state, 3)
+	color := check_color(state, 4)
+
+	rl.ImageDrawLineV(image, start_position, end_position, color)
+
+	return
+}
+
+ImageDrawCircle :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	image := check_image(state, 1)
+	circle := check_circle(state, 2)
+	color := check_color(state, 3)
+
+	rl.ImageDrawCircleV(image, circle.position, c.int(circle.diameter / 2), color)
+
+	return
+}
+
+ImageDrawCircleLined :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	image := check_image(state, 1)
+	circle := check_circle(state, 1)
+	color := check_color(state, 3)
+
+	rl.ImageDrawCircleLinesV(image, circle.position, c.int(circle.diameter / 2), color)
+
+	return
+}
+
+ImageDrawRectangle :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	image := check_image(state, 1)
+	rectangle := check_rectangle(state, 2)
+	color := check_color(state, 3)
+
+	rl.ImageDrawRectangleRec(image, rectangle, color)
+
+	return
+}
+
+ImageDrawRectangleLined :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	image := check_image(state, 1)
+	rectangle := check_rectangle(state, 2)
+	color := check_color(state, 3)
+
+	rl.ImageDrawRectangleLines(image, rectangle, 1, color)
+
+	return
+}
+
+ImageDrawText :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	image := check_image(state, 1)
+	text := lua.L_checkstring(state, 2)
+	position := check_vector2(state, 3)
+	font_size := check_integer_default(state, 4, rl.GetFontDefault().baseSize)
+	color := check_color(state, 5)
+	
+	rl.ImageDrawText(image, text, c.int(position.x), c.int(position.y), font_size, color)
+
+	return
+}
+
+ImageDrawTextEx :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	image := check_image(state, 1)
+	font := check_font(state, 2)
+	text := lua.L_checkstring(state, 3)
+	position := check_vector2(state, 4)
+	font_size := check_number_default(state, 5, f32(font.baseSize))
+	spacing := check_number_default(state, 6, f32(font.glyphPadding))
+	color := check_color(state, 7)
+
+	rl.ImageDrawTextEx(image, font^, text, position, font_size, spacing, color)
+
+	return
+}
+
+ImageDrawTriangle :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	image := check_image(state, 1)
+	triangle := check_triangle(state, 2)
+	color := check_color(state, 3)
+
+	rl.ImageDrawTriangle(image, triangle.first_point, triangle.second_point, triangle.third_point, color)
+
+	return
+}
+
+ImageDrawTriangleLined :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	image := check_image(state, 1)
+	triangle := check_triangle(state, 2)
+	color := check_color(state, 3)
+	
+	rl.ImageDrawTriangleLines(image, triangle.first_point, triangle.second_point, triangle.third_point, color)
+
+	return
+}
