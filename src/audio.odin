@@ -38,7 +38,14 @@ LoadAudio :: proc "c" (state: ^lua.State) -> (results: c.int) {
 }
 
 check_audio :: proc "c" (state: ^lua.State, arg: i32) -> (sound: ^rl.Sound) {
-	user := lua.L_checkudata(state, arg, AudioUData)
+	user: rawptr
+	
+	if !is_type(state, arg, "Sound") {
+		user = lua.L_checkudata(state, arg, AudioUData)
+	} else {
+		user = lua.L_checkudata(state, arg, SoundUData)
+	}
+	
 	sound = cast(^rl.Sound)user
 
 	return

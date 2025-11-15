@@ -250,11 +250,18 @@ IsMouseButtonReleased :: proc "c" (state: ^lua.State) -> (results: c.int) {
 }
 
 DrawTexture :: proc "c" (state: ^lua.State) -> (results: c.int) {
-	texture := check_texture(state, 1)
+	texture: rl.Texture
+
+	if is_type(state, 1, "RenderTexture") {
+		texture = check_rendertexture(state, 1).texture
+	} else {
+		texture = check_texture(state, 1)^
+	}
+
 	position := check_vector2_default(state, 2, {})
 	tint := check_color_default(state, 3, rl.WHITE)
 
-	rl.DrawTextureV(texture^, position, tint)
+	rl.DrawTextureV(texture, position, tint)
 
 	return
 }
@@ -1289,4 +1296,36 @@ GetMusicStreamTimePlayed :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	lua.pushnumber(state, lua.Number(rl.GetMusicTimePlayed(music^)))
 
 	return 1
+}
+
+EndTextureMode :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	rl.EndTextureMode()
+
+	return
+}
+
+BeginTextureMode :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	tex := check_rendertexture(state, 1)
+
+	rl.BeginTextureMode(tex^)
+
+	return
+}
+
+SetTextureFilter :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	texture := check_texture(state, 1)
+	filter := lua.L_checkinteger(state, 2)
+
+	rl.SetTextureFilter(texture^, rl.TextureFilter(filter))
+
+	return
+}
+
+SetTextureWrap :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	texture := check_texture(state, 1)
+	wrap := lua.L_checkinteger(state, 2)
+
+	rl.SetTextureWrap(texture^, rl.TextureWrap(wrap))
+
+	return
 }

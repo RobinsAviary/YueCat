@@ -348,7 +348,22 @@ Triangle3D = {
 setmetatable(Triangle3D, Triangle3D.meta)
 Draw = { }
 Mouse = { }
-Texture = { }
+Texture = {
+	Filter = {
+		Point = 0,
+		Bilinear = 1,
+		Trilinear = 2,
+		Anisotropic4X = 3,
+		Anisotropic8X = 4,
+		Anisotropic16X = 5
+	},
+	Wrap = {
+		Repeat = 0,
+		Clamp = 1,
+		MirrorRepeat = 2,
+		MirrorClamp = 3
+	}
+}
 Keyboard = {
 	Key = {
 		Null = 0,
@@ -609,3 +624,5 @@ math.stween = function(value, goal, smoothness)
 	return value + (goal - value) * smoothness
 end
 Music = { }
+RenderTexture = { }
+Sound = { }

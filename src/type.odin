@@ -6,19 +6,19 @@ import "core:strings"
 import "core:c"
 import "core:slice"
 
-is_type :: proc "c" (state: ^lua.State, idx: i32, typeName: string) -> bool {
+is_type :: proc "c" (state: ^lua.State, idx: c.int, typeName: string) -> bool {
 	context = runtime.default_context()
 	realType := get_type(state, idx)
 	return realType == typeName
 }
 
-is_types :: proc "c" (state: ^lua.State, idx: i32, typeNames: []string) -> bool {
+is_types :: proc "c" (state: ^lua.State, idx: c.int, typeNames: []string) -> bool {
 	context = runtime.default_context()
 	realType := get_type(state, idx)
 	return slice.contains(typeNames, realType)
 }
 
-check_type :: proc "c" (state: ^lua.State, idx: i32, typeName: string) {
+check_type :: proc "c" (state: ^lua.State, idx: c.int, typeName: string) {
 	context = runtime.default_context()
 	if !is_type(state, idx, typeName) {
 		errorMsg := strings.concatenate({"expected ", typeName, ", got ", get_type(state, idx)}, context.temp_allocator)
@@ -27,19 +27,28 @@ check_type :: proc "c" (state: ^lua.State, idx: i32, typeName: string) {
 	}
 }
 
-get_type :: proc "c" (state: ^lua.State, idx: i32) -> (typeName: string) {
+get_meta_name :: proc "c" (state: ^lua.State, idx: c.int) -> (typeName: string) {
+	lua.checkstack(state, 1)
+	if lua.L_getmetafield(state, idx, "__name") == c.int(lua.Type.STRING) {
+		if lua.isstring(state, -1) {
+			typeName = string(lua.tostring(state, -1))
+		}
+		lua.pop(state, 1)
+	}
+
+	return
+}
+
+get_type :: proc "c" (state: ^lua.State, idx: c.int) -> (typeName: string) {
 	context = runtime.default_context()
 	metaTypeFound: bool = false
 
 	if lua.istable(state, idx) {
-		lua.checkstack(state, 1)
-		if lua.L_getmetafield(state, idx, "__name") != c.int(lua.Type.NIL) {
-			if lua.isstring(state, -1) {
-				typeName = string(lua.tostring(state, -1))
-				metaTypeFound = true
-			}
-			lua.pop(state, 1)
-		}
+		typeName = get_meta_name(state, idx)
+		metaTypeFound = true
+	} else if lua.isuserdata(state, idx) {
+		typeName = get_meta_name(state, idx)
+		metaTypeFound = true
 	}
 
 	if !metaTypeFound do typeName = string(lua.L_typename(state, idx))

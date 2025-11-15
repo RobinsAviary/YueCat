@@ -84,6 +84,10 @@ texture_registry: Registry = {
 		{TextureGetSize, "GetSize"},
 		{TextureGetWidth, "GetWidth"},
 		{TextureGetHeight, "GetHeight"},
+		{BeginTextureMode, "BeginMode"},
+		{EndTextureMode, "EndMode"},
+		{SetTextureFilter, "SetFilter"},
+		{SetTextureWrap, "SetWrap"},
 	},
 }
 
@@ -233,6 +237,22 @@ music_registry: Registry = {
 	},
 }
 
+rendertexture_registry: Registry = {
+	"RenderTexture",
+	{
+		{LoadRenderTexture, "Load"},
+		{UnloadRenderTexture, "Unload"},
+	},
+}
+
+sound_registry: Registry = {
+	"Sound",
+	{
+		{LoadSound, "Load"},
+		{UnloadSound, "Unload"},
+	},
+}
+
 registry_value :: struct {
 	cfunction: lua.CFunction,
 	lua_name: cstring,
@@ -287,4 +307,6 @@ register_functions :: proc(state: ^lua.State) {
 	register_registry(state, monitor_registry)
 
 	register_registry(state, music_registry)
+
+	register_registry(state, rendertexture_registry)
 }

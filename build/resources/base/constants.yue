@@ -443,7 +443,23 @@ global Draw = {}
 
 global Mouse = {}
 
-global Texture = {}
+global Texture = {
+	Filter: {
+		Point: 0
+		Bilinear: 1
+		Trilinear: 2
+		Anisotropic4X: 3
+		Anisotropic8X: 4
+		Anisotropic16X: 5
+	}
+
+	Wrap: {
+		Repeat: 0
+		Clamp: 1
+		MirrorRepeat: 2
+		MirrorClamp: 3
+	}
+}
 
 global Keyboard = {
 	Key: {
@@ -736,3 +752,7 @@ math.stween = (value, goal, smoothness) ->
 	return value + (goal - value) * smoothness
 
 global Music = {}
+
+global RenderTexture = {}
+
+global Sound = {}
