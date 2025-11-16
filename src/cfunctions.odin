@@ -12,7 +12,7 @@ import "core:time"
 DrawClear :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	context = runtime.default_context()
 
-	color := check_color(state, 1)
+	color := check_color_default(state, 1, rl.RAYWHITE)
 
 	rl.ClearBackground(color)
 
@@ -22,7 +22,7 @@ DrawClear :: proc "c" (state: ^lua.State) -> (results: c.int) {
 DrawLine :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	start := check_vector2(state, 1)
 	end := check_vector2(state, 2)
-	color := check_color(state, 3)
+	color := check_color_default(state, 3, rl.BLACK)
 
 	rl.DrawLineV(start, end, color)
 
@@ -31,7 +31,7 @@ DrawLine :: proc "c" (state: ^lua.State) -> (results: c.int) {
 
 DrawRectangle :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	rectangle := check_rectangle(state, 1)
-	color := check_color(state, 2)
+	color := check_color_default(state, 2, rl.BLACK)
 
 	rl.DrawRectangleRec(rectangle, color)
 
@@ -40,7 +40,7 @@ DrawRectangle :: proc "c" (state: ^lua.State) -> (results: c.int) {
 
 DrawCircle :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	circle := check_circle(state, 1)
-	color := check_color(state, 2)
+	color := check_color_default(state, 2, rl.BLACK)
 
 	rl.DrawCircleV(circle.position, circle.diameter / 2, color)
 
@@ -49,7 +49,7 @@ DrawCircle :: proc "c" (state: ^lua.State) -> (results: c.int) {
 
 DrawRectangleLined :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	rectangle := check_rectangle(state, 1)
-	color := check_color(state, 2)
+	color := check_color_default(state, 2, rl.BLACK)
 
 	rl.DrawRectangleLinesEx(rectangle, 1, color)
 
@@ -58,7 +58,7 @@ DrawRectangleLined :: proc "c" (state: ^lua.State) -> (results: c.int) {
 
 DrawCircleLined :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	circle := check_circle(state, 1)
-	color := check_color(state, 2)
+	color := check_color_default(state, 2, rl.BLACK)
 
 	rl.DrawCircleLinesV(circle.position, circle.diameter / 2, color)
 
@@ -67,7 +67,7 @@ DrawCircleLined :: proc "c" (state: ^lua.State) -> (results: c.int) {
 
 DrawTriangle :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	triangle := check_triangle(state, 1)
-	color := check_color(state, 2)
+	color := check_color_default(state, 2, rl.BLACK)
 
 	rl.DrawTriangle(triangle.first_point, triangle.second_point, triangle.third_point, color)
 
@@ -76,7 +76,7 @@ DrawTriangle :: proc "c" (state: ^lua.State) -> (results: c.int) {
 
 DrawTriangleLined :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	triangle := check_triangle(state, 1)
-	color := check_color(state, 2)
+	color := check_color_default(state, 2, rl.BLACK)
 
 	rl.DrawTriangleLines(triangle.first_point, triangle.second_point, triangle.third_point, color)
 
@@ -86,7 +86,7 @@ DrawTriangleLined :: proc "c" (state: ^lua.State) -> (results: c.int) {
 DrawText :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	text := lua.L_checkstring(state, 1)
 	position := check_vector2(state, 2)
-	color := check_color(state, 3)
+	color := check_color_default(state, 3, rl.BLACK)
 
 	rl.DrawText(text, i32(position.x), i32(position.y), 20, color)
 
@@ -1741,7 +1741,7 @@ ImageDrawLine :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	image := check_image(state, 1)
 	start_position := check_vector2(state, 2)
 	end_position := check_vector2(state, 3)
-	color := check_color(state, 4)
+	color := check_color_default(state, 4, rl.BLACK)
 
 	rl.ImageDrawLineV(image, start_position, end_position, color)
 
@@ -1751,7 +1751,7 @@ ImageDrawLine :: proc "c" (state: ^lua.State) -> (results: c.int) {
 ImageDrawCircle :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	image := check_image(state, 1)
 	circle := check_circle(state, 2)
-	color := check_color(state, 3)
+	color := check_color_default(state, 3, rl.BLACK)
 
 	rl.ImageDrawCircleV(image, circle.position, c.int(circle.diameter / 2), color)
 
@@ -1761,7 +1761,7 @@ ImageDrawCircle :: proc "c" (state: ^lua.State) -> (results: c.int) {
 ImageDrawCircleLined :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	image := check_image(state, 1)
 	circle := check_circle(state, 1)
-	color := check_color(state, 3)
+	color := check_color_default(state, 3, rl.BLACK)
 
 	rl.ImageDrawCircleLinesV(image, circle.position, c.int(circle.diameter / 2), color)
 
@@ -1771,7 +1771,7 @@ ImageDrawCircleLined :: proc "c" (state: ^lua.State) -> (results: c.int) {
 ImageDrawRectangle :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	image := check_image(state, 1)
 	rectangle := check_rectangle(state, 2)
-	color := check_color(state, 3)
+	color := check_color_default(state, 3, rl.BLACK)
 
 	rl.ImageDrawRectangleRec(image, rectangle, color)
 
@@ -1781,7 +1781,7 @@ ImageDrawRectangle :: proc "c" (state: ^lua.State) -> (results: c.int) {
 ImageDrawRectangleLined :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	image := check_image(state, 1)
 	rectangle := check_rectangle(state, 2)
-	color := check_color(state, 3)
+	color := check_color_default(state, 3, rl.BLACK)
 
 	rl.ImageDrawRectangleLines(image, rectangle, 1, color)
 
@@ -1793,7 +1793,7 @@ ImageDrawText :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	text := lua.L_checkstring(state, 2)
 	position := check_vector2(state, 3)
 	font_size := check_integer_default(state, 4, rl.GetFontDefault().baseSize)
-	color := check_color(state, 5)
+	color := check_color_default(state, 5, rl.BLACK)
 	
 	rl.ImageDrawText(image, text, c.int(position.x), c.int(position.y), font_size, color)
 
@@ -1807,7 +1807,7 @@ ImageDrawTextEx :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	position := check_vector2(state, 4)
 	font_size := check_number_default(state, 5, f32(font.baseSize))
 	spacing := check_number_default(state, 6, f32(font.glyphPadding))
-	color := check_color(state, 7)
+	color := check_color_default(state, 7, rl.BLACK)
 
 	rl.ImageDrawTextEx(image, font^, text, position, font_size, spacing, color)
 
@@ -1817,7 +1817,7 @@ ImageDrawTextEx :: proc "c" (state: ^lua.State) -> (results: c.int) {
 ImageDrawTriangle :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	image := check_image(state, 1)
 	triangle := check_triangle(state, 2)
-	color := check_color(state, 3)
+	color := check_color_default(state, 3, rl.BLACK)
 
 	rl.ImageDrawTriangle(image, triangle.first_point, triangle.second_point, triangle.third_point, color)
 
@@ -1827,7 +1827,7 @@ ImageDrawTriangle :: proc "c" (state: ^lua.State) -> (results: c.int) {
 ImageDrawTriangleLined :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	image := check_image(state, 1)
 	triangle := check_triangle(state, 2)
-	color := check_color(state, 3)
+	color := check_color_default(state, 3, rl.BLACK)
 
 	rl.ImageDrawTriangleLines(image, triangle.first_point, triangle.second_point, triangle.third_point, color)
 
