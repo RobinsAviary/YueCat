@@ -16,7 +16,6 @@ draw_registry := Registry {
 		{DrawTriangle, "Triangle"},
 		{DrawTriangleLined, "TriangleLined"},
 		{DrawTexture, "Texture"},
-		{DrawTexturePro, "TexturePro"},
 		{DrawText, "Text"},
 		{DrawGrid, "Grid"},
 		{DrawCube, "Cube"},

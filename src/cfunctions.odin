@@ -85,7 +85,7 @@ DrawTriangleLined :: proc "c" (state: ^lua.State) -> (results: c.int) {
 
 DrawText :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	text := lua.L_checkstring(state, 1)
-	position := check_vector2_default(state, 2, {})
+	position := check_vector2(state, 2)
 	color := check_color_default(state, 3, rl.BLACK)
 
 	rl.DrawText(text, i32(position.x), i32(position.y), 20, color)
@@ -249,37 +249,19 @@ IsMouseButtonReleased :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	return 1
 }
 
-check_generictexture :: proc "c" (state: ^lua.State, arg: c.int) -> (texture: ^rl.Texture) {
-	if is_type(state, arg, "RenderTexture") {
-		texture = &check_rendertexture(state, arg).texture
-	} else {
-		texture = check_texture(state, arg)
-	}
-
-	return
-}
-
 DrawTexture :: proc "c" (state: ^lua.State) -> (results: c.int) {
-	texture := check_generictexture(state, 1)
+	texture: rl.Texture
+
+	if is_type(state, 1, "RenderTexture") {
+		texture = check_rendertexture(state, 1).texture
+	} else {
+		texture = check_texture(state, 1)^
+	}
 
 	position := check_vector2_default(state, 2, {})
 	tint := check_color_default(state, 3, rl.WHITE)
 
-	rl.DrawTextureV(texture^, position, tint)
-
-	return
-}
-
-DrawTexturePro :: proc "c" (state: ^lua.State) -> (results: c.int) {
-	texture := check_generictexture(state, 1)
-	source := check_rectangle_default(state, 2, {0, 0, f32(texture.width), f32(texture.height)})
-	destination_position := check_vector2_default(state, 3, {})
-	destination_size := check_vector2_default(state, 4, {f32(texture.width), f32(texture.height)})
-	origin := check_vector2_default(state, 5, {})
-	rotation := check_number_default(state, 6, 0)
-	tint := check_color_default(state, 7, rl.WHITE)
-
-	rl.DrawTexturePro(texture^, source, {destination_position.x, destination_position.y, destination_size.x, destination_size.y}, origin * rl.Vector2 {f32(texture.width), f32(texture.height)}, f32(rotation), tint)
+	rl.DrawTextureV(texture, position, tint)
 
 	return
 }
@@ -366,8 +348,8 @@ End3D :: proc "c" (state: ^lua.State) -> (results: c.int) {
 }
 
 DrawGrid :: proc "c" (state: ^lua.State) -> (results: c.int) {
-	slices := check_integer_default(state, 1, 100)
-	spacing := check_number_default(state, 2, 1)
+	slices := lua.L_checkinteger(state, 1)
+	spacing := lua.L_checknumber(state, 2)
 
 	rl.DrawGrid(i32(slices), f32(spacing))
 
@@ -1045,7 +1027,7 @@ DrawRectangleRounded :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	rectangle := check_rectangle(state, 1)
 	roundness := lua.L_checknumber(state, 2)
 	segments := lua.L_checkinteger(state, 3)
-	color := check_color_default(state, 4, rl.BLACK)
+	color := check_color(state, 4)
 
 	rl.DrawRectangleRounded(rectangle, c.float(roundness), c.int(segments), color)
 
@@ -1056,7 +1038,7 @@ DrawRectangleRoundedLined :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	rectangle := check_rectangle(state, 1)
 	roundness := lua.L_checknumber(state, 2)
 	segments := lua.L_checkinteger(state, 3)
-	color := check_color_default(state, 4, rl.BLACK)
+	color := check_color(state, 4)
 
 	rl.DrawRectangleRoundedLines(rectangle, c.float(roundness), c.int(segments), color)
 
@@ -1349,8 +1331,8 @@ SetTextureWrap :: proc "c" (state: ^lua.State) -> (results: c.int) {
 }
 
 DrawPixel :: proc "c" (state: ^lua.State) -> (results: c.int) {
-	position := check_vector2_default(state, 1, {})
-	color := check_color_default(state, 2, rl.BLACK)
+	position := check_vector2(state, 1)
+	color := check_color(state, 2)
 
 	rl.DrawPixelV(position, color)
 

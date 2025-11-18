@@ -36,8 +36,6 @@ The API largely mirrors [raylib](https://www.raylib.com/)'s, with some key diffe
             3. [Controller.Vector](#controllervector)
     3. [🎞️ Rendering](#-rendering)
         1. [🖌️ Draw](#-draw)
-            1. [🟥🔵 2D](#-2d)
-            2. [🧊🛢️ 3D](#-3d)
         2. [🖼️ Texture](#-texture)
     4. [🎧 Sound](#-sound)
         1. [🔊 Audio](#-audio)
@@ -52,20 +50,20 @@ The API largely mirrors [raylib](https://www.raylib.com/)'s, with some key diffe
             1. [Constants](#constants-2)
         2. [🎨🤖 ColorHSV](#-colorhsv)
     3. [🔷 Shapes](#-shapes)
-        1. [🟥🔵 2D](#-2d-1)
+        1. [🟥🔵 2D](#-2d)
             1. [🟥 Rectangle](#-rectangle)
             2. [🔵 Circle](#-circle)
             3. [📐 Triangle](#-triangle)
-        2. [🧊🛢️ 3D](#-3d-1)
+        2. [🧊🛢️ 3D](#-3d)
             1. [🧊 Cube](#-cube)
             2. [📦 Box](#-box)
             3. [🔮 Sphere](#-sphere)
             4. [🛢️ Cylinder](#-cylinder)
             5. [🔺 Triangle3D](#-triangle3d)
     4. [🎥 Cameras](#-cameras)
-        1. [🟥🔵 2D](#-2d-2)
+        1. [🟥🔵 2D](#-2d-1)
             1. [🎥🟥 Camera2D](#-camera2d)
-        2. [🧊🛢️ 3D](#-3d-2)
+        2. [🧊🛢️ 3D](#-3d-1)
             1. [🎥🧱 Camera3D](#-camera3d)
 
 # 📜 Documentation
@@ -509,49 +507,15 @@ Clear the entire screen to a single color.
 
 It is suggested to call this first in most programs, before you draw anything else. Otherwise, graphics from previous frames will stick around (think out-of-bounds in Source games). You can also recreate this behavior by using a full-screen rectangle.
 
-### 🟥🔵 2D
+`Draw.Line(startPosition: Vector2, endPosition: Vector2, color: Color)`
 
-`Draw.Line(startPosition: Vector2, endPosition: Vector2, color: Color = Color.Black)`
+`Draw.Rectangle(rectangle: Rectangle, color: Color)`
 
-`Draw.Rectangle(rectangle: Rectangle, color: Color = Color.Black)`
+`Draw.Circle(circle: Circle, color: Color)`
 
-`Draw.RectangleLined(rectangle: Rectangle, color: Color = Color.Black)`
+`Draw.Triangle(triangle: Triangle, color: Color)`
 
-`Draw.Circle(circle: Circle, color: Color = Color.Black)`
-
-`Draw.CircleLined(circle: Circle, color: Color = Color.Black)`
-
-`Draw.Triangle(triangle: Triangle, color: Color = Color.Black)`
-
-`Draw.TriangleLined(triangle: Triangle, color: Color = Color.Black)`
-
-`Draw.Texture(texture: Texture, postion: Vector2 = Vector2.Zero(), tint: Color = Color.White)`
-
-`Draw.TexturePro(texture: Texture, source: Rectangle = Rectangle(Vector2(), Texture.GetSize(texture), destinationPosition: Vector2 = Vector2(), destinationSize: Vector2 = GetSize(texture), origin: Vector2 = Vector2(), rotation: number = 0, tint: Color = Color.White)`
-
-`Draw.Text(text: string, position: Vector2 = Vector2(), color: Color = Color.Black)`
-
-`Draw.TextEx(font: Font, text: string, position: Vector2 = Vector2(), fontSize: number = Font.GetBaseSize(font), spacing: number = Font.GetSpacing(font), color: Color = Color.Black)`
-
-`Draw.FPS(position: Vector2 = Vector2())`
-
-`Draw.BeginScissor(rectangle: Rectangle)`
-
-`Draw.EndScissor()`
-
-`Draw.Pixel(position: Vector2 = Vector2(), Color = Color.Black)`
-
-`Draw.RectangleGradientV(rectangle: Rectangle, topColor: Color, bottomColor: Color)`
-
-`Draw.RectangleGradientH(rectangle: Rectangle, leftColor: Color, rightColor: Color)`
-
-`Draw.RectangleGradient(rectangle: Rectangle, topLeftColor: Color, topRightColor: Color, bottomLeftColor: Color, bottomRightColor: Color = Color.Black)`
-
-`Draw.RectangleRounded(rectangle: Rectangle, roundness: number, segments: integer, color: Color = Color.Black)`
-
-`Draw.RectangleRoundedLined(rectangle: Rectangle, roundness: number, segments: integer, color: Color = Color.Black)`
-
-### 🧊🛢️ 3D
+`Draw.Texture(texture: Texture, postion: Vector2 = Vector2.Zero()(), tint: Color = Color.White)`
 
 `Draw.Begin3D(camera: Camera3D)`
 
@@ -565,60 +529,18 @@ It is suggested to call this first in most programs, before you draw anything el
 
 `Draw.Cylinder(cylinder: Cylinder, color: Color)`
 
-`Draw.Grid(slices: integer = 100, spacing: number = 1)`
-
 ### 🖼️ Texture
 
-`Texture.Load(fileName: string) -> (texture: Texture)`
+`Texture.Load(fileName: string) -> Texture`
 
 `Texture.Unload(texture: Texture)`
-
-`Texture.GetSize(texture: Texture) -> (size: Vector2)`
-
-`Texture.GetWidth(texture: Texture) -> (width: integer)`
-
-`Texture.GetHeight(texture: Texture) -> (height: integer)`
-
-`Texture.BeginMode(texture: Texture)`
-
-`Texture.EndMode()`
-
-`Texture.SetFilter(texture: Texture, filter: Texture.Filter)`
-
-`Texture.SetWrap(texture: Texture, wrap: Texture.Wrap)`
 
 ## 🎧 Sound
 
 ### 🔊 Audio
-`Audio.Load(fileName: string) -> (audio: Audio)`
+`Audio.Load(fileName: string) -> Audio`
 
 `Audio.Unload(audio: Audio)`
-
-`Audio.Play(audio: Audio)`
-
-`Audio.SetMasterVolume(volume: number)`
-
-`Audio.GetMasterVolume() -> (volume: number)`
-
-`Audio.GetChannelCount(audio: Audio) -> (channelCount: integer)`
-
-`Audio.GetFrameCount(audio: Audio) -> (frameCount: integer)`
-
-`Audio.GetSampleRate(audio: Audio) -> (sampleRate: integer)`
-
-`Audio.SetVolume(audio: Audio, volume: number)`
-
-`Audio.SetPitch(audio: Audio, pitch: number)`
-
-`Audio.SetPan(audio: Audio, pan: number)`
-
-`Audio.Stop(audio: Audio)`
-
-`Audio.Pause(audio: Audio)`
-
-`Audio.Resume(audio: Audio)`
-
-`Audio.IsAudioPlaying(audio: Audio)`
 
 # 🏗️ "Structs"
 
