@@ -2,8 +2,9 @@ package YueCat
 
 import lua "vendor:lua/5.4"
 import rl "vendor:raylib"
+import "core:c"
 
-to_rectangle :: proc "c" (state: ^lua.State, idx: i32) -> (rectangle: rl.Rectangle) {
+to_rectangle :: proc "c" (state: ^lua.State, idx: c.int) -> (rectangle: rl.Rectangle) {
 	i := abs_idx(state, idx)
 
 	lua.checkstack(state, 2)
@@ -21,9 +22,19 @@ to_rectangle :: proc "c" (state: ^lua.State, idx: i32) -> (rectangle: rl.Rectang
 	return
 }
 
-check_rectangle :: proc "c" (state: ^lua.State, arg: i32) -> (rectangle: rl.Rectangle) {
+check_rectangle :: proc "c" (state: ^lua.State, arg: c.int) -> (rectangle: rl.Rectangle) {
 	check_type(state, arg, "Rectangle")
 	rectangle = to_rectangle(state, arg)
+	return
+}
+
+check_rectangle_default :: proc "c" (state: ^lua.State, arg: c.int, default: rl.Rectangle) -> (rectangle: rl.Rectangle) {
+	if lua.isnoneornil(state, arg) {
+		rectangle = default
+	} else {
+		rectangle = check_rectangle(state, arg)
+	}
+
 	return
 }
 

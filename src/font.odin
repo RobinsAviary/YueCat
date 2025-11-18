@@ -57,10 +57,10 @@ GetDefaultFont :: proc "c" (state: ^lua.State) -> (results: c.int) {
 DrawTextEx :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	font := check_font(state, 1)
 	text := lua.L_checkstring(state, 2)
-	position := check_vector2(state, 3)
+	position := check_vector2_default(state, 3, {})
 	font_size := check_number_default(state, 4, f32(font.baseSize))
 	spacing := check_number_default(state, 5, f32(font.glyphPadding))
-	color := check_color(state, 6)
+	color := check_color_default(state, 6, rl.BLACK)
 
 	rl.DrawTextEx(font^, text, position, f32(font_size), f32(spacing), color)
 
