@@ -2144,3 +2144,35 @@ GetCollisionRectangle :: proc "c" (state: ^lua.State) -> (results: c.int) {
 
 	return 1
 }
+
+DrawLineStrip :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	context = runtime.default_context()
+	
+	lua.L_checktype(state, 1, c.int(lua.Type.TABLE))
+	color := check_color_default(state, 2, rl.BLACK)
+
+	lua.checkstack(state, 1)
+	lua.len(state, 1)
+	point_count := lua.L_checkinteger(state, -1)	
+	lua.pop(state, 1)
+
+	if point_count > 1 {
+		rlgl_ex.Begin(.LINES)
+		rlgl_ex.ColorRL(color)
+
+		for i := 1; i <= int(point_count); i += 1 {
+			lua.pushinteger(state, lua.Integer(i))
+			lua.gettable(state, 1)
+
+			position := to_vector2(state, -1)
+
+			rlgl_ex.Vertex2fVector2(position)
+
+			lua.pop(state, 1)
+		}
+
+		rlgl_ex.End()
+	}
+
+	return
+}

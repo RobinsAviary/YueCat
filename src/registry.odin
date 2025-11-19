@@ -33,6 +33,7 @@ draw_registry := Registry {
 		{DrawRectangleRoundedLined, "RectangleRoundedLined"},
 		{DrawTextEx, "TextEx"},
 		{DrawPixel, "Pixel"},
+		{DrawLineStrip, "LineStrip"},
 	},
 }
 

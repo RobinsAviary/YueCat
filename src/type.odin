@@ -41,16 +41,15 @@ get_meta_name :: proc "c" (state: ^lua.State, idx: c.int) -> (typeName: string) 
 
 get_type :: proc "c" (state: ^lua.State, idx: c.int) -> (typeName: string) {
 	context = runtime.default_context()
-	metaTypeFound: bool = false
 
 	if lua.istable(state, idx) {
 		typeName = get_meta_name(state, idx)
-		metaTypeFound = true
+		return
 	} else if lua.isuserdata(state, idx) {
 		typeName = get_meta_name(state, idx)
-		metaTypeFound = true
+		return
 	}
 
-	if !metaTypeFound do typeName = string(lua.L_typename(state, idx))
+	typeName = string(lua.L_typename(state, idx))
 	return
 }
