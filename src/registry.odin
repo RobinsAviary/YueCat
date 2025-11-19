@@ -337,6 +337,39 @@ image_draw_registry := Registry {
 	},
 }
 
+vertex_registry := Registry {
+	"Vertex",
+	{
+		{VertexBegin, "Begin"},
+		{VertexEnd, "End"},
+		{VertexPosition2, "Position2"},
+		{VertexPosition3, "Position3"},
+		{VertexUV, "UV"},
+		{VertexColor, "Color"},
+		{VertexNormal3, "Normal"},
+		{VertexSetTexture, "SetTexture"},
+		{EnableWireMode, "EnableWireMode"},
+		{EnablePointMode, "EnablePointMode"},
+		{DisableWirePointMode, "DisableWirePointMode"},
+		{SetCullMode, "SetCullMode"},
+	},
+}
+
+collision_registry := Registry {
+	"Collision",
+	{
+		{CheckCollisionRectangles, "CheckRectangles"},
+		{CheckCollisionCircles, "CheckCircles"},
+		{CheckCollisionCircleRectangle, "CheckCircleRectangle"},
+		{CheckCollisionCircleLine, "CheckCircleLine"},
+		{CheckCollisionPointRectangle, "CheckPointRectangle"},
+		{CheckCollisionPointCircle, "CheckPointCircle"},
+		{CheckCollisionPointTriangle, "CheckPointTriangle"},
+		{CheckCollisionPointLine, "CheckCollisionPointLine"},
+		{GetCollisionRectangle, "GetRectangle"},
+	},
+}
+
 registry_value :: struct {
 	cfunction: lua.CFunction,
 	lua_name: cstring,
@@ -392,6 +425,8 @@ register_functions :: proc(state: ^lua.State) {
 		music_registry,
 		rendertexture_registry,
 		image_registry,
+		vertex_registry,
+		collision_registry,
 	}
 
 	register_registries(state, registries)

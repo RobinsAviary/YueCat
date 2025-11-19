@@ -3,6 +3,8 @@ package YueCat
 import lua "vendor:lua/5.4"
 import "base:runtime"
 import rl "vendor:raylib"
+import "vendor:raylib/rlgl"
+import "shared:rlgl_ex/rlgl_ex"
 import "core:strings"
 import "core:fmt"
 import sdl "vendor:sdl2"
@@ -1175,7 +1177,7 @@ AudioSetPan :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	audio := check_audio(state, 1)
 	pan := lua.L_checknumber(state, 2)
 
-	rl.SetSoundPan(audio^, c.float(pan))
+	rl.SetSoundPan(audio^, c.float(clamp(1 - pan, 0, 1)))
 
 	return
 }
@@ -1948,6 +1950,197 @@ ColorFromHex :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	
 	lua.checkstack(state, 1)
 	push_color(state, rl.GetColor(c.uint(hex)))
+
+	return 1
+}
+
+VertexBegin :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	mode := lua.L_checkinteger(state, 1)
+	
+	rlgl.Begin(c.int(mode))
+
+	return
+}
+
+VertexEnd :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	rlgl.End()
+
+	return
+}
+
+VertexPosition2 :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	context = runtime.default_context()
+	
+	position := check_vector2(state, 1)
+
+	rlgl_ex.Vertex2fVector2(position)
+
+	return
+}
+
+VertexPosition3 :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	context = runtime.default_context()
+
+	position := check_vector3(state, 1)
+
+	rlgl_ex.Vertex3fVector3(position)
+
+	return
+}
+
+VertexUV :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	context = runtime.default_context()
+
+	uv := check_vector2(state, 1)
+
+	rlgl_ex.TexCoord2fVector2(uv)
+
+	return
+}
+
+VertexColor :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	context = runtime.default_context()
+
+	color := check_color(state, 1)
+
+	rlgl_ex.ColorRL(color)
+
+	return
+}
+
+VertexNormal3 :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	context = runtime.default_context()
+
+	normal := check_vector3(state, 1)
+
+	rlgl_ex.Normal3fVector3(normal)
+
+	return
+}
+
+VertexSetTexture :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	texture := check_generictexture(state, 1)
+
+	rlgl.SetTexture(texture.id)
+
+	return
+}
+
+EnableWireMode :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	rlgl.EnableWireMode()
+	
+	return
+}
+
+EnablePointMode :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	rlgl.EnablePointMode()
+
+	return
+}
+
+DisableWirePointMode :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	rlgl.DisableWireMode()
+
+	return
+}
+
+SetCullMode :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	face := lua.L_checkinteger(state, 1)
+	
+	rlgl.SetCullFace(rlgl.CullMode(face))
+
+	return
+}
+
+CheckCollisionRectangles :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	rec1 := check_rectangle(state, 1)
+	rec2 := check_rectangle(state, 2)
+
+	lua.checkstack(state, 1)
+	lua.pushboolean(state, b32(rl.CheckCollisionRecs(rec1, rec2)))
+
+	return 1
+}
+
+CheckCollisionCircles :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	circle1 := check_circle(state, 1)
+	circle2 := check_circle(state, 2)
+
+	lua.checkstack(state, 1)
+	lua.pushboolean(state, b32(rl.CheckCollisionCircles(circle1.position, circle1.diameter / 2, circle2.position, circle2.diameter / 2)))
+
+	return 1
+}
+
+CheckCollisionCircleRectangle :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	circle := check_circle(state, 1)
+	rectangle := check_rectangle(state, 2)
+
+	lua.checkstack(state, 1)
+	lua.pushboolean(state, b32(rl.CheckCollisionCircleRec(circle.position, circle.diameter / 2, rectangle)))
+
+	return 1
+}
+
+CheckCollisionCircleLine :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	circle := check_circle(state, 1)
+	start_point := check_vector2(state, 2)
+	end_point := check_vector2(state, 3)
+
+	lua.checkstack(state, 1)
+	lua.pushboolean(state, b32(rl.CheckCollisionCircleLine(circle.position, circle.diameter / 2, start_point, end_point)))
+
+	return 1
+}
+
+CheckCollisionPointRectangle :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	point := check_vector2(state, 1)
+	rectangle := check_rectangle(state, 2)
+	
+	lua.checkstack(state, 1)
+	lua.pushboolean(state, b32(rl.CheckCollisionPointRec(point, rectangle)))
+
+	return 1
+}
+
+CheckCollisionPointCircle :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	point := check_vector2(state, 1)
+	circle := check_circle(state, 2)
+
+	lua.checkstack(state, 1)
+	lua.pushboolean(state, b32(rl.CheckCollisionPointCircle(point, circle.position, circle.diameter / 2)))
+
+	return 1
+}
+
+CheckCollisionPointTriangle :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	point := check_vector2(state, 1)
+	triangle := check_triangle(state, 2)
+
+	lua.checkstack(state, 1)
+	lua.pushboolean(state, b32(rl.CheckCollisionPointTriangle(point, triangle.first_point, triangle.second_point, triangle.third_point)))
+
+	return 1
+}
+
+CheckCollisionPointLine :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	point := check_vector2(state, 1)
+	start_point := check_vector2(state, 2)
+	end_point := check_vector2(state, 3)
+	margin := check_integer_default(state, 4, 1)
+
+	lua.checkstack(state, 1)
+	lua.pushboolean(state, b32(rl.CheckCollisionPointLine(point, start_point, end_point, c.int(margin))))
+
+	return 1
+}
+
+GetCollisionRectangle :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	rectangle1 := check_rectangle(state, 1)
+	rectangle2 := check_rectangle(state, 2)
+
+	lua.checkstack(state, 1)
+	push_rectangle(state, rl.GetCollisionRec(rectangle1, rectangle2))
 
 	return 1
 }

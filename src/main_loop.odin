@@ -16,7 +16,7 @@ Error :: enum {
 	UNSUPPORTED_OS,
 }
 throw_error :: proc(error: Error) {
-	fmt.println(error)
+	fmt.println("Error Code:", error)
 	os.exit(int(error))
 }
 
