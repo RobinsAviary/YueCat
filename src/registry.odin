@@ -36,6 +36,7 @@ draw_registry := Registry {
 		{DrawLineStrip, "LineStrip"},
 		{DrawSplineLinear, "SplineLinear"},
 		{DrawSplineBasis, "SplineBasis"},
+		{DrawSplineCatmullRom, "SplineCatmullRom"},
 	},
 }
 
