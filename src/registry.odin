@@ -34,6 +34,7 @@ draw_registry := Registry {
 		{DrawTextEx, "TextEx"},
 		{DrawPixel, "Pixel"},
 		{DrawLineStrip, "LineStrip"},
+		{DrawSplineLinear, "SplineLinear"},
 	},
 }
 

@@ -96,35 +96,30 @@ DrawText :: proc "c" (state: ^lua.State) -> (results: c.int) {
 }
 
 GetMouseWheelMove :: proc "c" (state: ^lua.State) -> (results: c.int) {
-	lua.checkstack(state, 1)
 	lua.pushnumber(state, lua.Number(rl.GetMouseWheelMove()))
 	
 	return 1
 }
 
 GetMouseWheelMoveVector :: proc "c" (state: ^lua.State) -> (results: c.int) {
-	lua.checkstack(state, 1)
 	push_vector2(state, rl.GetMouseWheelMoveV())
 
 	return 1
 }
 
 GetTime :: proc "c" (state: ^lua.State) -> (results: c.int) {
-	lua.checkstack(state, 1)
 	lua.pushnumber(state, lua.Number(rl.GetTime()))
 
 	return 1
 }
 
 GetDelta :: proc "c" (state: ^lua.State) -> (results: c.int) {
-	lua.checkstack(state, 1)
 	lua.pushnumber(state, lua.Number(rl.GetFrameTime()))
 
 	return 1
 }
 
 GetFPS :: proc "c" (state: ^lua.State) -> (results: c.int) {
-	lua.checkstack(state, 1)
 	lua.pushinteger(state, lua.Integer(rl.GetFPS()))
 
 	return 1
@@ -141,7 +136,6 @@ SetFPSTarget :: proc "c" (state: ^lua.State) -> (results: c.int) {
 GetMousePosition :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	pos := rl.GetMousePosition()
 
-	lua.checkstack(state, 1)
 	push_vector2(state, pos)
 
 	return 1
@@ -150,7 +144,6 @@ GetMousePosition :: proc "c" (state: ^lua.State) -> (results: c.int) {
 GetMouseX :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	x := rl.GetMouseX()
 
-	lua.checkstack(state, 1)
 	lua.pushinteger(state, lua.Integer(x))
 
 	return 1
@@ -159,7 +152,6 @@ GetMouseX :: proc "c" (state: ^lua.State) -> (results: c.int) {
 GetMouseY :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	y := rl.GetMouseY()
 
-	lua.checkstack(state, 1)
 	lua.pushinteger(state, lua.Integer(y))
 
 	return 1
@@ -196,7 +188,6 @@ IsKeyboardKeyReleased :: proc "c" (state: ^lua.State) -> (results: c.int) {
 
 	b := rl.IsKeyReleased(rl.KeyboardKey(idx))
 
-	lua.checkstack(state, 1)
 	lua.pushboolean(state, b32(b))
 
 	return 1
@@ -207,7 +198,6 @@ IsKeyboardKeyPressed :: proc "c" (state: ^lua.State) -> (results: c.int) {
 
 	b := rl.IsKeyPressed(rl.KeyboardKey(idx))
 
-	lua.checkstack(state, 1)
 	lua.pushboolean(state, b32(b))
 
 	return 1
@@ -218,7 +208,6 @@ IsKeyboardKeyHeld :: proc "c" (state: ^lua.State) -> (results: c.int) {
 
 	b:= rl.IsKeyDown(rl.KeyboardKey(idx))
 
-	lua.checkstack(state, 1)
 	lua.pushboolean(state, b32(b))
 
 	return 1
@@ -227,7 +216,6 @@ IsKeyboardKeyHeld :: proc "c" (state: ^lua.State) -> (results: c.int) {
 IsMouseButtonPressed :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	index := lua.L_checkinteger(state, 1)
 
-	lua.checkstack(state, 1)
 	lua.pushboolean(state, b32(rl.IsMouseButtonPressed(rl.MouseButton(i32(index)))))
 
 	return 1
@@ -236,7 +224,6 @@ IsMouseButtonPressed :: proc "c" (state: ^lua.State) -> (results: c.int) {
 IsMouseButtonHeld :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	index := lua.L_checkinteger(state, 1)
 
-	lua.checkstack(state, 1)
 	lua.pushboolean(state, b32(rl.IsMouseButtonDown(rl.MouseButton(i32(index)))))
 
 	return 1
@@ -245,7 +232,6 @@ IsMouseButtonHeld :: proc "c" (state: ^lua.State) -> (results: c.int) {
 IsMouseButtonReleased :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	index := lua.L_checkinteger(state, 1)
 
-	lua.checkstack(state, 1)
 	lua.pushboolean(state, b32(rl.IsMouseButtonReleased(rl.MouseButton(i32(index)))))
 
 	return 1
@@ -304,7 +290,6 @@ StringStartsWith :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	str := lua.L_checkstring(state, 1)
 	sub := lua.L_checkstring(state, 2)
 
-	lua.checkstack(state, 1)
 	lua.pushboolean(state, b32(strings.starts_with(string(str), string(sub))))
 
 	return 1
@@ -316,7 +301,6 @@ StringEndsWith :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	str := lua.L_checkstring(state, 1)
 	sub := lua.L_checkstring(state, 2)
 
-	lua.checkstack(state, 1)
 	lua.pushboolean(state, b32(strings.ends_with(string(str), string(sub))))
 
 	return 1
@@ -336,7 +320,6 @@ ColorFromHSV :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	color := rl.ColorFromHSV(hsv.h, hsv.s, hsv.v)
 	color.a = hsv.a
 
-	lua.checkstack(state, 1)
 	push_color(state, color)
 
 	return 1
@@ -347,7 +330,6 @@ ColorToHSV :: proc "c" (state: ^lua.State) -> (results: c.int) {
 
 	RLhsv := rl.ColorToHSV(color)
 
-	lua.checkstack(state, 1)
 	push_color_hsv(state, {RLhsv[0], RLhsv[1], RLhsv[2], 1})
 
 	return 1
@@ -399,7 +381,6 @@ DrawBox :: proc "c" (state: ^lua.State) -> (results: c.int) {
 check_controller :: proc "c" (state: ^lua.State, arg: i32) -> ^Controller {
 	check_type(state, arg, "Controller")
 	
-	lua.checkstack(state, 1)
 	lua.getfield(state, arg, "index")
 	
 	index := uint(lua.tointeger(state, -1))
@@ -414,7 +395,6 @@ check_controller :: proc "c" (state: ^lua.State, arg: i32) -> ^Controller {
 }
 
 IsCursorOnScreen :: proc "c" (state: ^lua.State) -> (results: c.int) {
-	lua.checkstack(state, 1)
 	lua.pushboolean(state, b32(rl.IsCursorOnScreen()))
 
 	return 1
@@ -423,8 +403,6 @@ IsCursorOnScreen :: proc "c" (state: ^lua.State) -> (results: c.int) {
 IsControllerButtonHeld :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	controller := check_controller(state, 1)
 	button := lua.L_checkinteger(state, 2)
-	
-	lua.checkstack(state, 1)
 
 	output: bool 
 
@@ -443,8 +421,6 @@ IsControllerButtonPressed :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	controller := check_controller(state, 1)
 	button := lua.L_checkinteger(state, 2)
 
-	lua.checkstack(state, 1)
-
 	output: bool
 
 	if controller.valid {
@@ -461,8 +437,6 @@ IsControllerButtonReleased :: proc "c" (state: ^lua.State) -> (results: c.int) {
 
 	controller := check_controller(state, 1)
 	button := lua.L_checkinteger(state, 2)
-
-	lua.checkstack(state, 1)
 
 	output: bool
 
@@ -494,7 +468,6 @@ GetControllerAxis :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	controller := check_controller(state, 1)
 	axis := lua.L_checkinteger(state, 2)
 
-	lua.checkstack(state, 1)
 	lua.pushnumber(state, lua.Number(GetAxis(controller, sdl.GameControllerAxis(axis))))
 
 	return 1
@@ -537,7 +510,6 @@ GetControllerVector :: proc "c" (state: ^lua.State) -> (results: c.int) {
 		}
 	}
 
-	lua.checkstack(state, 1)
 	push_vector2(state, vector)
 
 	return 1
@@ -578,7 +550,6 @@ ControllerSetDeadzone :: proc "c" (state: ^lua.State) -> (results: c.int) {
 ControllerGetDeadzone :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	controller := check_controller(state, 1)
 
-	lua.checkstack(state, 1)
 	lua.pushnumber(state, lua.Number(controller.deadzone))
 
 	return 1
@@ -591,7 +562,6 @@ ControllerSetDefaultDeadzone :: proc "c" (state: ^lua.State) -> (results: c.int)
 }
 
 ControllerGetDefaultDeadzone :: proc "c" (state: ^lua.State) -> (results: c.int) {
-	lua.checkstack(state, 1)
 	lua.pushnumber(state, lua.Number(config.default_deadzone))
 
 	return 1
@@ -679,21 +649,18 @@ SetWindowSize :: proc "c" (state: ^lua.State) -> (results: c.int) {
 GetWindowSize :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	size := rl.Vector2 {f32(rl.GetScreenWidth()), f32(rl.GetScreenHeight())}
 
-	lua.checkstack(state, 1)
 	push_vector2(state, size)
 
 	return 1
 }
 
 GetWindowWidth :: proc "c" (state: ^lua.State) -> (results: c.int) {
-	lua.checkstack(state, 1)
 	lua.pushinteger(state, lua.Integer(rl.GetScreenWidth()))
 
 	return 1
 }
 
 GetWindowHeight :: proc "c" (state: ^lua.State) -> (results: c.int) {
-	lua.checkstack(state, 1)
 	lua.pushinteger(state, lua.Integer(rl.GetScreenHeight()))
 
 	return 1
@@ -706,28 +673,24 @@ SetWindowOpacity :: proc "c" (state: ^lua.State) -> (results: c.int) {
 }
 
 GetCurrentMonitor :: proc "c" (state: ^lua.State) -> (results: c.int) {
-	lua.checkstack(state, 1)
 	lua.pushinteger(state, lua.Integer(rl.GetCurrentMonitor()))
 
 	return 1
 }
 
 GetWindowPosition :: proc "c" (state: ^lua.State) -> (results: c.int) {
-	lua.checkstack(state, 1)
 	push_vector2(state, rl.GetWindowPosition())
 
 	return 1
 }
 
 GetMonitorCount :: proc "c" (state: ^lua.State) -> (results: c.int) {
-	lua.checkstack(state, 1)
 	lua.pushinteger(state, lua.Integer(rl.GetMonitorCount()))
 
 	return 1
 }
 
 GetClipboard :: proc "c" (state: ^lua.State) -> (results: c.int) {
-	lua.checkstack(state, 1)
 	lua.pushstring(state, rl.GetClipboardText())
 
 	return 1
@@ -762,7 +725,6 @@ SetMasterVolume :: proc "c" (state: ^lua.State) -> (results: c.int) {
 }
 
 GetMasterVolume :: proc "c" (state: ^lua.State) -> (results: c.int) {
-	lua.checkstack(state, 1)
 	lua.pushnumber(state, lua.Number(rl.GetMasterVolume()))
 
 	return 1
@@ -772,7 +734,6 @@ TextureGetSize :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	texture := check_texture(state, 1)
 
 	vector := rl.Vector2 {f32(texture.width), f32(texture.height)}
-	lua.checkstack(state, 1)
 	push_vector2(state, vector)
 	
 	return 1
@@ -781,7 +742,6 @@ TextureGetSize :: proc "c" (state: ^lua.State) -> (results: c.int) {
 TextureGetWidth :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	texture := check_texture(state, 1)
 
-	lua.checkstack(state, 1)
 	lua.pushinteger(state, lua.Integer(texture.width))
 	
 	return 1
@@ -790,7 +750,6 @@ TextureGetWidth :: proc "c" (state: ^lua.State) -> (results: c.int) {
 TextureGetHeight :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	texture := check_texture(state, 1)
 
-	lua.checkstack(state, 1)
 	lua.pushinteger(state, lua.Integer(texture.height))
 
 	return 1
@@ -801,7 +760,6 @@ AudioGetChannelCount :: proc "c" (state: ^lua.State) -> (results: c.int) {
 
 	audio := check_audio(state, 1)
 
-	lua.checkstack(state, 1)
 	lua.pushinteger(state, lua.Integer(audio.channels))
 
 	return 1
@@ -812,7 +770,6 @@ AudioGetFrameCount :: proc "c" (state: ^lua.State) -> (results: c.int) {
 
 	audio := check_audio(state, 1)
 
-	lua.checkstack(state, 1)
 	lua.pushinteger(state, lua.Integer(audio.frameCount))
 
 	return 1
@@ -823,7 +780,6 @@ AudioGetSampleRate :: proc "c" (state: ^lua.State) -> (results: c.int) {
 
 	audio := check_audio(state, 1)
 
-	lua.checkstack(state, 1)
 	lua.pushinteger(state, lua.Integer(audio.sampleRate))
 
 	return 1
@@ -834,7 +790,6 @@ AudioGetSampleSize :: proc "c" (state: ^lua.State) -> (results: c.int) {
 
 	audio := check_audio(state, 1)
 
-	lua.checkstack(state, 1)
 	lua.pushinteger(state, lua.Integer(audio.sampleSize))
 
 	return 1
@@ -868,7 +823,6 @@ check_integer_default :: proc "c" (state: ^lua.State, arg: c.int, default: c.int
 GetTouchX :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	touch_index := check_integer_default(state, 1)
 
-	lua.checkstack(state, 1)
 	lua.pushnumber(state, lua.Number(rl.GetTouchPosition(touch_index).x))
 
 	return 1
@@ -877,7 +831,6 @@ GetTouchX :: proc "c" (state: ^lua.State) -> (results: c.int) {
 GetTouchY :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	touch_index := check_integer_default(state, 1)
 
-	lua.checkstack(state, 1)
 	lua.pushnumber(state, lua.Number(rl.GetTouchPosition(touch_index).y))
 
 	return 1
@@ -886,7 +839,6 @@ GetTouchY :: proc "c" (state: ^lua.State) -> (results: c.int) {
 GetTouchPosition :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	touch_index := check_integer_default(state, 1)
 
-	lua.checkstack(state, 1)
 	push_vector2(state, rl.GetTouchPosition(touch_index))
 
 	return 1
@@ -895,21 +847,18 @@ GetTouchPosition :: proc "c" (state: ^lua.State) -> (results: c.int) {
 GetTouchPointId :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	touch_index := lua.L_checkinteger(state, 1)
 
-	lua.checkstack(state, 1)
 	lua.pushinteger(state, lua.Integer(rl.GetTouchPointId(c.int(touch_index))))
 
 	return 1
 }
 
 GetTouchPointCount :: proc "c" (state: ^lua.State) -> (results: c.int) {
-	lua.checkstack(state, 1)
 	lua.pushinteger(state, lua.Integer(rl.GetTouchPointCount()))
 
 	return 1
 }
 
 IsCursorHidden :: proc "c" (state: ^lua.State) -> (results: c.int) {
-	lua.checkstack(state, 1)
 	lua.pushboolean(state, b32(rl.IsCursorHidden()))
 
 	return 1
@@ -928,7 +877,6 @@ SetExitKey :: proc "c" (state: ^lua.State) -> (results: c.int) {
 }
 
 GetMouseDelta :: proc "c" (state: ^lua.State) -> (results: c.int) {
-	lua.checkstack(state, 1)
 	push_vector2(state, rl.GetMouseDelta())
 
 	return 1
@@ -951,7 +899,6 @@ TakeScreenshot :: proc "c" (state: ^lua.State) -> (results: c.int) {
 }
 
 Now :: proc "c" (state: ^lua.State) -> (results: c.int) {
-	lua.checkstack(state, 1)
 	push_time(state, time.now())
 
 	return 1
@@ -960,7 +907,6 @@ Now :: proc "c" (state: ^lua.State) -> (results: c.int) {
 Weekday :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	pushed_time := check_time(state, 1)
 	
-	lua.checkstack(state, 1)
 	lua.pushinteger(state, lua.Integer(time.weekday(pushed_time)))
 
 	return 1
@@ -969,7 +915,6 @@ Weekday :: proc "c" (state: ^lua.State) -> (results: c.int) {
 Year :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	pushed_time := check_time(state, 1)
 
-	lua.checkstack(state, 1)
 	lua.pushinteger(state, lua.Integer(time.year(pushed_time)))
 
 	return 1
@@ -978,7 +923,6 @@ Year :: proc "c" (state: ^lua.State) -> (results: c.int) {
 Month :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	pushed_time := check_time(state, 1)
 	
-	lua.checkstack(state, 1)
 	lua.pushinteger(state, lua.Integer(time.month(pushed_time)))
 
 	return 1
@@ -987,7 +931,6 @@ Month :: proc "c" (state: ^lua.State) -> (results: c.int) {
 IsLeapYear :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	year := lua.L_checkinteger(state, 1)
 
-	lua.checkstack(state, 1)
 	lua.pushboolean(state, b32(time.is_leap_year(int(year))))
 
 	return 1
@@ -996,7 +939,6 @@ IsLeapYear :: proc "c" (state: ^lua.State) -> (results: c.int) {
 FromNanoseconds :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	pushed_time := time.from_nanoseconds(i64(lua.L_checkinteger(state, 1)))
 
-	lua.checkstack(state, 1)
 	push_time(state, pushed_time)
 
 	return 1
@@ -1005,7 +947,6 @@ FromNanoseconds :: proc "c" (state: ^lua.State) -> (results: c.int) {
 Day :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	day := lua.L_checkinteger(state, 1)
 
-	lua.checkstack(state, 1)
 	lua.pushinteger(state, lua.Integer(time.day({i64(day)})))
 
 	return 1
@@ -1067,8 +1008,7 @@ DrawRectangleRoundedLined :: proc "c" (state: ^lua.State) -> (results: c.int) {
 
 GetMonitorPosition :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	monitor := lua.L_checkinteger(state, 1)
-	
-	lua.checkstack(state, 1)
+
 	push_vector2(state, rl.GetMonitorPosition(c.int(monitor)))
 
 	return 1
@@ -1077,7 +1017,6 @@ GetMonitorPosition :: proc "c" (state: ^lua.State) -> (results: c.int) {
 GetMonitorWidth :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	monitor := lua.L_checkinteger(state, 1)
 
-	lua.checkstack(state, 1)
 	lua.pushinteger(state, lua.Integer(rl.GetMonitorWidth(c.int(monitor))))
 
 	return 1
@@ -1086,7 +1025,6 @@ GetMonitorWidth :: proc "c" (state: ^lua.State) -> (results: c.int) {
 GetMonitorHeight :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	monitor := lua.L_checkinteger(state, 1)
 
-	lua.checkstack(state, 1)
 	lua.pushinteger(state, lua.Integer(rl.GetMonitorHeight(c.int(monitor))))
 
 	return 1
@@ -1095,7 +1033,6 @@ GetMonitorHeight :: proc "c" (state: ^lua.State) -> (results: c.int) {
 GetMonitorSize :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	monitor := lua.L_checkinteger(state, 1)
 
-	lua.checkstack(state, 1)
 	push_vector2(state, {c.float(rl.GetMonitorWidth(c.int(monitor))), c.float(rl.GetMonitorHeight(c.int(monitor)))})
 
 	return 1
@@ -1104,7 +1041,6 @@ GetMonitorSize :: proc "c" (state: ^lua.State) -> (results: c.int) {
 GetMonitorPhysicalWidth :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	monitor := lua.L_checkinteger(state, 1)
 
-	lua.checkstack(state, 1)
 	lua.pushinteger(state, lua.Integer(rl.GetMonitorPhysicalWidth(c.int(monitor))))
 
 	return 1
@@ -1113,7 +1049,6 @@ GetMonitorPhysicalWidth :: proc "c" (state: ^lua.State) -> (results: c.int) {
 GetMonitorPhysicalHeight :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	monitor := lua.L_checkinteger(state, 1)
 	
-	lua.checkstack(state, 1)
 	lua.pushinteger(state, lua.Integer(rl.GetMonitorPhysicalHeight(c.int(monitor))))
 
 	return 1
@@ -1123,7 +1058,6 @@ GetMonitorPhysicalSize :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	monitor := lua.L_checkinteger(state, 1)
 	c_monitor := c.int(monitor)
 
-	lua.checkstack(state, 1)
 	push_vector2(state, {c.float(rl.GetMonitorPhysicalWidth(c_monitor)), c.float(rl.GetMonitorPhysicalHeight(c_monitor))})
 
 	return 1
@@ -1133,7 +1067,6 @@ GetMonitorRefreshRate :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	monitor := lua.L_checkinteger(state, 1)
 	c_monitor := c.int(monitor)
 
-	lua.checkstack(state, 1)
 	lua.pushinteger(state, lua.Integer(rl.GetMonitorRefreshRate(c_monitor)))
 
 	return 1
@@ -1142,8 +1075,7 @@ GetMonitorRefreshRate :: proc "c" (state: ^lua.State) -> (results: c.int) {
 GetMonitorName :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	monitor := lua.L_checkinteger(state, 1)
 	c_monitor := c.int(monitor)
-	
-	lua.checkstack(state, 1)
+
 	lua.pushstring(state, rl.GetMonitorName(c_monitor))
 
 	return 1
@@ -1217,7 +1149,6 @@ IsAudioPlaying :: proc "c" (state: ^lua.State) -> (results: c.int) {
 
 	audio := check_audio(state, 1)
 
-	lua.checkstack(state, 1)
 	lua.pushboolean(state, b32(rl.IsSoundPlaying(audio^)))
 
 	return 1
@@ -1234,7 +1165,6 @@ PlayMusicStream :: proc "c" (state: ^lua.State) -> (results: c.int) {
 IsMusicStreamPlaying :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	music := check_music(state, 1)
 
-	lua.checkstack(state, 1)
 	lua.pushboolean(state, b32(rl.IsMusicStreamPlaying(music^)))
 
 	return 1
@@ -1303,7 +1233,6 @@ SetMusicPan :: proc "c" (state: ^lua.State) -> (results: c.int) {
 GetMusicTimeLength :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	music := check_music(state, 1)
 
-	lua.checkstack(state, 1)
 	lua.pushnumber(state, lua.Number(rl.GetMusicTimeLength(music^)))
 
 	return 1
@@ -1312,7 +1241,6 @@ GetMusicTimeLength :: proc "c" (state: ^lua.State) -> (results: c.int) {
 GetMusicStreamTimePlayed :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	music := check_music(state, 1)
 	
-	lua.checkstack(state, 1)
 	lua.pushnumber(state, lua.Number(rl.GetMusicTimePlayed(music^)))
 
 	return 1
@@ -1360,35 +1288,30 @@ DrawPixel :: proc "c" (state: ^lua.State) -> (results: c.int) {
 }
 
 GetSplinePointLinear :: proc "c" (state: ^lua.State) -> (results: c.int) {
-	lua.checkstack(state, 1)
 	push_vector2(state, rl.GetSplinePointLinear(check_vector2(state, 1), check_vector2(state, 2), f32(lua.L_checknumber(state, 3))))
 
 	return 1
 }
 
 GetSplinePointBasis :: proc "c" (state: ^lua.State) -> (results: c.int) {
-	lua.checkstack(state, 1)
 	push_vector2(state, rl.GetSplinePointBasis(check_vector2(state, 1), check_vector2(state, 2), check_vector2(state, 3), check_vector2(state, 4), f32(lua.L_checknumber(state, 5))))
 
 	return 1
 }
 
 GetSplinePointCatmullRom :: proc "c" (state: ^lua.State) -> (results: c.int) {
-	lua.checkstack(state, 1)
 	push_vector2(state, rl.GetSplinePointCatmullRom(check_vector2(state, 1), check_vector2(state, 2), check_vector2(state, 3), check_vector2(state, 4), f32(lua.L_checknumber(state, 5))))
 	
 	return 1
 }
 
 GetSplinePointBezierQuad :: proc "c" (state: ^lua.State) -> (results: c.int) {
-	lua.checkstack(state, 1)
 	push_vector2(state, rl.GetSplinePointBezierQuad(check_vector2(state, 1), check_vector2(state, 2), check_vector2(state, 3), f32(lua.L_checknumber(state, 4))))
 
 	return 1
 }
 
 GetSplinePointBezierCubic :: proc "c" (state: ^lua.State) -> (results: c.int) {
-	lua.checkstack(state, 1)
 	push_vector2(state, rl.GetSplinePointBezierCubic(check_vector2(state, 1), check_vector2(state, 2), check_vector2(state, 3), check_vector2(state, 4), f32(lua.L_checknumber(state, 4))))
 
 	return 1
@@ -1400,7 +1323,6 @@ GenerateImageColor :: proc "c" (state: ^lua.State) -> (results: c.int) {
 
 	img := rl.GenImageColor(c.int(size.x), c.int(size.y), color)
 
-	lua.checkstack(state, 1)
 	push_image(state, &img)
 
 	return 1
@@ -1414,7 +1336,6 @@ GenerateImageGradientLinear :: proc "c" (state: ^lua.State) -> (results: c.int) 
 
 	img := rl.GenImageGradientLinear(c.int(size.x), c.int(size.y), c.int(direction), start_color, end_color)
 
-	lua.checkstack(state, 1)
 	push_image(state, &img)
 
 	return 1
@@ -1428,7 +1349,6 @@ GenerateImageGradientRadial :: proc "c" (state: ^lua.State) -> (results: c.int) 
 
 	img := rl.GenImageGradientRadial(c.int(size.x), c.int(size.y), f32(density), inner_color, outer_color)
 
-	lua.checkstack(state, 1)
 	push_image(state, &img)
 
 	return 1
@@ -1442,7 +1362,6 @@ GenerateImageGradientSquare :: proc "c" (state: ^lua.State) -> (results: c.int) 
 
 	img := rl.GenImageGradientSquare(c.int(size.x), c.int(size.y), f32(density), inner_color, outer_color)
 	
-	lua.checkstack(state, 1)
 	push_image(state, &img)
 
 	return 1
@@ -1456,7 +1375,6 @@ GenerateImageCheckered :: proc "c" (state: ^lua.State) -> (results: c.int) {
 
 	img := rl.GenImageChecked(c.int(size.x), c.int(size.y), c.int(checker_size.x), c.int(checker_size.y), color1, color2)
 
-	lua.checkstack(state, 1)
 	push_image(state, &img)
 
 	return 1
@@ -1468,7 +1386,6 @@ GenerateImageWhiteNoise :: proc "c" (state: ^lua.State) -> (results: c.int) {
 
 	img := rl.GenImageWhiteNoise(c.int(size.x), c.int(size.y), f32(factor))
 
-	lua.checkstack(state, 1)
 	push_image(state, &img)
 
 	return 1
@@ -1481,7 +1398,6 @@ GenerateImagePerlinNoise :: proc "c" (state: ^lua.State) -> (results: c.int) {
 
 	img := rl.GenImagePerlinNoise(c.int(size.x), c.int(size.y), c.int(offset.x), c.int(offset.y), f32(factor))
 
-	lua.checkstack(state, 1)
 	push_image(state, &img)
 
 	return 1
@@ -1493,7 +1409,6 @@ GenerateImageCellular :: proc "c" (state: ^lua.State) -> (results: c.int) {
 
 	img := rl.GenImageCellular(c.int(size.x), c.int(size.y), c.int(tile_size))
 
-	lua.checkstack(state, 1)
 	push_image(state, &img)
 
 	return 1
@@ -1505,7 +1420,6 @@ GenerateImageText :: proc "c" (state: ^lua.State) -> (results: c.int) {
 
 	img := rl.GenImageText(c.int(size.x), c.int(size.y), text)
 
-	lua.checkstack(state, 1)
 	push_image(state, &img)
 
 	return 1
@@ -1516,7 +1430,6 @@ ImageCopy :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	
 	img_copy := rl.ImageCopy(img^)
 
-	lua.checkstack(state, 1)
 	push_image(state, &img_copy)
 
 	return 1
@@ -1528,7 +1441,6 @@ ImageFromRectangle :: proc "c" (state: ^lua.State) -> (results: c.int) {
 
 	img_rectangle := rl.ImageFromImage(img^, rectangle)
 
-	lua.checkstack(state, 1)
 	push_image(state, &img_rectangle)
 
 	return 1
@@ -1540,7 +1452,6 @@ ImageFromChannel :: proc "c" (state: ^lua.State) -> (results: c.int) {
 
 	img_channel := rl.ImageFromChannel(img^, channel)
 
-	lua.checkstack(state, 1)
 	push_image(state, &img_channel)
 
 	return 1
@@ -1553,7 +1464,6 @@ ImageText :: proc "c" (state: ^lua.State) -> (results: c.int) {
 
 	img := rl.ImageText(text, font_size, color)
 
-	lua.checkstack(state, 1)
 	push_image(state, &img)
 
 	return 1
@@ -1751,7 +1661,6 @@ GetImageColor :: proc "c" (state: ^lua.State) -> (results: c.int) {
 
 	color := rl.GetImageColor(image^, c.int(position.x), c.int(position.y))
 
-	lua.checkstack(state, 1)
 	push_color(state, color)
 
 	return 1
@@ -1858,7 +1767,6 @@ GetImageAlphaBorder :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	image := check_image(state, 1)
 	threshold := lua.L_checknumber(state, 2)
 	
-	lua.checkstack(state, 1)
 	push_rectangle(state, rl.GetImageAlphaBorder(image^, f32(threshold)))
 
 	return 1
@@ -1868,7 +1776,6 @@ ColorFade :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	color := check_color(state, 1)
 	fade := lua.L_checknumber(state, 2)
 
-	lua.checkstack(state, 1)
 	push_color(state, rl.Fade(color, f32(fade)))
 
 	return 1
@@ -1877,7 +1784,6 @@ ColorFade :: proc "c" (state: ^lua.State) -> (results: c.int) {
 ColorToHex :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	color := check_color(state, 1)
 
-	lua.checkstack(state, 1)
 	lua.pushinteger(state, lua.Integer(rl.ColorToInt(color)))
 
 	return 1
@@ -1887,7 +1793,6 @@ ColorTint :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	color := check_color(state, 1)
 	tint := check_color(state, 2)
 
-	lua.checkstack(state, 1)
 	push_color(state, rl.ColorTint(color, tint))
 
 	return 1
@@ -1897,7 +1802,6 @@ ColorBrightness :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	color := check_color(state, 1)
 	brightness := lua.L_checknumber(state, 2)
 
-	lua.checkstack(state, 1)
 	push_color(state, rl.ColorBrightness(color, f32(brightness)))
 
 	return 1
@@ -1907,7 +1811,6 @@ ColorContrast :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	color := check_color(state, 1)
 	contrast := lua.L_checknumber(state, 2)
 
-	lua.checkstack(state, 1)
 	push_color(state, rl.ColorContrast(color, f32(contrast)))
 	
 	return 1
@@ -1917,7 +1820,6 @@ ColorAlpha :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	color := check_color(state, 1)
 	alpha := lua.L_checkinteger(state, 2)
 
-	lua.checkstack(state, 1)
 	push_color(state, rl.ColorAlpha(color, f32(alpha)))
 
 	return 1
@@ -1928,7 +1830,6 @@ ColorAlphaBlend :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	dst := check_color(state, 2)
 	tint := check_color(state, 3)
 
-	lua.checkstack(state, 1)
 	push_color(state, rl.ColorAlphaBlend(dst, src, tint))
 
 	return 1
@@ -1939,7 +1840,6 @@ ColorLerp :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	color2 := check_color(state, 2)
 	factor := lua.L_checknumber(state, 3)
 
-	lua.checkstack(state, 1)
 	push_color(state, rl.ColorLerp(color1, color2, f32(factor)))
 
 	return 1
@@ -1948,7 +1848,6 @@ ColorLerp :: proc "c" (state: ^lua.State) -> (results: c.int) {
 ColorFromHex :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	hex := lua.L_checkinteger(state, 1)
 	
-	lua.checkstack(state, 1)
 	push_color(state, rl.GetColor(c.uint(hex)))
 
 	return 1
@@ -2056,7 +1955,6 @@ CheckCollisionRectangles :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	rec1 := check_rectangle(state, 1)
 	rec2 := check_rectangle(state, 2)
 
-	lua.checkstack(state, 1)
 	lua.pushboolean(state, b32(rl.CheckCollisionRecs(rec1, rec2)))
 
 	return 1
@@ -2066,7 +1964,6 @@ CheckCollisionCircles :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	circle1 := check_circle(state, 1)
 	circle2 := check_circle(state, 2)
 
-	lua.checkstack(state, 1)
 	lua.pushboolean(state, b32(rl.CheckCollisionCircles(circle1.position, circle1.diameter / 2, circle2.position, circle2.diameter / 2)))
 
 	return 1
@@ -2076,7 +1973,6 @@ CheckCollisionCircleRectangle :: proc "c" (state: ^lua.State) -> (results: c.int
 	circle := check_circle(state, 1)
 	rectangle := check_rectangle(state, 2)
 
-	lua.checkstack(state, 1)
 	lua.pushboolean(state, b32(rl.CheckCollisionCircleRec(circle.position, circle.diameter / 2, rectangle)))
 
 	return 1
@@ -2087,7 +1983,6 @@ CheckCollisionCircleLine :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	start_point := check_vector2(state, 2)
 	end_point := check_vector2(state, 3)
 
-	lua.checkstack(state, 1)
 	lua.pushboolean(state, b32(rl.CheckCollisionCircleLine(circle.position, circle.diameter / 2, start_point, end_point)))
 
 	return 1
@@ -2097,7 +1992,6 @@ CheckCollisionPointRectangle :: proc "c" (state: ^lua.State) -> (results: c.int)
 	point := check_vector2(state, 1)
 	rectangle := check_rectangle(state, 2)
 	
-	lua.checkstack(state, 1)
 	lua.pushboolean(state, b32(rl.CheckCollisionPointRec(point, rectangle)))
 
 	return 1
@@ -2107,7 +2001,6 @@ CheckCollisionPointCircle :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	point := check_vector2(state, 1)
 	circle := check_circle(state, 2)
 
-	lua.checkstack(state, 1)
 	lua.pushboolean(state, b32(rl.CheckCollisionPointCircle(point, circle.position, circle.diameter / 2)))
 
 	return 1
@@ -2117,7 +2010,6 @@ CheckCollisionPointTriangle :: proc "c" (state: ^lua.State) -> (results: c.int) 
 	point := check_vector2(state, 1)
 	triangle := check_triangle(state, 2)
 
-	lua.checkstack(state, 1)
 	lua.pushboolean(state, b32(rl.CheckCollisionPointTriangle(point, triangle.first_point, triangle.second_point, triangle.third_point)))
 
 	return 1
@@ -2129,7 +2021,6 @@ CheckCollisionPointLine :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	end_point := check_vector2(state, 3)
 	margin := check_integer_default(state, 4, 1)
 
-	lua.checkstack(state, 1)
 	lua.pushboolean(state, b32(rl.CheckCollisionPointLine(point, start_point, end_point, c.int(margin))))
 
 	return 1
@@ -2139,7 +2030,6 @@ GetCollisionRectangle :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	rectangle1 := check_rectangle(state, 1)
 	rectangle2 := check_rectangle(state, 2)
 
-	lua.checkstack(state, 1)
 	push_rectangle(state, rl.GetCollisionRec(rectangle1, rectangle2))
 
 	return 1
@@ -2151,7 +2041,6 @@ DrawLineStrip :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	lua.L_checktype(state, 1, c.int(lua.Type.TABLE))
 	color := check_color_default(state, 2, rl.BLACK)
 
-	lua.checkstack(state, 1)
 	lua.len(state, 1)
 	point_count := lua.L_checkinteger(state, -1)	
 	lua.pop(state, 1)
@@ -2173,6 +2062,35 @@ DrawLineStrip :: proc "c" (state: ^lua.State) -> (results: c.int) {
 
 		rlgl_ex.End()
 	}
+
+	return
+}
+
+DrawSplineLinear :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	context = runtime.default_context()
+	
+	lua.L_checktype(state, 1, c.int(lua.Type.TABLE))
+	thickness := lua.L_checknumber(state, 2)
+	color := check_color(state, 3)
+
+	lua.len(state, 1)
+	point_count := lua.tointeger(state, -1)
+	lua.pop(state, 1)
+	
+	points := make([]rl.Vector2, point_count)
+
+	for &point, i in points {
+		lua.pushinteger(state, lua.Integer(i + 1))
+		lua.gettable(state, 1)
+
+		point = to_vector2(state, -1)
+
+		lua.pop(state, 1)
+	}
+
+	rl.DrawSplineLinear(raw_data(points), c.int(len(points)), f32(thickness), color)
+
+	delete(points)
 
 	return
 }
