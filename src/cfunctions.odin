@@ -2070,27 +2070,61 @@ DrawSplineLinear :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	context = runtime.default_context()
 	
 	lua.L_checktype(state, 1, c.int(lua.Type.TABLE))
-	thickness := lua.L_checknumber(state, 2)
-	color := check_color(state, 3)
 
 	lua.len(state, 1)
 	point_count := lua.tointeger(state, -1)
 	lua.pop(state, 1)
 	
-	points := make([]rl.Vector2, point_count)
+	if point_count >= 2 {
+		thickness := lua.L_checknumber(state, 2)
+		color := check_color(state, 3)
 
-	for &point, i in points {
-		lua.pushinteger(state, lua.Integer(i + 1))
-		lua.gettable(state, 1)
+		points := make([]rl.Vector2, point_count)
 
-		point = to_vector2(state, -1)
+		for &point, i in points {
+			lua.pushinteger(state, lua.Integer(i + 1))
+			lua.gettable(state, 1)
 
-		lua.pop(state, 1)
+			point = to_vector2(state, -1)
+
+			lua.pop(state, 1)
+		}
+
+		rl.DrawSplineLinear(raw_data(points), c.int(len(points)), f32(thickness), color)
+
+		delete(points)
 	}
 
-	rl.DrawSplineLinear(raw_data(points), c.int(len(points)), f32(thickness), color)
+	return
+}
 
-	delete(points)
+DrawSplineBasis :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	context = runtime.default_context()
+
+	lua.L_checktype(state, 1, c.int(lua.Type.TABLE))
+
+	lua.len(state, 1)
+	point_count := lua.tointeger(state, -1)
+	
+	if point_count >= 4 {
+		thickness := lua.L_checknumber(state, 2)
+		color := check_color(state, 3)
+
+		points := make([]rl.Vector2, point_count)
+
+		for &point, i in points {
+			lua.pushinteger(state, lua.Integer(i + 1))
+			lua.gettable(state, 1)
+
+			point = to_vector2(state, -1)
+
+			lua.pop(state, 1)
+		}
+
+		rl.DrawSplineBasis(raw_data(points), c.int(len(points)), f32(thickness), color)
+
+		delete(points)
+	}
 
 	return
 }
