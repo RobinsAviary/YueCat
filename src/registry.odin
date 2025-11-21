@@ -37,7 +37,7 @@ draw_registry := Registry {
 		{DrawSplineLinear, "SplineLinear"},
 		{DrawSplineBasis, "SplineBasis"},
 		{DrawSplineCatmullRom, "SplineCatmullRom"},
-		//{DrawSplineBezierQuadratic, "SplineBezierQuadratic"},
+		{DrawSplineBezierQuadratic, "SplineBezierQuadratic"},
 	},
 }
 

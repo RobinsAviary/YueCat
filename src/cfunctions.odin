@@ -2133,21 +2133,19 @@ check_list_vector2 :: proc (state: ^lua.State, arg: c.int, allocator := context.
 	return
 }
 
-/*DrawSplineBezierQuadratic :: proc "c" (state: ^lua.State) -> (results: c.int) {
+DrawSplineBezierQuadratic :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	context = runtime.default_context()
 
-	lua.L_checktype(state, 1, c.int(lua.Type.TABLE))
+	points := check_list_vector2(state, 1)
 
-	lua.len(state, 1)
-	point_count := lua.tointeger(state, -1)
+	if len(points) >= 3 {
+		thickness := check_number_default(state, 1, 1)
+		color := check_color(state, 1)
 
-	if point_count >= 3 {
-		
-
-		rl.DrawSplineBezierQuadratic()
-
-		delete(points)
+		rl.DrawSplineBezierQuadratic(raw_data(points), c.int(len(points)), thickness, color)
 	}
 
+	delete(points)
+
 	return
-}*/
+}
