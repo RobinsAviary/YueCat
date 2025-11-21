@@ -117,4 +117,6 @@ main :: proc() {
 	}
 
 	lua.close(state)
+
+	if config.crashed do throw_error(.LUA_CRASHED)
 }

@@ -14,6 +14,7 @@ Error :: enum {
 	SDL_INIT_FAILED,
 	YUESCRIPT_COMPILER_FAILED,
 	UNSUPPORTED_OS,
+	LUA_CRASHED,
 }
 throw_error :: proc(error: Error) {
 	fmt.println("Error Code:", error)
