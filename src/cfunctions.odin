@@ -2038,30 +2038,19 @@ GetCollisionRectangle :: proc "c" (state: ^lua.State) -> (results: c.int) {
 DrawLineStrip :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	context = runtime.default_context()
 	
-	lua.L_checktype(state, 1, c.int(lua.Type.TABLE))
-	color := check_color_default(state, 2, rl.BLACK)
+	points := check_list_vector2(state, 1)
+	color := check_color(state, 2)
 
-	lua.len(state, 1)
-	point_count := lua.L_checkinteger(state, -1)	
-	lua.pop(state, 1)
-
-	if point_count > 1 {
+	if len(points) > 1 {
 		rlgl_ex.Begin(.LINES)
 		rlgl_ex.ColorRL(color)
 
-		for i := 1; i <= int(point_count); i += 1 {
-			lua.pushinteger(state, lua.Integer(i))
-			lua.gettable(state, 1)
-
-			position := to_vector2(state, -1)
-
-			rlgl_ex.Vertex2fVector2(position)
-
-			lua.pop(state, 1)
-		}
+		for point in points do rlgl_ex.Vertex2fVector2(point)
 
 		rlgl_ex.End()
 	}
+
+	delete(points)
 
 	return
 }
@@ -2069,31 +2058,16 @@ DrawLineStrip :: proc "c" (state: ^lua.State) -> (results: c.int) {
 DrawSplineLinear :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	context = runtime.default_context()
 	
-	lua.L_checktype(state, 1, c.int(lua.Type.TABLE))
-
-	lua.len(state, 1)
-	point_count := lua.tointeger(state, -1)
-	lua.pop(state, 1)
+	points := check_list_vector2(state, 1)
 	
-	if point_count >= 2 {
+	if len(points) >= 2 {
 		thickness := lua.L_checknumber(state, 2)
 		color := check_color(state, 3)
 
-		points := make([]rl.Vector2, point_count)
-
-		for &point, i in points {
-			lua.pushinteger(state, lua.Integer(i + 1))
-			lua.gettable(state, 1)
-
-			point = to_vector2(state, -1)
-
-			lua.pop(state, 1)
-		}
-
 		rl.DrawSplineLinear(raw_data(points), c.int(len(points)), f32(thickness), color)
-
-		delete(points)
 	}
+
+	delete(points)
 
 	return
 }
@@ -2101,30 +2075,16 @@ DrawSplineLinear :: proc "c" (state: ^lua.State) -> (results: c.int) {
 DrawSplineBasis :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	context = runtime.default_context()
 
-	lua.L_checktype(state, 1, c.int(lua.Type.TABLE))
-
-	lua.len(state, 1)
-	point_count := lua.tointeger(state, -1)
+	points := check_list_vector2(state, 1)
 	
-	if point_count >= 4 {
+	if len(points) >= 4 {
 		thickness := lua.L_checknumber(state, 2)
 		color := check_color(state, 3)
 
-		points := make([]rl.Vector2, point_count)
-
-		for &point, i in points {
-			lua.pushinteger(state, lua.Integer(i + 1))
-			lua.gettable(state, 1)
-
-			point = to_vector2(state, -1)
-
-			lua.pop(state, 1)
-		}
-
 		rl.DrawSplineBasis(raw_data(points), c.int(len(points)), f32(thickness), color)
-
-		delete(points)
 	}
+
+	delete(points)
 
 	return
 }
@@ -2132,30 +2092,62 @@ DrawSplineBasis :: proc "c" (state: ^lua.State) -> (results: c.int) {
 DrawSplineCatmullRom :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	context = runtime.default_context()
 
+	points := check_list_vector2(state, 1)
+
+	if len(points) >= 4 {
+		thickness := lua.L_checknumber(state, 2)
+		color := check_color(state, 3)
+
+		rl.DrawSplineCatmullRom(raw_data(points), c.int(len(points)), f32(thickness), color)
+	}
+
+	delete(points)
+
+	return
+}
+
+check_list_vector2 :: proc (state: ^lua.State, arg: c.int, allocator := context.allocator, loc := #caller_location) -> (list: []rl.Vector2) {
+	lua.L_checktype(state, arg, c.int(lua.Type.TABLE))
+
+	lua.len(state, arg)
+	if !lua.isinteger(state, -1) {
+		lua.L_error(state, "List did not return an integer for length.")
+	}
+	list_length := lua.tointeger(state, -1)
+
+	list = make([]rl.Vector2, int(list_length), allocator, loc)
+
+	for &item, i in list {
+		lua.pushinteger(state, lua.Integer(i + 1))
+		lua.gettable(state, 1)
+
+		if !is_type(state, -1, "Vector2") {
+			lua.L_error(state, "Table contained something that isn't a Vector2!")
+		}
+
+		item = to_vector2(state, -1)
+
+		lua.pop(state, 1)
+	}
+
+	return
+}
+
+/*DrawSplineBezierQuadratic :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	context = runtime.default_context()
+
 	lua.L_checktype(state, 1, c.int(lua.Type.TABLE))
 
 	lua.len(state, 1)
 	point_count := lua.tointeger(state, -1)
 
-	if point_count >= 4 {
-		thickness := lua.L_checknumber(state, 2)
-		color := check_color(state, 3)
+	if point_count >= 3 {
+		
 
-		points := make([]rl.Vector2, point_count)
-
-		for &point, i in points {
-			lua.pushinteger(state, lua.Integer(i + 1))
-			lua.gettable(state, 1)
-
-			point = to_vector2(state, -1)
-
-			lua.pop(state, 1)
-		}
-
-		rl.DrawSplineCatmullRom(raw_data(points), c.int(len(points)), f32(thickness), color)
+		rl.DrawSplineBezierQuadratic()
 
 		delete(points)
 	}
 
 	return
-}
+}*/
