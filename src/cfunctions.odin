@@ -2140,11 +2140,64 @@ DrawSplineBezierCubic :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	return
 }
 
-/*DrawSplineSegmentLinear :: proc "c" (state: ^lua.State) -> (results: c.int) {
+DrawSplineSegmentLinear :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	start_point := check_vector2(state, 1)
 	end_point := check_vector2(state, 2)
 	thickness := check_number_default(state, 3, 1)
 	color := check_color_default(state, 4, rl.BLACK)
 
+	rl.DrawSplineSegmentLinear(start_point, end_point, thickness, color)
 
-}*/
+	return
+}
+
+DrawSplineSegmentBasis :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	point1 := check_vector2(state, 1)
+	point2 := check_vector2(state, 2)
+	point3 := check_vector2(state, 3)
+	point4 := check_vector2(state, 4)
+	thickness := check_number_default(state, 5, 1)
+	color := check_color_default(state, 6, rl.BLACK)
+
+	rl.DrawSplineSegmentBasis(point1, point2, point3, point4, thickness, color)
+
+	return
+}
+
+DrawSplineSegmentCatmullRom :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	point1 := check_vector2(state, 1)
+	point2 := check_vector2(state, 2)
+	point3 := check_vector2(state, 3)
+	point4 := check_vector2(state, 4)
+	thickness := check_number_default(state, 5, 1)
+	color := check_color_default(state, 6, rl.BLACK)
+
+	rl.DrawSplineSegmentCatmullRom(point1, point2, point3, point4, thickness, color)
+
+	return
+}
+
+DrawSplineSegmentBezierQuadratic :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	start_point := check_vector2(state, 1)
+	control := check_vector2(state, 2)
+	end_point := check_vector2(state, 3)
+	thickness := check_number_default(state, 4, 1)
+	color := check_color_default(state, 5, rl.BLACK)
+
+	rl.DrawSplineSegmentBezierQuadratic(start_point, control, end_point, thickness, color)
+	
+	return
+}
+
+DrawSplineSegmentBezierCubic :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	start_point := check_vector2(state, 1)
+	control1 := check_vector2(state, 2)
+	control2 := check_vector2(state, 3)
+	end_point := check_vector2(state, 4)
+	thickness := check_number_default(state, 5, 1)
+	color := check_color_default(state, 5, rl.BLACK)
+
+	rl.DrawSplineSegmentBezierCubic(start_point, control1, control2, end_point, thickness, color)
+
+	return
+}
