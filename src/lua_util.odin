@@ -47,6 +47,7 @@ register :: proc(state: ^lua.State, c_function: lua.CFunction, name: string, obj
 	lua.setfield(state, obj, strings.clone_to_cstring(name, context.temp_allocator))
 }
 
+@(require_results)
 pcall :: proc(state: ^lua.State, args: c.int = 0, results: c.int = 0, errfunc: c.int = 0) -> (suceeded: bool) {
 	if (lua.pcall(state, args, results, errfunc) != 0) {
 		pop_error(state)
@@ -57,14 +58,17 @@ pcall :: proc(state: ^lua.State, args: c.int = 0, results: c.int = 0, errfunc: c
 	return
 }
 
-CallEngineFunc :: proc(state: ^lua.State, functionName: string) {
+@(require_results)
+CallEngineFunc :: proc(state: ^lua.State, functionName: string) -> (succeeded: bool) {
 	lua.checkstack(state, 2)
 	lua.getglobal(state, "Engine")
 	lua.getfield(state, -1, strings.clone_to_cstring(functionName, context.temp_allocator))
 
-	pcall(state)
+	succeeded = pcall(state)
 
 	lua.pop(state, 1)
+
+	return
 }
 
 abs_idx :: proc "c" (state: ^lua.State, idx: i32) -> i32 {

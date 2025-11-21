@@ -13,6 +13,7 @@ Config :: struct {
 	default_deadzone: f32,
 	verbose: bool,
 	runtime_location: string,
+	crashed: bool,
 }
 
 ConfigFlags :: struct {

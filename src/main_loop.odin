@@ -74,7 +74,10 @@ init_loop :: proc(state: ^lua.State) {
 	delete(c_program_folder)
 	if program_folder_allocated do delete(program_folder)
 
-	CallEngineFunc(state, "Init")
+	if !config.crashed {
+		config.crashed |= !CallEngineFunc(state, "Init")
+	}
+	if config.crashed do return
 
 	// Update our config based on user settings
 	read_config(state, &config)
@@ -104,7 +107,9 @@ init_loop :: proc(state: ^lua.State) {
 
 	if config.audio_active do rl.InitAudioDevice()
 
-	CallEngineFunc(state, "Ready")
+	if !config.crashed {
+		config.crashed |= !CallEngineFunc(state, "Ready")
+	}
 }
 
 clear_controller_buttons :: proc() {
@@ -117,14 +122,21 @@ clear_controller_buttons :: proc() {
 main_loop :: proc(state: ^lua.State) {
 	init_loop(state)
 
+	if config.crashed do return
+
 	for !rl.WindowShouldClose() {
+		if config.crashed {
+			rl.CloseWindow()
+			continue
+		}
+
 		poll_events(state)
 		sdl.GameControllerUpdate()
 
-		CallEngineFunc(state, "Step")
+		config.crashed |= !CallEngineFunc(state, "Step")
 
 		rl.BeginDrawing()
-		CallEngineFunc(state, "Draw")
+		config.crashed |= !CallEngineFunc(state, "Draw")
 		rl.EndDrawing()
 
 		free_all(context.temp_allocator)
@@ -132,11 +144,15 @@ main_loop :: proc(state: ^lua.State) {
 		clear_controller_buttons()
 	}
 
+	if config.crashed do return
+
 	cleanup_loop(state)
 }
 
 cleanup_loop :: proc(state: ^lua.State) {
-	CallEngineFunc(state, "Cleanup")
+	if !config.crashed {
+		config.crashed |= !CallEngineFunc(state, "Cleanup")
+	}
 
 	if config.audio_active do rl.CloseAudioDevice()
 

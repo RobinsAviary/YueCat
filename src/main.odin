@@ -112,7 +112,9 @@ main :: proc() {
 
 	main_loop(state)
 
-	print_stack(state)
+	if !config.crashed {
+		print_stack(state)
+	}
 
 	lua.close(state)
 }

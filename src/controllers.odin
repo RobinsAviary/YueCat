@@ -70,7 +70,7 @@ controller_device_added :: proc(state: ^lua.State, event: sdl.ControllerDeviceEv
 	lua.setfield(state, -2, "index")
 	lua.L_setmetatable(state, "Controller")
 
-	pcall(state, 1)
+	config.crashed |= !pcall(state, 1)
 	lua.pop(state, 1)
 }
 
@@ -100,7 +100,7 @@ controller_device_disconnected :: proc(state: ^lua.State, event: sdl.ControllerD
 		lua.getglobal(state, "Controller")
 		lua.getfield(state, -1, "Disconnected")
 		lua.pushinteger(state, lua.Integer(index))
-		pcall(state, 1)
+		config.crashed |= !pcall(state, 1)
 		lua.pop(state, 1)
 	}
 }
