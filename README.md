@@ -110,6 +110,10 @@ SDL2 (Controllers only)
 
 Odin dev-2025-10-nightly:7237747
 
+This library also makes use of my extended bindings for rlgl & raymath - [rlgl_ex](https://github.com/RobinsAviary/rlgl_ex) & [raymath_ex](https://github.com/RobinsAviary/raymath_ex).
+
+In the future I will also use a custom build of raylib to fix a few features that aren't going to be updated in the base library, unfortunately (no way to disable screenshots, etc).
+
 # 💬 A Note on "Typing"
 
 When I use the phrase "typing" or "making typing simpler" or something like that, I'm referring to reducing the number of keys the user needs to press in order to program the thing they want. I have hand pain problems, so being able to code as much as possible is important to me. I hope these considerations will be useful to you as well.
