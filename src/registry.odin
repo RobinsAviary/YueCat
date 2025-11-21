@@ -134,8 +134,6 @@ color_registry := Registry {
 		{ColorFromHSV, "FromHSV"},
 		{ColorFade, "Fade"},
 		{ColorToHex, "ToHex"},
-		//{ColorNormalize, "Normalize"},
-		//{ColorFromNormalized, "FromNormalized"},
 		{ColorTint, "Tint"},
 		{ColorBrightness, "Brightness"},
 		{ColorContrast, "Contrast"},
@@ -442,7 +440,7 @@ register_functions :: proc(state: ^lua.State) {
 
 	register_registries(state, registries)
 
-	// Register Image.Draw
+	// Register Image.Draw, special case to make the API more consistent
 	lua.checkstack(state, 2)
 	lua.getglobal(state, "Image")
 	lua.getfield(state, -1, "Draw")
