@@ -5,7 +5,7 @@ import rl "vendor:raylib"
 import "base:runtime"
 import "core:c"
 
-to_vector2 :: proc "c" (state: ^lua.State, idx: i32) -> (vector: rl.Vector2) {
+to_vector2 :: proc "c" (state: ^lua.State, idx: c.int) -> (vector: rl.Vector2) {
 	i := abs_idx(state, idx)
 	
 	lua.checkstack(state, 2)
@@ -22,13 +22,13 @@ to_vector2 :: proc "c" (state: ^lua.State, idx: i32) -> (vector: rl.Vector2) {
 	return
 }
 
-check_vector2 :: proc "c" (state: ^lua.State, arg: i32) -> (vector: rl.Vector2) {
+check_vector2 :: proc "c" (state: ^lua.State, arg: c.int) -> (vector: rl.Vector2) {
 	check_type(state, arg, "Vector2")
 	vector = to_vector2(state, arg)
 	return
 }
 
-check_vector2_default :: proc "c" (state: ^lua.State, arg: i32, default: rl.Vector2) -> (vector: rl.Vector2) {
+check_vector2_default :: proc "c" (state: ^lua.State, arg: c.int, default: rl.Vector2) -> (vector: rl.Vector2) {
 	if lua.isnoneornil(state, arg) do return default
 	vector = check_vector2(state, arg)
 	return

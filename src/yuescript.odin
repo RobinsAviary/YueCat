@@ -19,23 +19,30 @@ run_yuescript :: proc(location: string) -> (succeeded: bool) {
 
 	yuescript_filename: string
 
-	if ODIN_OS == .Windows {
-		folder_extension, folder_extension_allocated = filepath.from_slash("windows/x64/")
+	when ODIN_OS == .Windows {
+		int_size := size_of(int)
+		
+		if int_size == 4 {
+			folder_extension, folder_extension_allocated = filepath.from_slash("windows/x86/")
+		} else if int_size == 8 {
+			folder_extension, folder_extension_allocated = filepath.from_slash("windows/x64/")
+		}
+		
 		yuescript_filename = "yue.exe"
-	} else if ODIN_OS == .Linux{
+	} else when ODIN_OS == .Linux{
 		folder_extension, folder_extension_allocated = filepath.from_slash("linux/")
 		yuescript_filename = "yue"
 	} else {
-		fmt.println("This operating system is not supported:", ODIN_OS)
+		fmt.println("This operating system is not supported by YueCat:", ODIN_OS)
 		throw_error(.UNSUPPORTED_OS)
 	}
 
-	yuescript_directory := strings.concatenate({config.runtime_location, yuescript_folder, folder_extension})
+	yuescript_directory := strings.concatenate({config.runtime_location, yuescript_folder, folder_extension, yuescript_filename})
 	if config.verbose do fmt.printfln("YueScript compiler location: \"%s\"", yuescript_directory)
 
 	scripts_folder, scripts_folder_allocated := filepath.from_slash(location)
 
-	process_state, stdout, stderr, err := os.process_exec({"", {yuescript_filename, scripts_folder}, nil, nil, nil, nil}, context.allocator)
+	process_state, stdout, stderr, err := os.process_exec( os.Process_Desc {"", {yuescript_directory, scripts_folder}, nil, nil, nil, nil}, context.allocator)
 	
 	if scripts_folder_allocated do delete(scripts_folder)
 

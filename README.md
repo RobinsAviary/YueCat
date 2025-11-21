@@ -100,7 +100,7 @@ So YueScript is a new code base for pushing the language to go forward and being
 
 YueCat Alpha
 
-YueScript v0.29.4
+YueScript v0.29.9
 
 Lua 5.4
 
