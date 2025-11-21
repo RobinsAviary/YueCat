@@ -26,6 +26,9 @@ run_yuescript :: proc(location: string) -> (succeeded: bool) {
 			folder_extension, folder_extension_allocated = filepath.from_slash("windows/x86/")
 		} else if int_size == 8 {
 			folder_extension, folder_extension_allocated = filepath.from_slash("windows/x64/")
+		} else {
+			fmt.println("YueCat only supports 32-bit and 64-bit Windows.")
+			throw_error(.UNSUPPORTED_OS)
 		}
 		
 		yuescript_filename = "yue.exe"
