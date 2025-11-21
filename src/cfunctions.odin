@@ -2039,7 +2039,7 @@ DrawLineStrip :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	context = runtime.default_context()
 	
 	points := check_list_vector2(state, 1)
-	color := check_color(state, 2)
+	color := check_color_default(state, 2, rl.BLACK)
 
 	if len(points) > 1 {
 		rlgl_ex.Begin(.LINES)
@@ -2061,10 +2061,10 @@ DrawSplineLinear :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	points := check_list_vector2(state, 1)
 	
 	if len(points) >= 2 {
-		thickness := lua.L_checknumber(state, 2)
-		color := check_color(state, 3)
+		thickness := check_number_default(state, 2, 1)
+		color := check_color_default(state, 3, rl.BLACK)
 
-		rl.DrawSplineLinear(raw_data(points), c.int(len(points)), f32(thickness), color)
+		rl.DrawSplineLinear(raw_data(points), c.int(len(points)), thickness, color)
 	}
 
 	delete(points)
@@ -2078,10 +2078,10 @@ DrawSplineBasis :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	points := check_list_vector2(state, 1)
 	
 	if len(points) >= 4 {
-		thickness := lua.L_checknumber(state, 2)
-		color := check_color(state, 3)
+		thickness := check_number_default(state, 2, 1)
+		color := check_color_default(state, 3, rl.BLACK)
 
-		rl.DrawSplineBasis(raw_data(points), c.int(len(points)), f32(thickness), color)
+		rl.DrawSplineBasis(raw_data(points), c.int(len(points)), thickness, color)
 	}
 
 	delete(points)
@@ -2095,40 +2095,13 @@ DrawSplineCatmullRom :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	points := check_list_vector2(state, 1)
 
 	if len(points) >= 4 {
-		thickness := lua.L_checknumber(state, 2)
-		color := check_color(state, 3)
+		thickness := check_number_default(state, 2, 1)
+		color := check_color_default(state, 3, rl.BLACK)
 
-		rl.DrawSplineCatmullRom(raw_data(points), c.int(len(points)), f32(thickness), color)
+		rl.DrawSplineCatmullRom(raw_data(points), c.int(len(points)), thickness, color)
 	}
 
 	delete(points)
-
-	return
-}
-
-check_list_vector2 :: proc (state: ^lua.State, arg: c.int, allocator := context.allocator, loc := #caller_location) -> (list: []rl.Vector2) {
-	lua.L_checktype(state, arg, c.int(lua.Type.TABLE))
-
-	lua.len(state, arg)
-	if !lua.isinteger(state, -1) {
-		lua.L_error(state, "List did not return an integer for length.")
-	}
-	list_length := lua.tointeger(state, -1)
-
-	list = make([]rl.Vector2, int(list_length), allocator, loc)
-
-	for &item, i in list {
-		lua.pushinteger(state, lua.Integer(i + 1))
-		lua.gettable(state, 1)
-
-		if !is_type(state, -1, "Vector2") {
-			lua.L_error(state, "Table contained something that isn't a Vector2!")
-		}
-
-		item = to_vector2(state, -1)
-
-		lua.pop(state, 1)
-	}
 
 	return
 }
@@ -2140,7 +2113,7 @@ DrawSplineBezierQuadratic :: proc "c" (state: ^lua.State) -> (results: c.int) {
 
 	if len(points) >= 3 {
 		thickness := check_number_default(state, 1, 1)
-		color := check_color(state, 1)
+		color := check_color_default(state, 1, rl.BLACK)
 
 		rl.DrawSplineBezierQuadratic(raw_data(points), c.int(len(points)), thickness, color)
 	}
@@ -2156,8 +2129,8 @@ DrawSplineBezierCubic :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	points := check_list_vector2(state, 1)
 
 	if len(points) >= 4 {
-		thickness := check_number_default(state, 1)
-		color := check_color(state, 1)
+		thickness := check_number_default(state, 1, 1)
+		color := check_color_default(state, 1, rl.BLACK)
 
 		rl.DrawSplineBezierCubic(raw_data(points), c.int(len(points)), thickness, color)
 	}
@@ -2166,3 +2139,12 @@ DrawSplineBezierCubic :: proc "c" (state: ^lua.State) -> (results: c.int) {
 
 	return
 }
+
+/*DrawSplineSegmentLinear :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	start_point := check_vector2(state, 1)
+	end_point := check_vector2(state, 2)
+	thickness := check_number_default(state, 3, 1)
+	color := check_color_default(state, 4, rl.BLACK)
+
+
+}*/

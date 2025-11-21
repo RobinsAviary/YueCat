@@ -3,6 +3,7 @@ package YueCat
 import lua "vendor:lua/5.4"
 import rl "vendor:raylib"
 import "base:runtime"
+import "core:c"
 
 to_vector2 :: proc "c" (state: ^lua.State, idx: i32) -> (vector: rl.Vector2) {
 	i := abs_idx(state, idx)
@@ -53,4 +54,31 @@ push_vector2 :: proc "c" (state: ^lua.State, vector: rl.Vector2) {
 	lua.remove(state, -2)
 
 	lua.setmetatable(state, -2)
+}
+
+check_list_vector2 :: proc (state: ^lua.State, arg: c.int, allocator := context.allocator, loc := #caller_location) -> (list: []rl.Vector2) {
+	lua.L_checktype(state, arg, c.int(lua.Type.TABLE))
+
+	lua.len(state, arg)
+	if !lua.isinteger(state, -1) {
+		lua.L_error(state, "List did not return an integer for length.")
+	}
+	list_length := lua.tointeger(state, -1)
+
+	list = make([]rl.Vector2, int(list_length), allocator, loc)
+
+	for &item, i in list {
+		lua.pushinteger(state, lua.Integer(i + 1))
+		lua.gettable(state, 1)
+
+		if !is_type(state, -1, "Vector2") {
+			lua.L_error(state, "Table contained something that isn't a Vector2!")
+		}
+
+		item = to_vector2(state, -1)
+
+		lua.pop(state, 1)
+	}
+
+	return
 }
