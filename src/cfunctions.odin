@@ -2149,3 +2149,20 @@ DrawSplineBezierQuadratic :: proc "c" (state: ^lua.State) -> (results: c.int) {
 
 	return
 }
+
+DrawSplineBezierCubic :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	context = runtime.default_context()
+
+	points := check_list_vector2(state, 1)
+
+	if len(points) >= 4 {
+		thickness := check_number_default(state, 1)
+		color := check_color(state, 1)
+
+		rl.DrawSplineBezierCubic(raw_data(points), c.int(len(points)), thickness, color)
+	}
+
+	delete(points)
+
+	return
+}
