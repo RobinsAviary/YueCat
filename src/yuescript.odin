@@ -22,9 +22,9 @@ run_yuescript :: proc(location: string) -> (succeeded: bool) {
 	when ODIN_OS == .Windows {
 		int_size := size_of(int)
 		
-		if int_size == 4 {
+		if int_size == size_of(i32) { // True if Windows x86
 			folder_extension, folder_extension_allocated = filepath.from_slash("windows/x86/")
-		} else if int_size == 8 {
+		} else if int_size == size_of(i64) { // True if Windows x64
 			folder_extension, folder_extension_allocated = filepath.from_slash("windows/x64/")
 		} else {
 			fmt.println("YueCat only supports 32-bit and 64-bit Windows.")
