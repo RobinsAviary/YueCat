@@ -156,7 +156,7 @@ This is a table featuring extended descriptions for each error code in YueCat an
 
 |Error Code|Description|
 |----------|-----------|
-|NO_SLASH_RUNTIME|When attempting to find the working directory of YueCat, the folder it is in checks for a path divider (aka `\` on Windows or `/` on Linux) and removes the trailing filename. This error is triggered if there is no path divider in the string. As any file on Windows requires a base drive location, this should not be an issue. **In the future this error may be ammended to support more operating systems.**|
+|NO_SLASH_RUNTIME|When attempting to find the working directory of YueCat, the folder it is in checks for a path divider (i.e. `\` on Windows or `/` on Linux) and removes the trailing filename. This error is triggered if there is no path divider in the string. As any file on Windows requires a base drive location, this should not be an issue. **In the future this error may be ammended to support more operating systems.**|
 |FIND_EXECUTABLE_PATH|Something went wrong while trying to access the program's location. See the console for more details.|
 |SDL_INIT_FAILED|Something went wrong while trying to set up SDL for controllers.|
 |YUESCRIPT_COMPILER_FAILED|Something went wrong while running YueScript. Admittedly, this could be any number of things, so look at the console for details.|
