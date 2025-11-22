@@ -2035,43 +2035,6 @@ GetCollisionRectangle :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	return 1
 }
 
-DrawLineStrip :: proc "c" (state: ^lua.State) -> (results: c.int) {
-	context = runtime.default_context()
-	
-	points := check_list_vector2(state, 1)
-	color := check_color_default(state, 2, rl.BLACK)
-
-	if len(points) > 1 {
-		rlgl_ex.Begin(.LINES)
-		rlgl_ex.ColorRL(color)
-
-		for point in points do rlgl_ex.Vertex2fVector2(point)
-
-		rlgl_ex.End()
-	}
-
-	delete(points)
-
-	return
-}
-
-DrawSplineLinear :: proc "c" (state: ^lua.State) -> (results: c.int) {
-	context = runtime.default_context()
-	
-	points := check_list_vector2(state, 1)
-	
-	if len(points) >= 2 {
-		thickness := check_number_default(state, 2, 1)
-		color := check_color_default(state, 3, rl.BLACK)
-
-		rl.DrawSplineLinear(raw_data(points), c.int(len(points)), thickness, color)
-	}
-
-	delete(points)
-
-	return
-}
-
 DrawSplineBasis :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	context = runtime.default_context()
 
@@ -2200,4 +2163,18 @@ DrawSplineSegmentBezierCubic :: proc "c" (state: ^lua.State) -> (results: c.int)
 	rl.DrawSplineSegmentBezierCubic(start_point, control1, control2, end_point, thickness, color)
 
 	return
+}
+
+SetLineThickness :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	thickness := check_number_default(state, 1, 1)
+	
+	rlgl.SetLineWidth(thickness)
+
+	return
+}
+
+GetLineThickness :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	lua.pushnumber(state, lua.Number(rlgl.GetLineWidth()))
+
+	return 1
 }

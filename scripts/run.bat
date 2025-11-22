@@ -4,7 +4,7 @@ if errorlevel 1 goto fail
 
 cd build
 
-YueCat adventure/ --program
+YueCat programs/adventure/ --program
 exit \b
 :fail
 echo Building failed.

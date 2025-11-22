@@ -33,8 +33,6 @@ draw_registry := Registry {
 		{DrawRectangleRoundedLined, "RectangleRoundedLined"},
 		{DrawTextEx, "TextEx"},
 		{DrawPixel, "Pixel"},
-		{DrawLineStrip, "LineStrip"},
-		{DrawSplineLinear, "SplineLinear"},
 		{DrawSplineBasis, "SplineBasis"},
 		{DrawSplineCatmullRom, "SplineCatmullRom"},
 		{DrawSplineBezierQuadratic, "SplineBezierQuadratic"},
@@ -361,6 +359,8 @@ vertex_registry := Registry {
 		{EnablePointMode, "EnablePointMode"},
 		{DisableWirePointMode, "DisableWirePointMode"},
 		{SetCullMode, "SetCullMode"},
+		{SetLineThickness, "SetLineThickness"},
+		{GetLineThickness, "GetLineThickness"},
 	},
 }
 
