@@ -441,16 +441,21 @@ setmetatable(Triangle3D, Triangle3D.meta)
 
 global Draw = {
 	LineStrip: (points, color) ->
+		if #points < 2
+			return
+		
 		Vertex.Begin Vertex.Mode.Lines
 		Vertex.Color color
 		for i, point in pairs points
 			if i > 1
 				Vertex.Position2 point
 			Vertex.Position2 point
-		
 		Vertex.End!
 	
 	SplineLinear: (points, thickness, color) ->
+		if #points < 2
+			return
+
 		Vertex.Begin Vertex.Mode.Lines
 		Vertex.SetLineThickness thickness
 		Vertex.Color color

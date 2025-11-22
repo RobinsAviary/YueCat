@@ -348,6 +348,9 @@ Triangle3D = {
 setmetatable(Triangle3D, Triangle3D.meta)
 Draw = {
 	LineStrip = function(points, color)
+		if #points < 2 then
+			return
+		end
 		Vertex.Begin(Vertex.Mode.Lines)
 		Vertex.Color(color)
 		for i, point in pairs(points) do
@@ -359,6 +362,9 @@ Draw = {
 		return Vertex.End()
 	end,
 	SplineLinear = function(points, thickness, color)
+		if #points < 2 then
+			return
+		end
 		Vertex.Begin(Vertex.Mode.Lines)
 		Vertex.SetLineThickness(thickness)
 		Vertex.Color(color)

@@ -525,7 +525,7 @@ Clear the entire screen to a single color.
 
 It is suggested to call this first in most programs, before you draw anything else. Otherwise, graphics from previous frames will stick around (think out-of-bounds in Source games). You can also recreate this behavior by using a full-screen rectangle.
 
-### 🟥🔵 2D
+#### 🟥🔵 2D
 
 `Draw.Line(startPosition: Vector2, endPosition: Vector2, color: Color = Color.Black)`
 
@@ -567,7 +567,7 @@ It is suggested to call this first in most programs, before you draw anything el
 
 `Draw.RectangleRoundedLined(rectangle: Rectangle, roundness: number, segments: integer, color: Color = Color.Black)`
 
-### 🧊🛢️ 3D
+#### 🧊🛢️ 3D
 
 `Draw.Begin3D(camera: Camera3D)`
 
@@ -602,6 +602,53 @@ It is suggested to call this first in most programs, before you draw anything el
 `Texture.SetFilter(texture: Texture, filter: Texture.Filter)`
 
 `Texture.SetWrap(texture: Texture, wrap: Texture.Wrap)`
+
+### Vertex
+
+`Vertex.Begin(Vertex.Mode)`
+
+`Vertex.End()`
+
+`Vertex.Position2(position: Vector2)`
+
+`Vertex.Position3(position: Vector3)`
+
+`Vertex.UV(textureCoordinate: Vector2)`
+
+`Vertex.Color(color: Color)`
+
+`Vertex.Normal3(normal: Vector3)`
+
+`Vertex.SetTexture(texture: Texture)`
+
+`Vertex.EnableWireMode()`
+
+`Vertex.EnablePointMode()`
+
+`Vertex.DisableWirePointMode()`
+
+`Vertex.SetCullMode(face: Vertex.Face)`
+
+`Vertex.SetLineThickness(thickness: number = 0)`
+
+`Vertex.GetLineThickness() -> (thickness: number)`
+
+#### Constants
+
+##### Face
+
+```
+Vertex.Face.Front = 0
+Vertex.Face.Back = 1
+```
+
+##### Render Mode
+
+```
+Vertex.Mode.Quads = 0x0001
+Vertex.Mode.Lines = 0x0004
+Vertex.Mode.Triangles = 0x0007
+```
 
 ## 🎧 Sound
 
