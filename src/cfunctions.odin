@@ -1925,25 +1925,25 @@ VertexSetTexture :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	return
 }
 
-EnableWireMode :: proc "c" (state: ^lua.State) -> (results: c.int) {
+VertexEnableWireMode :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	rlgl.EnableWireMode()
 	
 	return
 }
 
-EnablePointMode :: proc "c" (state: ^lua.State) -> (results: c.int) {
+VertexEnablePointMode :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	rlgl.EnablePointMode()
 
 	return
 }
 
-DisableWirePointMode :: proc "c" (state: ^lua.State) -> (results: c.int) {
+VertexDisableWirePointMode :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	rlgl.DisableWireMode()
 
 	return
 }
 
-SetCullMode :: proc "c" (state: ^lua.State) -> (results: c.int) {
+VertexSetCullMode :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	face := lua.L_checkinteger(state, 1)
 	
 	rlgl.SetCullFace(rlgl.CullMode(face))
@@ -2165,7 +2165,7 @@ DrawSplineSegmentBezierCubic :: proc "c" (state: ^lua.State) -> (results: c.int)
 	return
 }
 
-SetLineThickness :: proc "c" (state: ^lua.State) -> (results: c.int) {
+VertexSetLineThickness :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	thickness := check_number_default(state, 1, 1)
 	
 	rlgl.SetLineWidth(thickness)
@@ -2173,8 +2173,72 @@ SetLineThickness :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	return
 }
 
-GetLineThickness :: proc "c" (state: ^lua.State) -> (results: c.int) {
+VertexGetLineThickness :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	lua.pushnumber(state, lua.Number(rlgl.GetLineWidth()))
+
+	return 1
+}
+
+VertexSetClipPlanes :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	near_plane := check_number_default(state, 1, f32(rlgl.GetCullDistanceNear()))
+	far_plane := check_number_default(state, 2, f32(rlgl.GetCullDistanceFar()))
+
+	rlgl.SetClipPlanes(f64(near_plane), f64(far_plane))
+
+	return
+}
+
+VertexSetClipPlaneNear :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	near_plane := lua.L_checknumber(state, 1)
+	
+	rlgl.SetClipPlanes(f64(near_plane), rlgl.GetCullDistanceFar())
+
+	return
+}
+
+VertexSetClipPlaneFar :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	far_plane := lua.L_checknumber(state, 1)
+
+	rlgl.SetClipPlanes(rlgl.GetCullDistanceNear(), f64(far_plane))
+
+	return
+}
+
+VertexGetClipPlaneNear :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	lua.pushnumber(state, lua.Number(rlgl.GetCullDistanceNear()))
+
+	return 1
+}
+
+VertexGetClipPlaneFar :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	lua.pushnumber(state, lua.Number(rlgl.GetCullDistanceFar()))
+
+	return 1
+}
+
+VertexDisableBackfaceCulling :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	rlgl.DisableBackfaceCulling()
+
+	return
+}
+
+VertexEnableBackfaceCulling :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	rlgl.EnableBackfaceCulling()
+
+	return
+}
+
+VertexSetBackfaceCulling :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	culling := check_boolean(state, 1)
+
+	if culling do rlgl.EnableBackfaceCulling()
+	else do rlgl.DisableBackfaceCulling()
+
+	return
+}
+
+VertexVersion :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	lua.pushinteger(state, lua.Integer(rlgl.GetVersion()))
 
 	return 1
 }

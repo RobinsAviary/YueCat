@@ -71,10 +71,17 @@ CallEngineFunc :: proc(state: ^lua.State, functionName: string) -> (succeeded: b
 	return
 }
 
-abs_idx :: proc "c" (state: ^lua.State, idx: i32) -> i32 {
+abs_idx :: proc "c" (state: ^lua.State, idx: c.int) -> c.int {
 	if idx >= 0 {
 		return idx
 	} else {
 		return lua.gettop(state) + (idx + 1)
 	}
+}
+
+check_boolean :: proc "c" (state: ^lua.State, arg: c.int) -> (result: b32) {
+	lua.L_checktype(state, arg, c.int(lua.Type.BOOLEAN))
+	result = lua.toboolean(state, arg)
+
+	return
 }
