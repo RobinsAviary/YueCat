@@ -258,6 +258,18 @@ DrawTexture :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	return
 }
 
+DrawTexturePart :: proc "c" (state: ^lua.State) -> (results: c.int) {
+	texture := check_generictexture(state, 1)
+
+	part := check_rectangle_default(state, 2, {0, 0, f32(texture.width), f32(texture.height)})
+	position := check_vector2_default(state, 3, {})
+	tint := check_color_default(state, 4, rl.WHITE)
+
+	rl.DrawTextureRec(texture^, part, position, tint)
+
+	return
+}
+
 DrawTexturePro :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	texture := check_generictexture(state, 1)
 	source := check_rectangle_default(state, 2, {0, 0, f32(texture.width), f32(texture.height)})
@@ -2242,3 +2254,4 @@ VertexVersion :: proc "c" (state: ^lua.State) -> (results: c.int) {
 
 	return 1
 }
+
