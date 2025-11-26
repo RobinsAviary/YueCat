@@ -1884,7 +1884,7 @@ VertexPosition2 :: proc "c" (state: ^lua.State) -> (results: c.int) {
 	
 	position := check_vector2(state, 1)
 
-	rlgl_ex.Vertex2fVector2(position)
+	rlgl_ex.VertexPosition2(position)
 
 	return
 }
@@ -1894,7 +1894,7 @@ VertexPosition3 :: proc "c" (state: ^lua.State) -> (results: c.int) {
 
 	position := check_vector3(state, 1)
 
-	rlgl_ex.Vertex3fVector3(position)
+	rlgl_ex.VertexPosition3(position)
 
 	return
 }
@@ -1904,7 +1904,7 @@ VertexUV :: proc "c" (state: ^lua.State) -> (results: c.int) {
 
 	uv := check_vector2(state, 1)
 
-	rlgl_ex.TexCoord2fVector2(uv)
+	rlgl_ex.VertexTexCoord2(uv)
 
 	return
 }
@@ -1914,7 +1914,7 @@ VertexColor :: proc "c" (state: ^lua.State) -> (results: c.int) {
 
 	color := check_color(state, 1)
 
-	rlgl_ex.ColorRL(color)
+	rlgl_ex.VertexColor(color)
 
 	return
 }
@@ -1924,7 +1924,7 @@ VertexNormal3 :: proc "c" (state: ^lua.State) -> (results: c.int) {
 
 	normal := check_vector3(state, 1)
 
-	rlgl_ex.Normal3fVector3(normal)
+	rlgl_ex.VertexNormal3(normal)
 
 	return
 }
